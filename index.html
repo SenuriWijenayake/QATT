@@ -146,31 +146,42 @@
     </div>
 
     <div class="col-sm-12 index-container" id="login-container">
-        <div class="welcome-text-small">Login to your account</div>
-        <div class="row">
-          <form>
-            <table style="width:80%">
-              <tr class="row">
-                <td class="col-sm-6 right padding-adjust-labels" style="padding-top:25px;"> Email Address: <span style="color:red;">*</span></td>
-                <td class="col-sm-6" style="padding-top:25px; padding-left:0px;"> <input type="text" placeholder=" e.g. jdoe@student.unimelb.edu.au" name="user.email" ng-model="user.email" class="input-text" style="padding-left:5px;" required></td>
-              </tr>
 
-              <tr class="row">
-                <td class="col-sm-6 right padding-adjust-labels" style="padding-top:25px;"> Password: <span style="color:red;">*</span></td>
-                <td class="col-sm-6" style="padding-top:25px; padding-left:0px;"> <input id="userPassword" type="password" placeholder="Enter a password here" name="user.password" ng-model="user.password" class="input-text" style="padding-left:5px;"
-                    required></td>
-              </tr>
-            </table>
-
-            <div class="col-sm-12" style="padding: 15px;">
-              <button id="index-next" class="index-next" ng-click="login(user)">Login</button>
-            </div>
-
-          </form>
-        </div>
+      <div class="welcome-text" style="margin-top:12%">Welcome back!</div>
+      <div style="margin-bottom: 10px; font-size:15px;">
+        Thank you for agreeing to participate in this study. <br>
+        Login to your account to get started!
+        <br>
       </div>
 
+      <div class="question-container">
+        <form>
+          <table style="width:80%">
+            <tr class="row">
+              <td class="col-sm-6 right padding-adjust-labels" style="padding-top:25px;"> Email Address: <span style="color:red;">*</span></td>
+              <td class="col-sm-6" style="padding-top:25px; padding-left:0px;"> <input type="text" placeholder=" e.g. jdoe@student.unimelb.edu.au" name="user.email" ng-model="user.email" class="input-text" style="padding-left:5px;" required></td>
+            </tr>
+
+            <tr class="row">
+              <td class="col-sm-6 right padding-adjust-labels" style="padding-top:25px;"> Password: <span style="color:red;">*</span></td>
+              <td class="col-sm-6" style="padding-top:25px; padding-left:0px;"> <input id="userPassword" type="password" placeholder="Enter a password here" name="user.password" ng-model="user.password" class="input-text" style="padding-left:5px;"
+                  required></td>
+            </tr>
+          </table>
+
+          <div class="col-sm-12" style="padding-top: 15px;">
+            <button id="index-next" class="index-next" ng-click="login(user)">Login</button>
+          </div>
+
+          <div class="col-sm-12" style="padding-top: 5px; padding-bottom:15px;">
+            <a href="" ng-click="showSignUp()">Need to create an account? Sign up here!</a>
+          </div>
+
+        </form>
+      </div>
     </div>
+
+  </div>
 
 
 </body>

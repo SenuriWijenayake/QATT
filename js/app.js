@@ -61,6 +61,11 @@ app.controller('IndexController', function($scope, $http, $window) {
     $("#login-container").css("display", "block");
   }
 
+  $scope.showSignUp = function(){
+    $("#signup-container").css("display", "block");
+    $("#login-container").css("display", "none");
+  }
+
   $scope.login = function(user){
     console.log(user);
   };
