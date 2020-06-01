@@ -683,7 +683,7 @@ body {
 .index-loader {
   display: none;
   float: left;
-  margin-top: 13px;
+  /* margin-top: 13px; */
   margin-left: auto;
   margin-right: auto;
   border: 10px solid #f3f3f3;

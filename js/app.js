@@ -70,37 +70,19 @@ app.controller('IndexController', function($scope, $http, $window) {
     console.log(user);
   };
 
-  $scope.indexNext = function(user) {
+  $scope.submitDetails = function(user) {
 
     if ((user.socialPresence == true ? user.name : true) && (user.socialPresence == true ? user.email : true) && user.gender && user.age && user.education && user.field && (user.gender == 'specified' ? user.genderSpecified : true) && (user.socialPresence == true ? user.profilePicture : true) && (user.age >= 18)) {
 
       $("#index-next").attr('disabled', true);
+      $("#passwordCheck").attr('disabled', true);
+      $("#profile-container").attr('disabled', true);
+      $("#imageUpload").attr('disabled', true);
       $(".input-text").attr('disabled', true);
+      $(".specify-text").attr('disabled', true);
       $(".radio-button").attr('disabled', true);
+
       $("#index-next").css('background-color', 'grey');
-      $("#index-instructions").css("display", "block");
-
-      // $window.sessionStorage.setItem('username', username);
-      // $window.sessionStorage.setItem('avatar', $scope.myAvatar);
-      //
-      // $timeout(function() {
-      //   $("#connection-pending").css("display", "block");
-      // }, 1500);
-      //
-      // $timeout(function() {
-      //   $("#connection-pending").css("display", "none");
-      //   $("#connection-success").css("display", "block");
-      //   $("#submit-section").css("display", "block");
-      // }, 8500);
-
-    }
-  }
-
-  $scope.submitDetails = function(user) {
-
-    if (user.cues && user.discussion && user.visibility && user.gender && user.age && user.education && user.field && (user.cues == 'letter' ? user.name : true) && (user.gender == 'specified' ? user.genderSpecified : true) && (user.age >= 18)) {
-
-      $("#index-submit-button").attr('disabled', true);
       $("#index-loader").css("display", "block");
 
       $http({
@@ -110,11 +92,7 @@ app.controller('IndexController', function($scope, $http, $window) {
         type: JSON,
       }).then(function(response) {
         $window.sessionStorage.setItem('userId', response.data.id);
-        $window.sessionStorage.setItem('cues', user.cues);
-        $window.sessionStorage.setItem('discussion', user.discussion);
-        $window.sessionStorage.setItem('visibility', user.visibility);
-        $window.sessionStorage.setItem('order', JSON.stringify(response.data.order));
-        $window.location.href = './quiz.html';
+        $window.location.href = './home.html';
 
       }, function(error) {
         console.log("Error occured when submitting user details");
