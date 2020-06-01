@@ -1,6 +1,6 @@
 var app = angular.module('app', []);
-var api = 'https://mysterious-badlands-68636.herokuapp.com';
-// var api = 'http://localhost:5000';
+// var api = 'https://mysterious-badlands-68636.herokuapp.com';
+var api = 'http://localhost:5000';
 
 app.controller('BigFiveController', function($scope, $http, $window) {
   $http({
@@ -15,8 +15,29 @@ app.controller('BigFiveController', function($scope, $http, $window) {
 
 });
 
-app.controller('HomeController', function($scope, $http, $window, $timeout) {
+app.controller('IndexController', function($scope, $http, $window) {
+
   $scope.user = {};
+  $scope.user.structure = true;
+  $scope.user.socialPresence = true;
+  $scope.imageUploaded = false;
+
+  $("#profileImage").click(function(e) {
+    $("#imageUpload").click();
+  });
+
+  $("#imageUpload").change(function() {
+    fasterPreview(this);
+  });
+
+  function fasterPreview(uploader) {
+    if (uploader.files && uploader.files[0]) {
+      $('#profileImage').attr('src',
+        window.URL.createObjectURL(uploader.files[0]));
+        $scope.user.profilePicture = window.URL.createObjectURL(uploader.files[0]);
+        $('#ImageLabel').css("display", "none");
+    }
+  }
 
   $('#gender-specified').change(function() {
     if (this.checked) {
@@ -26,42 +47,46 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
     }
   });
 
+  $scope.showPassword = function(){
+    var x = document.getElementById("userPassword");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  };
+
+  $scope.showSignIn = function(){
+    $("#signup-container").css("display", "none");
+    $("#login-container").css("display", "block");
+  }
+
+  $scope.login = function(user){
+    console.log(user);
+  };
+
   $scope.indexNext = function(user) {
-    if (user.cues && user.discussion && user.visibility && user.gender && user.age && user.education && user.field && (user.gender == 'specified' ? user.genderSpecified : true) && (user.cues == 'letter' ? user.name : true) && (user.age >= 18)) {
+
+    if ((user.socialPresence == true ? user.name : true) && (user.socialPresence == true ? user.email : true) && user.gender && user.age && user.education && user.field && (user.gender == 'specified' ? user.genderSpecified : true) && (user.socialPresence == true ? user.profilePicture : true) && (user.age >= 18)) {
+
       $("#index-next").attr('disabled', true);
       $(".input-text").attr('disabled', true);
       $(".radio-button").attr('disabled', true);
       $("#index-next").css('background-color', 'grey');
       $("#index-instructions").css("display", "block");
 
-      //For initial condition, get the avatar
-      if (user.cues == 'letter') {
-        var api = 'https://ui-avatars.com/api/?name=';
-        //Get first name and last name of the user
-        var res = user.name.split(" ");
-        var firstName = res[0];
-        var lastName = res[res.length - 1];
-        var final = api + firstName + '+' + lastName + '&rounded=true&background=EBEDEF&color=000000&bold=true';
-        $scope.myAvatar = final;
-        $("#example_avatar").attr("src", final);
-        //Create username
-        var username = (firstName.charAt(0) + lastName.charAt(0)).toUpperCase();
-      } else {
-        $scope.myAvatar = './assets/icons/new/neutral.png';
-        var username = "User 3";
-      }
-      $window.sessionStorage.setItem('username', username);
-      $window.sessionStorage.setItem('avatar', $scope.myAvatar);
-
-      $timeout(function() {
-        $("#connection-pending").css("display", "block");
-      }, 1500);
-
-      $timeout(function() {
-        $("#connection-pending").css("display", "none");
-        $("#connection-success").css("display", "block");
-        $("#submit-section").css("display", "block");
-      }, 8500);
+      // $window.sessionStorage.setItem('username', username);
+      // $window.sessionStorage.setItem('avatar', $scope.myAvatar);
+      //
+      // $timeout(function() {
+      //   $("#connection-pending").css("display", "block");
+      // }, 1500);
+      //
+      // $timeout(function() {
+      //   $("#connection-pending").css("display", "none");
+      //   $("#connection-success").css("display", "block");
+      //   $("#submit-section").css("display", "block");
+      // }, 8500);
 
     }
   }
@@ -339,8 +364,8 @@ app.controller('QuizController', function($scope, $http, $window, $timeout) {
     return random;
   };
 
-  $scope.getRandomUser = function(){
-    if ($scope.cues == 'avatar'){
+  $scope.getRandomUser = function() {
+    if ($scope.cues == 'avatar') {
       return ("User " + (Math.floor(Math.random() * 5) + 1));
     } else {
       return ("User " + shuffle(["JG", "NB", "DH", "BS", $scope.currentUsername])[0]);
@@ -368,7 +393,7 @@ app.controller('QuizController', function($scope, $http, $window, $timeout) {
       $timeout(function() {
         socket.emit('new_message', {
           'message': "You have a maximum of two minutes to discuss the answers with your group members now. When explaining the rationale behind your answer, use the format 'answer - explanation why you think this is the right answer'." +
-          "The objective of this exercise is to clarify doubts and arrive at the best possible answer. This chat will be disabled after two minutes. If you complete discussion before then, type 'DONE' to move forward.",
+            "The objective of this exercise is to clarify doubts and arrive at the best possible answer. This chat will be disabled after two minutes. If you complete discussion before then, type 'DONE' to move forward.",
           'username': "QuizBot",
           'avatar': "qb.png"
         });
