@@ -68,7 +68,11 @@ app.controller('IndexController', function($scope, $http, $window) {
 
   $scope.login = function(user) {
     if (user.email && user.password) {
+
       $("#sign-up-loader").css("display", "block");
+      $("#index-signup").attr('disabled', true);
+      $("#index-signup").css('background-color', 'grey');
+      $(".input-text").attr('disabled', true);
 
       new Promise(function(resolve, reject) {
         $http({
@@ -81,8 +85,11 @@ app.controller('IndexController', function($scope, $http, $window) {
           $window.sessionStorage.setItem('userId', response.data.id);
           $window.location.href = './home.html';
         }, function errorCallback(response) {
-          $("#sign-up-loader").css("display", "none");
           alert(response.data);
+          $("#sign-up-loader").css("display", "none");
+          $(".input-text").attr('disabled', false);
+          $("#index-signup").attr('disabled', false);
+          $("#index-signup").css('background-color', '#117A65');
           $scope.user.email = "";
           $scope.user.password = "";
           console.log("Error occured when submitting user details");
