@@ -67,22 +67,24 @@ app.controller('IndexController', function($scope, $http, $window) {
   }
 
   $scope.login = function(user) {
-    new Promise(function(resolve, reject) {
-      $http({
-        method: 'POST',
-        url: api + '/login',
-        data: user,
-        type: JSON,
-      }).then(function successCallback(response) {
-        $window.sessionStorage.setItem('userId', response.data.id);
-        $window.location.href = './home.html';
-      }, function errorCallback(response) {
-        alert(response.data);
-        $scope.user.email = "";
-        $scope.user.password = "";
-        console.log("Error occured when submitting user details");
+    if (user.email && user.password) {
+      new Promise(function(resolve, reject) {
+        $http({
+          method: 'POST',
+          url: api + '/login',
+          data: user,
+          type: JSON,
+        }).then(function successCallback(response) {
+          $window.sessionStorage.setItem('userId', response.data.id);
+          $window.location.href = './home.html';
+        }, function errorCallback(response) {
+          alert(response.data);
+          $scope.user.email = "";
+          $scope.user.password = "";
+          console.log("Error occured when submitting user details");
+        });
       });
-    });
+    }
   };
 
   // (user.socialPresence == true ? user.profilePicture : true)

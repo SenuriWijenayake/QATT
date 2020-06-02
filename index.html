@@ -174,10 +174,15 @@
           </table>
 
           <div class="col-sm-12" style="padding-top: 15px;">
-            <button id="index-next" class="index-next" ng-click="login(user)">Login</button>
+            <div class="col-sm-8">
+              <button id="index-next" class="index-next" ng-click="login(user)" style="float:right;">Login</button><br/>
+            </div>
+            <div class="col-sm-4">
+              <div id="index-loader" class="index-loader"></div>
+            </div>
           </div>
 
-          <div class="col-sm-12" style="padding-top: 5px; padding-bottom:15px;">
+          <div class="col-sm-12" style="padding-top: 5px; padding-bottom:15px; padding-left:38px;">
             <a href="" ng-click="showSignUp()">Need to create an account? Sign up here!</a>
           </div>
 
