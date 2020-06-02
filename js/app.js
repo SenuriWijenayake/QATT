@@ -34,8 +34,8 @@ app.controller('IndexController', function($scope, $http, $window) {
     if (uploader.files && uploader.files[0]) {
       $('#profileImage').attr('src',
         window.URL.createObjectURL(uploader.files[0]));
-        $scope.user.profilePicture = window.URL.createObjectURL(uploader.files[0]);
-        $('#ImageLabel').css("display", "none");
+      $scope.user.profilePicture = uploader.files[0];
+      $('#ImageLabel').css("display", "none");
     }
   }
 
@@ -47,7 +47,7 @@ app.controller('IndexController', function($scope, $http, $window) {
     }
   });
 
-  $scope.showPassword = function(){
+  $scope.showPassword = function() {
     var x = document.getElementById("userPassword");
     if (x.type === "password") {
       x.type = "text";
@@ -56,23 +56,40 @@ app.controller('IndexController', function($scope, $http, $window) {
     }
   };
 
-  $scope.showSignIn = function(){
+  $scope.showSignIn = function() {
     $("#signup-container").css("display", "none");
     $("#login-container").css("display", "block");
   }
 
-  $scope.showSignUp = function(){
+  $scope.showSignUp = function() {
     $("#signup-container").css("display", "block");
     $("#login-container").css("display", "none");
   }
 
-  $scope.login = function(user){
-    console.log(user);
+  $scope.login = function(user) {
+    new Promise(function(resolve, reject) {
+      $http({
+        method: 'POST',
+        url: api + '/login',
+        data: user,
+        type: JSON,
+      }).then(function successCallback(response) {
+        $window.sessionStorage.setItem('userId', response.data.id);
+        $window.location.href = './home.html';
+      }, function errorCallback(response) {
+        alert(response.data);
+        $scope.user.email = "";
+        $scope.user.password = "";
+        console.log("Error occured when submitting user details");
+      });
+    });
   };
+
+  // (user.socialPresence == true ? user.profilePicture : true)
 
   $scope.submitDetails = function(user) {
 
-    if ((user.socialPresence == true ? user.name : true) && (user.socialPresence == true ? user.email : true) && user.gender && user.age && user.education && user.field && (user.gender == 'specified' ? user.genderSpecified : true) && (user.socialPresence == true ? user.profilePicture : true) && (user.age >= 18)) {
+    if ((user.socialPresence == true ? user.name : true) && (user.socialPresence == true ? user.email : true) && user.gender && user.age && user.education && user.field && (user.gender == 'specified' ? user.genderSpecified : true) && (user.age >= 18)) {
 
       $("#index-next").attr('disabled', true);
       $("#passwordCheck").attr('disabled', true);
@@ -90,15 +107,15 @@ app.controller('IndexController', function($scope, $http, $window) {
         url: api + '/user',
         data: user,
         type: JSON,
-      }).then(function(response) {
+      }).then(function successCallback(response) {
         $window.sessionStorage.setItem('userId', response.data.id);
         $window.location.href = './home.html';
-
-      }, function(error) {
+      }, function errorCallback(response) {
+        console.log(response.error);
         console.log("Error occured when submitting user details");
       });
-    }
 
+    }
   };
 });
 
