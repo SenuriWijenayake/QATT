@@ -20,7 +20,7 @@ app.controller('IndexController', function($scope, $http, $window) {
   $scope.user = {};
   $scope.user.structure = true;
   $scope.user.socialPresence = true;
-  $scope.imageUploaded = false;
+  $scope.imageUploaded = false
 
   $("#profileImage").click(function(e) {
     $("#imageUpload").click();
@@ -81,10 +81,15 @@ app.controller('IndexController', function($scope, $http, $window) {
           data: user,
           type: JSON,
         }).then(function successCallback(response) {
+
           $("#sign-up-loader").css("display", "none");
-          $window.sessionStorage.setItem('userId', response.data.id);
+          $window.sessionStorage.setItem('userId', response.data.userId);
+          $window.sessionStorage.setItem('structure', response.data.structure);
+          $window.sessionStorage.setItem('socialPresence', response.data.socialPresence);
           $window.location.href = './home.html';
+
         }, function errorCallback(response) {
+
           alert(response.data);
           $("#sign-up-loader").css("display", "none");
           $(".input-text").attr('disabled', false);
