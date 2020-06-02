@@ -34,8 +34,8 @@ app.controller('IndexController', function($scope, $http, $window) {
     if (uploader.files && uploader.files[0]) {
       $('#profileImage').attr('src',
         window.URL.createObjectURL(uploader.files[0]));
-      $scope.user.profilePicture = uploader.files[0];
       $('#ImageLabel').css("display", "none");
+      $scope.profilePicture = uploader.files[0];
     }
   }
 
@@ -74,6 +74,7 @@ app.controller('IndexController', function($scope, $http, $window) {
       $("#index-signup").css('background-color', 'grey');
       $(".input-text").attr('disabled', true);
 
+      console.log(user);
       new Promise(function(resolve, reject) {
         $http({
           method: 'POST',
@@ -103,11 +104,9 @@ app.controller('IndexController', function($scope, $http, $window) {
     }
   };
 
-  // (user.socialPresence == true ? user.profilePicture : true)
-
   $scope.submitDetails = function(user) {
 
-    if ((user.socialPresence == true ? user.name : true) && (user.socialPresence == true ? user.email : true) && user.gender && user.age && user.education && user.field && (user.gender == 'specified' ? user.genderSpecified : true) && (user.age >= 18)) {
+    if ((user.socialPresence == true ? $scope.profilePicture : true) && (user.socialPresence == true ? user.name : true) && (user.socialPresence == true ? user.email : true) && user.gender && user.age && user.education && user.field && (user.gender == 'specified' ? user.genderSpecified : true) && (user.age >= 18)) {
 
       $("#index-next").attr('disabled', true);
       $("#passwordCheck").attr('disabled', true);
@@ -123,8 +122,30 @@ app.controller('IndexController', function($scope, $http, $window) {
       $http({
         method: 'POST',
         url: api + '/user',
-        data: user,
-        type: JSON,
+        headers: {
+          'Content-Type': undefined
+        },
+        data: {
+          profilePicture: $scope.profilePicture,
+          name: $scope.user.name,
+          email: $scope.user.email,
+          password: $scope.user.password,
+          age: $scope.user.age,
+          gender: $scope.user.gender,
+          genderSpecified: $scope.user.genderSpecified,
+          education: $scope.user.education,
+          field: $scope.user.field
+        },
+        transformRequest: function(data, headersGetter) {
+          var formData = new FormData();
+          angular.forEach(data, function(value, key) {
+            formData.append(key, value);
+          });
+
+          var headers = headersGetter();
+          delete headers['Content-Type'];
+          return formData;
+        }
       }).then(function successCallback(response) {
         $window.sessionStorage.setItem('userId', response.data.id);
         $window.location.href = './home.html';
