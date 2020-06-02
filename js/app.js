@@ -68,6 +68,8 @@ app.controller('IndexController', function($scope, $http, $window) {
 
   $scope.login = function(user) {
     if (user.email && user.password) {
+      $("#sign-up-loader").css("display", "block");
+
       new Promise(function(resolve, reject) {
         $http({
           method: 'POST',
@@ -75,9 +77,11 @@ app.controller('IndexController', function($scope, $http, $window) {
           data: user,
           type: JSON,
         }).then(function successCallback(response) {
+          $("#sign-up-loader").css("display", "none");
           $window.sessionStorage.setItem('userId', response.data.id);
           $window.location.href = './home.html';
         }, function errorCallback(response) {
+          $("#sign-up-loader").css("display", "none");
           alert(response.data);
           $scope.user.email = "";
           $scope.user.password = "";
