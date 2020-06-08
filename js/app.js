@@ -83,20 +83,23 @@ app.controller('IndexController', function($scope, $http, $window) {
         }).then(function successCallback(response) {
 
           $("#sign-up-loader").css("display", "none");
-          $window.sessionStorage.setItem('userId', response.data.userId);
-          $window.sessionStorage.setItem('structure', response.data.structure);
-          $window.sessionStorage.setItem('socialPresence', response.data.socialPresence);
+          $window.sessionStorage.setItem('user', JSON.stringify(response.data));
+          var obj = JSON.parse($window.sessionStorage.getItem('user'));
           $window.location.href = './home.html';
 
         }, function errorCallback(response) {
 
+          if (response.data == "Invalid email address. Please try again."){
+            $scope.user.email = "";
+          } else {
+            $scope.user.password = "";
+          }
           alert(response.data);
           $("#sign-up-loader").css("display", "none");
           $(".input-text").attr('disabled', false);
           $("#index-signup").attr('disabled', false);
           $("#index-signup").css('background-color', '#117A65');
-          $scope.user.email = "";
-          $scope.user.password = "";
+
           console.log("Error occured when submitting user details");
         });
       });
@@ -105,7 +108,7 @@ app.controller('IndexController', function($scope, $http, $window) {
 
   $scope.submitDetails = function(user) {
 
-    if ((user.socialPresence == true ? $scope.profilePicture : true) && (user.socialPresence == true ? user.name : true) && (user.socialPresence == true ? user.email : true) && user.gender && user.age && user.education && user.field && (user.gender == 'specified' ? user.genderSpecified : true) && (user.age >= 18)) {
+    if ((user.socialPresence == true ? $scope.profilePicture : true) && (user.socialPresence == true ? user.name : true) && user.email && user.password && user.gender && user.age && user.education && user.field && (user.gender == 'specified' ? user.genderSpecified : true) && (user.age >= 18)) {
 
       $("#index-next").attr('disabled', true);
       $("#passwordCheck").attr('disabled', true);
@@ -133,7 +136,9 @@ app.controller('IndexController', function($scope, $http, $window) {
           gender: $scope.user.gender,
           genderSpecified: $scope.user.genderSpecified,
           education: $scope.user.education,
-          field: $scope.user.field
+          field: $scope.user.field,
+          structure : $scope.user.structure,
+          socialPresence : $scope.user.socialPresence
         },
         transformRequest: function(data, headersGetter) {
           var formData = new FormData();
@@ -146,8 +151,9 @@ app.controller('IndexController', function($scope, $http, $window) {
           return formData;
         }
       }).then(function successCallback(response) {
-        console.log(response);
-        $window.sessionStorage.setItem('userId', response.data.id);
+        //Set up the right user information here
+        $window.sessionStorage.setItem('user', JSON.stringify(response.data));
+        var obj = JSON.parse($window.sessionStorage.getItem('user'));
         $window.location.href = './home.html';
       }, function errorCallback(response) {
         if (response.status == 401){
