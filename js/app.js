@@ -18,9 +18,8 @@ app.controller('BigFiveController', function($scope, $http, $window) {
 app.controller('IndexController', function($scope, $http, $window) {
 
   $scope.user = {};
-  $scope.user.structure = true;
+  $scope.user.structure = false;
   $scope.user.socialPresence = true;
-  $scope.imageUploaded = false
 
   $("#profileImage").click(function(e) {
     $("#imageUpload").click();
@@ -147,11 +146,16 @@ app.controller('IndexController', function($scope, $http, $window) {
           return formData;
         }
       }).then(function successCallback(response) {
+        console.log(response);
         $window.sessionStorage.setItem('userId', response.data.id);
         $window.location.href = './home.html';
       }, function errorCallback(response) {
-        console.log(response.error);
+        if (response.status == 401){
+          alert(response.data);
+        }
         console.log("Error occured when submitting user details");
+        $window.location.href = './index.html';
+
       });
 
     }
