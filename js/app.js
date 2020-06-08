@@ -84,8 +84,7 @@ app.controller('IndexController', function($scope, $http, $window) {
 
           $("#sign-up-loader").css("display", "none");
           $window.sessionStorage.setItem('user', JSON.stringify(response.data));
-          var obj = JSON.parse($window.sessionStorage.getItem('user'));
-          $window.location.href = './home.html';
+          $window.location.href = './intro.html';
 
         }, function errorCallback(response) {
 
@@ -153,8 +152,7 @@ app.controller('IndexController', function($scope, $http, $window) {
       }).then(function successCallback(response) {
         //Set up the right user information here
         $window.sessionStorage.setItem('user', JSON.stringify(response.data));
-        var obj = JSON.parse($window.sessionStorage.getItem('user'));
-        $window.location.href = './home.html';
+        $window.location.href = './intro.html';
       }, function errorCallback(response) {
         if (response.status == 401){
           alert(response.data);
@@ -168,7 +166,56 @@ app.controller('IndexController', function($scope, $http, $window) {
   };
 });
 
-app.controller('QuizController', function($scope, $http, $window, $timeout) {
+app.controller('IntroController', function ($scope, $http, $window, $interval) {
+  $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
+  $scope.group = [];
+
+  var stop;
+  $scope.getGroupUsers = function() {
+    if (angular.isDefined(stop)) return;
+    stop = $interval(function() {
+      if ($scope.group.length == 9) {
+        //Stop checking and enable button
+        $scope.stopChecking();
+        $("#intro-start").attr("disabled", false);
+        $("#intro-start").css("background-color", "#117A65");
+        $("#intro-start").css("border", "1px solid #117A65");
+      } else {
+        //HTTP call to get users
+        $http({
+          method: 'POST',
+          url: api + '/usergroup',
+          data: {
+            socialPresence: $scope.user.socialPresence,
+            structure: $scope.user.structure
+          },
+          type: JSON,
+        }).then(function(response) {
+          $scope.group = response.data;
+        }, function(error) {
+          console.log("Error occured while checking users in the group");
+        });
+      }
+    }, 10000);
+  };
+
+  $scope.stopChecking = function() {
+    if (angular.isDefined(stop)) {
+      $interval.cancel(stop);
+      stop = undefined;
+    }
+  };
+  $scope.getGroupUsers();
+
+  // $scope.start = function() {
+  //
+  // };
+
+});
+
+
+
+app.controller('HomeController', function($scope, $http, $window) {
 
   $scope.currentQIndex = 0;
 

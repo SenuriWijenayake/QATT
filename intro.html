@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Get to know your team!</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+
+  <script type="text/javascript" src="./js/app.js"></script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="./css/styles.css">
+</head>
+
+<body>
+  <div ng-app="app" ng-controller="IntroController">
+    <div class="row col-sm-12 introcontainer">
+      <div class="welcome-text"> Welcome, {{user.name}}! </div>
+      <div class="intro-text">Thank you again for signing up to take part in this study.
+        <br/>In this study you will be grouped with <b>9 others</b> to discuss your opinions on several topics, over a period of <b>one week</b>.
+        <br/>When all 9 members of your group joins the platform, you will receive instructions to initiate the discussion. Please be patient till then. Thank you!</div>
+
+      <div class="row col-sm-12">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6 friends">
+          <div class="intro-smaller-heading">Get to know your group members:</div>
+          <div class="col-sm-4 pictureFrame" ng-repeat="friend in group">
+            <div class="profilePicture">
+              <img src="data:image/png;base64,{{friend.profilePicture}}" width="150" height="150" />
+            </div>
+            <div class="intro-name">{{friend.name}}</div>
+          </div>
+          <br/>
+          <div>
+            <button id="intro-start" class="intro-start" ng-click="start()" disabled>Start Discussion!</button><br/>
+          </div>
+        </div>
+        <div class="col-sm-3"></div>
+      </div>
+    </div>
+
+  </div>
+</body>
+
+</html>

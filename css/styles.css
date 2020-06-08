@@ -1,3 +1,59 @@
+/* Styles for the intro page */
+.introcontainer{
+  padding: 30px 50px;
+  text-align: center;
+}
+
+.intro-text{
+  padding: 20px;
+  font-size: 16px;
+}
+
+.friends{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.pictureFrame{
+  padding:10px;
+}
+
+.intro-name{
+  font-size: 16px;
+  padding: 10px;
+  font-weight: bold;
+}
+
+.intro-start-clickable{
+  width: 40%;
+  height: 43px;
+  background-color: #117A65;
+  font-size: 19px;
+  color: white;
+  border: 1px solid #117A65;
+  border-radius: 5px;
+}
+
+.intro-start{
+  width: 40%;
+  height: 43px;
+  background-color: grey;
+  font-size: 19px;
+  color: white;
+  border: 1px solid grey;
+  border-radius: 5px;
+}
+
+.intro-smaller-heading{
+  font-size: 20px;
+  color: #117A65;
+  font-weight: 800;
+  margin-bottom: 5px;
+  text-align:left;
+}
+
+/* Enf of styles for intro page */
+
 .heading{
   padding: 15px;
   text-align: center;
