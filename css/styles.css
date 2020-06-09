@@ -45,6 +45,40 @@
 
 /* Enf of styles for intro page */
 
+
+/* Styls for the home page */
+.homecontainer{
+  padding: 30px 50px;
+  text-align: center;
+}
+
+.qcontainer{
+  height: 125px;
+  padding: 20px;
+}
+
+.qBox{
+  height: 100px;
+  text-align: center;
+  font-size: 18px;
+  background: beige;
+  padding: 15px;
+}
+
+.qText{
+  padding: 2px;
+  height: 55px;
+}
+
+.stats{
+  background: beige;
+}
+
+
+
+
+/* End of styles for the home page */
+
 .heading{
   padding: 15px;
   text-align: center;
