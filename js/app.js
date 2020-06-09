@@ -20,6 +20,7 @@ app.controller('IndexController', function($scope, $http, $window) {
   $scope.user = {};
   $scope.user.structure = false;
   $scope.user.socialPresence = true;
+  $scope.user.firstVisit = true;
 
   $("#profileImage").click(function(e) {
     $("#imageUpload").click();
@@ -84,7 +85,13 @@ app.controller('IndexController', function($scope, $http, $window) {
 
           $("#sign-up-loader").css("display", "none");
           $window.sessionStorage.setItem('user', JSON.stringify(response.data));
-          $window.location.href = './intro.html';
+
+          if (response.data.firstVisit == true){
+            $window.location.href = './intro.html';
+          } else {
+            $window.location.href = './home.html';
+          }
+
 
         }, function errorCallback(response) {
 
@@ -209,7 +216,27 @@ app.controller('IntroController', function ($scope, $http, $window, $interval) {
   $scope.getGroupUsers();
 
   $scope.start = function() {
+    $("#intro-start").attr("disabled", true);
+    $("#intro-start").css("background-color", "grey");
+    $("#intro-start").css("border", "1px solid grey");
+    $("#intro-loader").css("display", "block");
 
+    //Update that the user has started the discussion
+    $http({
+      method: 'POST',
+      url: api + '/updateuser',
+      data: {
+        userId : $scope.user.userId,
+        firstVisit : false
+      },
+      type: JSON,
+    }).then(function(response) {
+        $("#intro-loader").css("display", "none");
+        $window.location.href = './home.html';
+
+    }, function(error) {
+      console.log("Error occured while updating user status");
+    });
   };
 
 });
@@ -414,227 +441,6 @@ app.controller('HomeController', function($scope, $http, $window) {
       }, function(error) {
         console.log("Error occured when loading the feedback");
       });
-    }
-  };
-
-  $scope.showTicks = function(response, isUpdate) {
-    //Random ticks visible
-    var ticks;
-    if (isUpdate) {
-      ticks = shuffle(["tick-5", "tick-6", "tick-7", "tick-8"]);
-    } else {
-      ticks = shuffle(["tick-1", "tick-2", "tick-3", "tick-4"]);
-    }
-    var randomTimes = [$scope.randomTime(3000, 10000), $scope.randomTime(3000, 10000), $scope.randomTime(3000, 10000), $scope.randomTime(3000, 10000)].sort();
-
-    $timeout(function() {
-      $("#" + ticks[0]).css("display", "block");
-    }, randomTimes[0]);
-
-    $timeout(function() {
-      $("#" + ticks[1]).css("display", "block");
-    }, randomTimes[1]);
-
-    $timeout(function() {
-      $("#" + ticks[2]).css("display", "block");
-    }, randomTimes[2]);
-
-    $timeout(function() {
-      $("#" + ticks[3]).css("display", "block");
-    }, randomTimes[3]);
-
-    if (isUpdate) {
-      $timeout(function() {
-        $scope.createUpdatedFeedback(response);
-        $(".tick").css("display", "none");
-      }, randomTimes[3] + 2000);
-    } else {
-      $timeout(function() {
-        $scope.createFeedback(response.data.feedback);
-        $(".tick").css("display", "none");
-      }, randomTimes[3] + 2000);
-    }
-  };
-
-  $scope.randomTime = function(min, max) {
-    var random = Math.floor(Math.random() * (+max - +min)) + +min;
-    return random;
-  };
-
-  $scope.getRandomUser = function() {
-    if ($scope.cues == 'avatar') {
-      return ("User " + (Math.floor(Math.random() * 5) + 1));
-    } else {
-      return ("User " + shuffle(["JG", "NB", "DH", "BS", $scope.currentUsername])[0]);
-    }
-  };
-
-  $scope.createFeedback = function(data) {
-    $scope.myAnswer.sawFeedback = $scope.getTimestampForEvents();
-    $scope.feedback = data;
-    $("#loader").css("display", "none");
-    $("#loader-text").css("display", "none");
-    $("#progress-bar").css("display", "none");
-    $("#chart_div").css("display", "block");
-
-    if ($scope.discussion == 'No') {
-      $timeout(function() {
-        $("#change-section-nd").css("display", "block");
-      }, 2000);
-    } else {
-      //Enable the chat box
-      $("#chat-text").attr("disabled", false);
-      $(".send-button").css("background-color", "#117A65");
-      $(".send-button").css("border", "1px solid #117A65");
-
-      $timeout(function() {
-        socket.emit('new_message', {
-          'message': "You have a maximum of two minutes to discuss the answers with your group members now. When explaining the rationale behind your answer, use the format 'answer - explanation why you think this is the right answer'." +
-            "The objective of this exercise is to clarify doubts and arrive at the best possible answer. This chat will be disabled after two minutes. If you complete discussion before then, type 'DONE' to move forward.",
-          'username': "QuizBot",
-          'avatar': "qb.png"
-        });
-      }, 1000);
-      $timeout(function() {
-        $scope.scrollAdjust();
-      }, 1500);
-      $timeout(function() {
-        $scope.startTimer();
-        socket.emit('start_timer', {});
-        $("#timer").css("display", "block");
-      }, 2500);
-    }
-  };
-
-  $scope.yes = function() {
-
-    socket.emit('making_changes', {
-      'message': 'Participant is making a change to the answer. Please wait while they complete. You will be taken to the next question upon completion.',
-      'username': 'QuizBot',
-      'avatar': 'qb.png'
-    });
-
-    $scope.IsUpdated = true;
-    $scope.myAnswer.selectedYes = $scope.getTimestampForEvents();
-    if ($scope.visibility == 'No') {
-      $scope.count = 1;
-    } else {
-      $scope.count = 2;
-    }
-
-    $("#submit-button").css("display", "none");
-
-    //Make the input enabled
-    $("input[type=radio]").attr('disabled', false);
-    $("input[type=range]").attr('disabled', false);
-
-    //Remove change section buttons
-    if ($scope.discussion == 'No') {
-      $("#change-section-nd").css("display", "none");
-    } else {
-      $("#change-section").css("display", "none");
-    }
-
-    //Set the confidence to 50
-    $scope.myAnswer.confidence = 50;
-    $scope.sliderChanged = false;
-
-    $("#output").val("Not Specified");
-    $("#output").css("color", "red");
-  };
-
-  $scope.updateAndShowAnswers = function() {
-    if ($scope.sliderChanged) {
-      $scope.myAnswer.submittedUpdatedAnswer = $scope.getTimestampForEvents();
-      //Keep the text disabled
-      $("#submit-button").css("display", "none");
-      $("#chart-area").css("display", "none");
-      //Disbling the input
-      $("input[type=radio]").attr('disabled', true);
-      $("input[type=range]").attr('disabled', true);
-      //Loader activated
-      $("#loader-updated").css("display", "block");
-      $("#loader-text-updated").css("display", "block");
-      $("#progress-bar-updated").css("display", "block");
-
-      $scope.myAnswer.answerId = parseInt($scope.myAnswer.answerId);
-      $scope.myAnswer.questionId = $scope.question.questionNumber;
-      $scope.myAnswer.userId = $scope.userId;
-      $scope.myAnswer.answerId = $scope.myAnswer.answerId.toString();
-
-      var data = {
-        "answer": $scope.myAnswer,
-        "feedback": $scope.feedback
-      };
-
-      //HTTP Call
-      $http({
-        method: 'POST',
-        url: api + '/updateAnswerAndShowFeedback',
-        data: data,
-        type: JSON,
-      }).then(function(response) {
-        $scope.myAnswer.answerId = $scope.myAnswer.answerId.toString();
-        $scope.showTicks(response, true);
-
-      }, function(error) {
-        console.log("Error occured when updating the answers");
-      });
-    }
-  };
-
-  $scope.showPublicFeedback = function() {
-
-    $scope.myAnswer.selectedNo = $scope.getTimestampForEvents();
-    //Show feedback without updating the answer as there is no change
-    $("#change-section-nd").css("display", "none");
-    $("#change-section").css("display", "none");
-    $("#chart-area").css("display", "none");
-    //Disbling the input
-    $("input[type=radio]").attr('disabled', true);
-    $("input[type=range]").attr('disabled', true);
-    //Loader activated
-    $("#loader-updated").css("display", "block");
-    $("#loader-text-updated").css("display", "block");
-    $("#progress-bar-updated").css("display", "block");
-
-    $scope.myAnswer.answerId = parseInt($scope.myAnswer.answerId);
-    $scope.myAnswer.questionId = $scope.question.questionNumber;
-    $scope.myAnswer.userId = $scope.userId;
-    $scope.myAnswer.answerId = $scope.myAnswer.answerId.toString();
-    // $scope.myAnswer.set = $scope.set;
-
-    var data = {
-      "answer": $scope.myAnswer,
-      "feedback": $scope.feedback
-    };
-
-    //HTTP Call
-    $http({
-      method: 'POST',
-      url: api + '/showFeedbackOnly',
-      data: data,
-      type: JSON,
-    }).then(function(response) {
-      $scope.myAnswer.answerId = $scope.myAnswer.answerId.toString();
-      $scope.showTicks(response, true);
-    }, function(error) {
-      console.log("Error occured when updating the answers");
-    });
-  };
-
-  $scope.createUpdatedFeedback = function(response) {
-    $("#loader-updated").css("display", "none");
-    $("#loader-text-updated").css("display", "none");
-    $("#progress-bar-updated").css("display", "none");
-    $("#updated_div").css("display", "block");
-    //Show feedback
-    $scope.myAnswer.sawUpdatedFeedback = $scope.getTimestampForEvents();
-    $scope.updatedFeedback = response.data;
-    if ($scope.discussion == 'Yes') {
-      $("#updated-change-section").css("display", "block");
-    } else {
-      $("#updated-change-section-nd").css("display", "block");
     }
   };
 
