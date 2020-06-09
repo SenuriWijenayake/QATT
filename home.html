@@ -17,19 +17,36 @@
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="./css/styles.css">
+
 </head>
 
 <body>
   <div ng-app="app" ng-controller="HomeController">
     <div class="row col-sm-12 homecontainer">
-      <div class="welcome-text"> Question Base </div>
-      <div class="intro-text">
-        You can see the instructions here.
+
+      <div class="row">
+        <div class="home-text col-sm-10"> Home </div>
+        <div class="profile col-sm-2">
+          <img src="data:image/png;base64,{{user.profilePicture}}" class="profileImage"/><br/>
+          <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{user.name}}</div>
+          <a href="./index.html" class="header-name col-sm-12">Logout</a>
+        </div>
       </div>
+
+
+      <div class="intro-smaller-heading"> Instructions:</div>
+      <div class="home-instructions">
+        <ol>
+          <li>You may start discussing these topics with your fellow group members in <b>ANY order you prefer.</b></li>
+          <li>You will be first asked to provide your initial opinion on the topic <b>WITHOUT viewing others’ comments</b>. Click on the topic, to add your opinion. </li>
+          <li>Upon submitting your initial opinion on the topic, you will see comments others have posted on the same topic. <b>You are free to post more comments, reply to others opinions as you will.</b> </li>
+          <li>Make sure to visitthe site <b>at least once a day</b> for the duration of the study, and answer <b>ALL</b> questions to be eligible for the reward.</li>
+        </ol>
+      </div>
+      <br/>
 
       <div class="row col-sm-12 question-area">
         <div class="intro-smaller-heading">Debating topics:</div>
-        <br />
 
         <div ng-repeat="q in questions" class="qcontainer col-sm-4">
           <a href="" class="col-sm-12 qBox">
