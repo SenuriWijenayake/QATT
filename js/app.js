@@ -186,6 +186,7 @@ app.controller('IntroController', function ($scope, $http, $window, $interval) {
           method: 'POST',
           url: api + '/usergroup',
           data: {
+            userId : $scope.user.userId,
             socialPresence: $scope.user.socialPresence,
             structure: $scope.user.structure
           },
@@ -207,9 +208,9 @@ app.controller('IntroController', function ($scope, $http, $window, $interval) {
   };
   $scope.getGroupUsers();
 
-  // $scope.start = function() {
-  //
-  // };
+  $scope.start = function() {
+
+  };
 
 });
 
