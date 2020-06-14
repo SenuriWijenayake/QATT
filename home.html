@@ -51,8 +51,9 @@
         <div ng-repeat="q in questions" class="qcontainer col-sm-4">
           <a href="" class="col-sm-12 qBox" ng-click="modalClick(q)">
             <div class="qText">{{q.text}}</div>
-            <div style="float:right;">
-              <span><i class="fas fa-comments fa-lg" aria-hidden="true"></i></span> &nbsp<span>{{q.commCount}}</span>
+            <div class="row">
+              <span ng-if="q.attempted" class="attempted-class"><i class="fa fa-check-circle" aria-hidden="true"></i> &nbsp; Attempted</span>
+              <span class="commCount-class"><i class="fas fa-comments fa-lg" aria-hidden="true"></i>&nbsp;{{q.commCount}}</span>
             </div>
 
           </a>

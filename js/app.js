@@ -249,7 +249,10 @@ app.controller('HomeController', function($scope, $http, $window) {
   $http({
     method: 'POST',
     url: api + '/questions',
-    data: $scope.user.order,
+    data: {
+      "userId" : $scope.user.userId,
+      "order" : $scope.user.order
+    },
     type: JSON,
   }).then(function(response) {
     $scope.questions = response.data;

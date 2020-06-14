@@ -107,6 +107,20 @@
   height: 50px;
 }
 
+.attempted-class{
+  color: green;
+  float: left;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  font-size: medium;
+}
+
+.commCount-class{
+  float: right;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+
 /* End of styles for the home page */
 
 
