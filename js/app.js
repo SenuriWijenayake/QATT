@@ -247,8 +247,9 @@ app.controller('HomeController', function($scope, $http, $window) {
 
   //HTTP call to get all questions
   $http({
-    method: 'GET',
+    method: 'POST',
     url: api + '/questions',
+    data: $scope.user.order,
     type: JSON,
   }).then(function(response) {
     $scope.questions = response.data;
