@@ -386,6 +386,11 @@ app.controller('HomeController', function($scope, $http, $window) {
     };
 
   };
+
+  $scope.secondClick = function(){
+    console.log("Here");
+  };
+
 });
 
 app.controller('NewController', function($scope, $http, $window) {

@@ -49,7 +49,7 @@
         <div class="intro-smaller-heading">Debating topics:</div>
 
         <div ng-repeat="q in questions" class="qcontainer col-sm-4">
-          <a href="" class="col-sm-12 qBox" ng-click="modalClick(q)">
+          <a href="" class="col-sm-12 qBox" ng-click="(q.attempted == false) ? modalClick(q) : secondClick(q)">
             <div class="qText">{{q.text}}</div>
             <div class="row">
               <span ng-if="q.attempted" class="attempted-class"><i class="fa fa-check-circle" aria-hidden="true"></i> &nbsp; Attempted</span>
