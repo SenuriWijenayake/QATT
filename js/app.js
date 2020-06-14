@@ -86,7 +86,7 @@ app.controller('IndexController', function($scope, $http, $window) {
           $("#sign-up-loader").css("display", "none");
           $window.sessionStorage.setItem('user', JSON.stringify(response.data));
 
-          if (response.data.firstVisit == true){
+          if (response.data.firstVisit == true) {
             $window.location.href = './intro.html';
           } else {
             $window.location.href = './home.html';
@@ -95,7 +95,7 @@ app.controller('IndexController', function($scope, $http, $window) {
 
         }, function errorCallback(response) {
 
-          if (response.data == "Invalid email address. Please try again."){
+          if (response.data == "Invalid email address. Please try again.") {
             $scope.user.email = "";
           } else {
             $scope.user.password = "";
@@ -143,8 +143,8 @@ app.controller('IndexController', function($scope, $http, $window) {
           genderSpecified: $scope.user.genderSpecified,
           education: $scope.user.education,
           field: $scope.user.field,
-          structure : $scope.user.structure,
-          socialPresence : $scope.user.socialPresence
+          structure: $scope.user.structure,
+          socialPresence: $scope.user.socialPresence
         },
         transformRequest: function(data, headersGetter) {
           var formData = new FormData();
@@ -161,7 +161,7 @@ app.controller('IndexController', function($scope, $http, $window) {
         $window.sessionStorage.setItem('user', JSON.stringify(response.data));
         $window.location.href = './intro.html';
       }, function errorCallback(response) {
-        if (response.status == 401){
+        if (response.status == 401) {
           alert(response.data);
         }
         console.log("Error occured when submitting user details");
@@ -173,7 +173,7 @@ app.controller('IndexController', function($scope, $http, $window) {
   };
 });
 
-app.controller('IntroController', function ($scope, $http, $window, $interval) {
+app.controller('IntroController', function($scope, $http, $window, $interval) {
   $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
   $scope.group = [];
 
@@ -193,7 +193,7 @@ app.controller('IntroController', function ($scope, $http, $window, $interval) {
           method: 'POST',
           url: api + '/usergroup',
           data: {
-            userId : $scope.user.userId,
+            userId: $scope.user.userId,
             socialPresence: $scope.user.socialPresence,
             structure: $scope.user.structure
           },
@@ -226,13 +226,13 @@ app.controller('IntroController', function ($scope, $http, $window, $interval) {
       method: 'POST',
       url: api + '/updateuser',
       data: {
-        userId : $scope.user.userId,
-        firstVisit : false
+        userId: $scope.user.userId,
+        firstVisit: false
       },
       type: JSON,
     }).then(function(response) {
-        $("#intro-loader").css("display", "none");
-        $window.location.href = './home.html';
+      $("#intro-loader").css("display", "none");
+      $window.location.href = './home.html';
 
     }, function(error) {
       console.log("Error occured while updating user status");
@@ -241,7 +241,7 @@ app.controller('IntroController', function ($scope, $http, $window, $interval) {
 
 });
 
-app.controller('HomeController', function ($scope, $http, $window) {
+app.controller('HomeController', function($scope, $http, $window) {
   $scope.questions = [];
   $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
 
@@ -256,6 +256,132 @@ app.controller('HomeController', function ($scope, $http, $window) {
     console.log("Error occured while retrieving questions");
   });
 
+  //Modal
+  var modal = document.getElementById("modal");
+  var span = document.getElementsByClassName("close")[0];
+
+  // When the user clicks on the button, open the modal
+  $scope.modalClick = function(q) {
+    $scope.modalData = q;
+
+    $scope.answer.opinion = "";
+    $scope.answer.confidence = 50;
+    $scope.answer.explanation = "";
+
+    $('#opinion-no-label').removeClass('button-no');
+    $('#opinion-no-label').addClass('button-no-default');
+    $('#opinion-yes-label').removeClass('button-yes');
+    $('#opinion-yes-label').addClass('button-yes-default');
+
+    $('.modal-explain').css('display', 'none');
+    $('.modal-confidence').css('display', 'none');
+    $('#home-submit').css('display', 'none');
+    $("#output").val("Not Specified");
+    $("#output").css("color", "red");
+
+    //Enable the modal and remove loader
+    $("#home-submit").attr("disabled", false);
+    $("input[type=radio]").attr('disabled', false);
+    $(".modal-textarea").attr("disabled", false);
+    $(".slider-one").attr("disabled", false);
+
+    $("#home-submit").css("background-color", "#117A65");
+    $("#home-submit").css("border", "1px solid #117A65");
+    $("#modal-loader").css("display", "none");
+
+    $scope.opinionProvided = false;
+    $scope.explainProvided = false;
+    $scope.confProvided = false;
+    modal.style.display = "block";
+  }
+
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
+  $(".slidecontainer").change(function() {
+    $scope.confProvided = true;
+    $("#output").css("color", "green");
+    $("#home-submit").css("display", "inline");
+  });
+
+  $("#opinion-yes-label").click(function() {
+    $scope.answer.opinion = "yes";
+    $scope.opinionProvided = true;
+    $('#opinion-yes-label').removeClass('button-yes-default');
+    $('#opinion-no-label').removeClass('button-no');
+    $('#opinion-yes-label').addClass('button-yes');
+    $('#opinion-no-label').addClass('button-no-default');
+    $('.modal-explain').css('display', 'inline');
+  });
+
+  $("#opinion-no-label").click(function() {
+    $scope.answer.opinion = "no";
+    $scope.opinionProvided = true;
+    $('#opinion-yes-label').removeClass('button-yes');
+    $('#opinion-yes-label').addClass('button-yes-default');
+    $('#opinion-no-label').removeClass('button-no-default');
+    $('#opinion-no-label').addClass('button-no');
+    $('.modal-explain').css('display', 'inline');
+  });
+
+  $(".modal-textarea").keyup(function() {
+    if ($.trim($(".modal-textarea").val())) {
+      $scope.explainProvided = true;
+      $('.modal-confidence').css('display', 'inline');
+    }
+  });
+
+  $scope.submitAnswer = function(answer) {
+    if ($scope.opinionProvided && $scope.confProvided && $scope.explainProvided) {
+
+      //Disable the modal and show loader
+      $("#home-submit").attr("disabled", true);
+      $("input[type=radio]").attr('disabled', true);
+      $(".modal-textarea").attr("disabled", true);
+      $(".slider-one").attr("disabled", true);
+
+      $("#home-submit").css("background-color", "grey");
+      $("#home-submit").css("border", "1px solid grey");
+      $("#modal-loader").css("display", "inline");
+
+      var userAnswer = {
+        userId: $scope.user.userId,
+        questionId: $scope.modalData.questionNumber,
+        oldAnswer: $scope.answer.opinion,
+        oldConfidence: $scope.answer.confidence,
+        oldComment: $scope.answer.explanation,
+        socialPresence: $scope.user.socialPresence,
+        structure: $scope.user.structure,
+        userName: $scope.user.name
+      };
+
+      console.log(userAnswer);
+      $http({
+        method: 'POST',
+        url: api + '/userAnswer',
+        data: userAnswer,
+        type: JSON,
+      }).then(function(response) {
+        //Take to the page with user comments
+        modal.style.display = "none";
+        console.log(response.data);
+        alert("Success!");
+      }, function(error) {
+        console.log("Error occured while submitting initial answer");
+      });
+
+    };
+
+  };
 });
 
 app.controller('NewController', function($scope, $http, $window) {
