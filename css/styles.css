@@ -151,6 +151,12 @@
   text-align: right;
 }
 
+.comm-submit{
+  float: right;
+  text-align: right;
+  display: none;
+}
+
 .reply-class{
   border-top: 1px solid darkgrey;
   padding-left: 70px;
@@ -166,6 +172,13 @@
 
 .back-button{
   padding-right: 0px;
+}
+
+.reply-textarea{
+  width: 100%;
+  height: 80px;
+  padding: 5px;
+  display: none;
 }
 
 /* End of styles for the home page */

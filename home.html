@@ -131,7 +131,9 @@
           </div>
 
           <div class="col-sm-12" style="padding-bottom: 10px;">
-            <a href="" class="comm-reply" ng-click="">Reply</a>
+            <a href="" id="{{comm.id}}_reply" class="comm-reply" ng-click="showReply(comm.id)">Reply</a>
+            <a href="" id="{{comm.id}}_submit" class="comm-submit" ng-click="sendReply(comm.id, comm.id, qFocused.questionText, qFocused.questionId)">Submit</a>
+            <textarea id="{{comm.id}}" class="reply-textarea"></textarea>
           </div>
 
           <div class="col-sm-12 reply-class" ng-repeat="reply in comm.replies">
@@ -146,7 +148,9 @@
             </div>
 
             <div class="col-sm-12" style="padding-right: 0px;">
-              <a href="" class="comm-reply" ng-click="">Reply</a>
+              <a href="" class="comm-reply" id="{{reply.id}}_reply" ng-click="showReply(reply.id)">Reply</a>
+              <a href="" class="comm-submit" id="{{reply.id}}_submit" ng-click="sendReply(comm.id, reply.id, qFocused.questionText, qFocused.questionId)">Submit</a>
+              <textarea id="{{reply.id}}" class="reply-textarea"></textarea>
             </div>
           </div>
         </div>
