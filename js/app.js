@@ -250,8 +250,8 @@ app.controller('HomeController', function($scope, $http, $window) {
     method: 'POST',
     url: api + '/questions',
     data: {
-      "userId" : $scope.user.userId,
-      "order" : $scope.user.order
+      "userId": $scope.user.userId,
+      "order": $scope.user.order
     },
     type: JSON,
   }).then(function(response) {
@@ -360,12 +360,14 @@ app.controller('HomeController', function($scope, $http, $window) {
       var userAnswer = {
         userId: $scope.user.userId,
         questionId: $scope.modalData.questionNumber,
+        questionText : $scope.modalData.text,
         oldAnswer: $scope.answer.opinion,
         oldConfidence: $scope.answer.confidence,
         oldComment: $scope.answer.explanation,
         socialPresence: $scope.user.socialPresence,
         structure: $scope.user.structure,
-        userName: $scope.user.name
+        userName: $scope.user.name,
+        isReply : false
       };
 
       console.log(userAnswer);
@@ -377,8 +379,7 @@ app.controller('HomeController', function($scope, $http, $window) {
       }).then(function(response) {
         //Take to the page with user comments
         modal.style.display = "none";
-        console.log(response.data);
-        alert("Success!");
+        $scope.secondClick($scope.modalData);
       }, function(error) {
         console.log("Error occured while submitting initial answer");
       });
@@ -387,8 +388,28 @@ app.controller('HomeController', function($scope, $http, $window) {
 
   };
 
-  $scope.secondClick = function(){
-    console.log("Here");
+  $scope.secondClick = function(q) {
+    $('.debating-area').css('display', 'block');
+    $('.homecontainer').css('display', 'none');
+
+    var data = {
+      socialPresence : $scope.user.socialPresence,
+      structure : $scope.user.structure,
+      questionId : q.questionNumber,
+      questionText : q.text
+    };
+
+    //Call to get the relevant user comments
+    $http({
+      method: 'POST',
+      url: api + '/userComments',
+      data: data,
+      type: JSON,
+    }).then(function(response) {
+      $scope.qFocused = response.data;
+    }, function(error) {
+      console.log("Error occured while retrieving user comments on question.");
+    });
   };
 
 });

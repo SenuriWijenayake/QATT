@@ -55,7 +55,6 @@
               <span ng-if="q.attempted" class="attempted-class"><i class="fa fa-check-circle" aria-hidden="true"></i> &nbsp; Attempted</span>
               <span class="commCount-class"><i class="fas fa-comments fa-lg" aria-hidden="true"></i>&nbsp;{{q.commCount}}</span>
             </div>
-
           </a>
 
         </div>
@@ -68,19 +67,19 @@
           <div class="col-sm-12 modal-question">
             Provide your personal opinion: {{modalData.text}}
           </div>
-          <br/>
+          <br />
 
-        <div class="btn-group btn-group-toggle" data-toggle="buttons" style="width: 40%;padding: 20px;">
-          <label id="opinion-yes-label" class="btn btn-secondary button-yes-default">
-            <input type="radio" name="answer.opinion" ng-model="answer.opinion" value="yes" class="button-yes-default">
-            <i class="fa fa-thumbs-up" aria-hidden="true"></i> &nbsp; Yes
-          </label>
+          <div class="btn-group btn-group-toggle" data-toggle="buttons" style="width: 40%;padding: 20px;">
+            <label id="opinion-yes-label" class="btn btn-secondary button-yes-default">
+              <input type="radio" name="answer.opinion" ng-model="answer.opinion" value="yes" class="button-yes-default">
+              <i class="fa fa-thumbs-up" aria-hidden="true"></i> &nbsp; Yes
+            </label>
 
-          <label id="opinion-no-label" class="btn btn-secondary button-no-default">
-            <input type="radio" name="answer.opinion" ng-model="answer.opinion" value="no" class="button-no-default">
-            <i class="fa fa-thumbs-down" aria-hidden="true"></i> &nbsp; No
-          </label>
-        </div>
+            <label id="opinion-no-label" class="btn btn-secondary button-no-default">
+              <input type="radio" name="answer.opinion" ng-model="answer.opinion" value="no" class="button-no-default">
+              <i class="fa fa-thumbs-down" aria-hidden="true"></i> &nbsp; No
+            </label>
+          </div>
 
           <div class="modal-explain" style="display:none;">
             <div class="explain-text-home">Please explain your opinion here. Make sure your explanations are clear and complete.</div>
@@ -106,6 +105,48 @@
       </div>
 
     </div>
+
+    <!-- Debating area -->
+    <div class="row col-sm-12 debating-area">
+      <div class="row">
+        <div class="back-button col-sm-1"><a href="./home.html"> <i class="fa fa-arrow-left fa-sm" aria-hidden="true"></i> Back Home</a></div>
+        <div class="home-text col-sm-9">{{qFocused.questionText}}</div>
+        <div class="profile col-sm-2">
+          <img src="data:image/png;base64,{{user.profilePicture}}" class="profileImage" /><br />
+          <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{user.name}}</div>
+          <a href="./index.html" class="header-name col-sm-12">Logout</a>
+        </div>
+      </div>
+
+      <div class="comments-area">
+        <div class="comment row col-sm-12" ng-repeat="comm in qFocused.comments">
+          <div class="debate-profile col-sm-2">
+            <img src="data:image/png;base64,{{comm.profilePicture}}" class="profileImage" /><br />
+            <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{comm.username}}</div>
+          </div>
+
+          <div class="col-sm-10">
+            <label class="comm-label">{{comm.comment}}</label>
+          </div>
+
+          <div class="col-sm-12" style="padding-bottom: 10px;">
+            <a href="" class="comm-reply">Reply</a>
+          </div>
+
+          <div class="col-sm-12 reply-class" ng-repeat="reply in comm.replies">
+            <div class="debate-profile col-sm-2">
+              <img src="data:image/png;base64,{{reply.profilePicture}}" class="profileImage" /><br />
+              <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{reply.username}}</div>
+            </div>
+
+            <div class="col-sm-10">
+              <label class="comm-label">{{reply.comment}}</label>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
 </body>
 
 </html>

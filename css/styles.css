@@ -84,7 +84,8 @@
   color: #117A65;
   font-weight: 800;
   margin-bottom: 5px;
-  padding-left: 18%
+  padding-left: 12%;
+  text-align: center;
 }
 
 .profile{
@@ -119,6 +120,50 @@
   float: right;
   padding-right: 10px;
   padding-bottom: 10px;
+}
+
+.debating-area{
+  display: none;
+  padding: 30px 50px;
+}
+
+.comments-area{
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+.comment{
+  padding: 15px 0px 0px;
+  /* width: 90%; */
+  background: beige;
+  border-radius: 10px;
+  border: 1px solid green;
+  margin-top: 15px;
+}
+
+.comm-label{
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.comm-reply{
+  float: right;
+  text-align: right;
+}
+
+.reply-class{
+  border-top: 1px solid darkgrey;
+  padding-left: 70px;
+  padding-top: 15px;
+  padding-bottom: 10px;
+}
+
+.debate-profile{
+  text-align: center;
+}
+
+.back-button{
+  padding-right: 0px;
 }
 
 /* End of styles for the home page */
