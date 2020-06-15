@@ -412,6 +412,25 @@ app.controller('HomeController', function($scope, $http, $window) {
     });
   };
 
+  $scope.reply = function(comment){
+    console.log(comment);
+    var data = {
+
+    };
+
+    // $http({
+    //   method: 'POST',
+    //   url: api + '/saveReply',
+    //   data: data,
+    //   type: JSON,
+    // }).then(function(response) {
+    //   $scope.secondClick();
+    //
+    // }, function(error) {
+    //   console.log("Error occured while retrieving saving reply.");
+    // });
+  };
+
 });
 
 app.controller('NewController', function($scope, $http, $window) {
