@@ -154,6 +154,11 @@
             </div>
           </div>
         </div>
+
+        <div class="row col-sm-12 new-comment" ng-show="qFocused.comments">
+          <textarea ng-model="newComment" class="new-textarea" placeholder="Enter a new comment here.."></textarea>
+          <a href="" class="new-submit" id="new-submit" ng-click="submitNewComment(qFocused.questionText, qFocused.questionId)">Submit New Comment </a>
+        </div>
       </div>
 
 </body>

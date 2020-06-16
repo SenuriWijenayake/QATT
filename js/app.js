@@ -418,6 +418,51 @@ app.controller('HomeController', function($scope, $http, $window) {
     $('#' + id + '_submit').css('display', 'inline');
   };
 
+  $(".new-textarea").keyup(function() {
+    if ($.trim($(".new-textarea").val())) {
+      $('#new-submit').css('display', 'inline');
+    }
+  });
+
+  $scope.submitNewComment = function (qText, qId){
+
+    $('.new-textarea').attr('disabled', true);
+    $('#new-submit').attr('disabled', true);
+
+    //Prepare the payload to submit new comment
+    var data = {
+      socialPresence : $scope.user.socialPresence,
+      structure : $scope.user.structure,
+      questionId : qId,
+      userId : $scope.user.userId,
+      userName : $scope.user.name,
+      comment : $scope.newComment,
+      isReply : false,
+      questionText : qText
+    };
+
+    $http({
+      method: 'POST',
+      url: api + '/saveReply',
+      data: data,
+      type: JSON,
+    }).then(function(response) {
+      var q = {
+        questionNumber : qId,
+        text : qText
+      };
+      $('.new-textarea').attr('disabled', false);
+      $('#new-submit').attr('disabled', false);
+      $('#new-submit').css('display', 'none');
+      $scope.newComment = "";
+
+      $scope.secondClick(q);
+    }, function(error) {
+      console.log("Error occured while saving new comment.");
+    });
+
+  };
+
   $scope.sendReply = function(commentId, replyId, qText, qId){
 
     console.log(commentId, replyId, qText, qId);
