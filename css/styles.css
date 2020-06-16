@@ -151,6 +151,20 @@
   text-align: right;
 }
 
+.comm-upvote{
+  float: right;
+  text-align: right;
+}
+
+.comm-downvote{
+  float: right;
+  text-align: right;
+}
+
+a:hover{
+  text-decoration: none;
+}
+
 .comm-submit{
   float: right;
   text-align: right;

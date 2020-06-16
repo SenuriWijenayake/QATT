@@ -465,36 +465,43 @@ app.controller('HomeController', function($scope, $http, $window) {
 
   $scope.sendReply = function(commentId, replyId, qText, qId){
 
-    console.log(commentId, replyId, qText, qId);
-    //Prepare the reply
     var comment = $('#' + replyId).val();
-    var data = {
-      socialPresence : $scope.user.socialPresence,
-      structure : $scope.user.structure,
-      questionId : qId,
-      userId : $scope.user.userId,
-      userName : $scope.user.name,
-      comment : comment,
-      isReply : true,
-      parentComment : commentId,
-      questionText : qText
-    };
+    if ($.trim(comment)){
+      //Prepare the reply
 
-    $http({
-      method: 'POST',
-      url: api + '/saveReply',
-      data: data,
-      type: JSON,
-    }).then(function(response) {
+      var data = {
+        socialPresence : $scope.user.socialPresence,
+        structure : $scope.user.structure,
+        questionId : qId,
+        userId : $scope.user.userId,
+        userName : $scope.user.name,
+        comment : comment,
+        isReply : true,
+        parentComment : commentId,
+        questionText : qText
+      };
+
+      $http({
+        method: 'POST',
+        url: api + '/saveReply',
+        data: data,
+        type: JSON,
+      }).then(function(response) {
+        var q = {
+          questionNumber : qId,
+          text : qText
+        };
+        $scope.secondClick(q);
+      }, function(error) {
+        console.log("Error occured while retrieving saving reply.");
+      });
+    } else {
       var q = {
         questionNumber : qId,
         text : qText
       };
       $scope.secondClick(q);
-    }, function(error) {
-      console.log("Error occured while retrieving saving reply.");
-    });
-
+    }
   };
 
 });
