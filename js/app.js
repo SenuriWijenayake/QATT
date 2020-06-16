@@ -360,14 +360,14 @@ app.controller('HomeController', function($scope, $http, $window) {
       var userAnswer = {
         userId: $scope.user.userId,
         questionId: $scope.modalData.questionNumber,
-        questionText : $scope.modalData.text,
+        questionText: $scope.modalData.text,
         oldAnswer: $scope.answer.opinion,
         oldConfidence: $scope.answer.confidence,
         oldComment: $scope.answer.explanation,
         socialPresence: $scope.user.socialPresence,
         structure: $scope.user.structure,
         userName: $scope.user.name,
-        isReply : false
+        isReply: false
       };
 
       console.log(userAnswer);
@@ -393,10 +393,10 @@ app.controller('HomeController', function($scope, $http, $window) {
     $('.homecontainer').css('display', 'none');
 
     var data = {
-      socialPresence : $scope.user.socialPresence,
-      structure : $scope.user.structure,
-      questionId : q.questionNumber,
-      questionText : q.text
+      socialPresence: $scope.user.socialPresence,
+      structure: $scope.user.structure,
+      questionId: q.questionNumber,
+      questionText: q.text
     };
 
     //Call to get the relevant user comments
@@ -412,7 +412,7 @@ app.controller('HomeController', function($scope, $http, $window) {
     });
   };
 
-  $scope.showReply = function(id){
+  $scope.showReply = function(id) {
     $('#' + id).css('display', 'inline');
     $('#' + id + '_reply').css('display', 'none');
     $('#' + id + '_submit').css('display', 'inline');
@@ -424,21 +424,21 @@ app.controller('HomeController', function($scope, $http, $window) {
     }
   });
 
-  $scope.submitNewComment = function (qText, qId){
+  $scope.submitNewComment = function(qText, qId) {
 
     $('.new-textarea').attr('disabled', true);
     $('#new-submit').attr('disabled', true);
 
     //Prepare the payload to submit new comment
     var data = {
-      socialPresence : $scope.user.socialPresence,
-      structure : $scope.user.structure,
-      questionId : qId,
-      userId : $scope.user.userId,
-      userName : $scope.user.name,
-      comment : $scope.newComment,
-      isReply : false,
-      questionText : qText
+      socialPresence: $scope.user.socialPresence,
+      structure: $scope.user.structure,
+      questionId: qId,
+      userId: $scope.user.userId,
+      userName: $scope.user.name,
+      comment: $scope.newComment,
+      isReply: false,
+      questionText: qText
     };
 
     $http({
@@ -448,8 +448,8 @@ app.controller('HomeController', function($scope, $http, $window) {
       type: JSON,
     }).then(function(response) {
       var q = {
-        questionNumber : qId,
-        text : qText
+        questionNumber: qId,
+        text: qText
       };
       $('.new-textarea').attr('disabled', false);
       $('#new-submit').attr('disabled', false);
@@ -463,22 +463,22 @@ app.controller('HomeController', function($scope, $http, $window) {
 
   };
 
-  $scope.sendReply = function(commentId, replyId, qText, qId){
+  $scope.sendReply = function(commentId, replyId, qText, qId) {
 
     var comment = $('#' + replyId).val();
-    if ($.trim(comment)){
+    if ($.trim(comment)) {
       //Prepare the reply
 
       var data = {
-        socialPresence : $scope.user.socialPresence,
-        structure : $scope.user.structure,
-        questionId : qId,
-        userId : $scope.user.userId,
-        userName : $scope.user.name,
-        comment : comment,
-        isReply : true,
-        parentComment : commentId,
-        questionText : qText
+        socialPresence: $scope.user.socialPresence,
+        structure: $scope.user.structure,
+        questionId: qId,
+        userId: $scope.user.userId,
+        userName: $scope.user.name,
+        comment: comment,
+        isReply: true,
+        parentComment: commentId,
+        questionText: qText
       };
 
       $http({
@@ -488,8 +488,8 @@ app.controller('HomeController', function($scope, $http, $window) {
         type: JSON,
       }).then(function(response) {
         var q = {
-          questionNumber : qId,
-          text : qText
+          questionNumber: qId,
+          text: qText
         };
         $scope.secondClick(q);
       }, function(error) {
@@ -497,11 +497,37 @@ app.controller('HomeController', function($scope, $http, $window) {
       });
     } else {
       var q = {
-        questionNumber : qId,
-        text : qText
+        questionNumber: qId,
+        text: qText
       };
       $scope.secondClick(q);
     }
+  };
+
+  $scope.updateVoteForComment = function(commentId, qText, qId, vote) {
+    var data = {
+      questionId: qId,
+      socialPresence: $scope.user.socialPresence,
+      structure: $scope.user.structure,
+      commentId: commentId,
+      vote: vote,
+      questionText: qText
+    };
+
+    $http({
+      method: 'POST',
+      url: api + '/updateVoteForComment',
+      data: data,
+      type: JSON,
+    }).then(function(response) {
+      var q = {
+        questionNumber: qId,
+        text: qText
+      };
+      $scope.secondClick(q);
+    }, function(error) {
+      console.log("Error occured while updating vote count.");
+    });
   };
 
 });
