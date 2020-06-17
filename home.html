@@ -40,7 +40,9 @@
           <li>You may start discussing these topics with your fellow group members in <b>ANY order you prefer.</b></li>
           <li>You will be first asked to provide your initial opinion on the topic <b>WITHOUT viewing others’ comments</b>. Click on the topic, to add your opinion. </li>
           <li>Upon submitting your initial opinion on the topic, you will see comments others have posted on the same topic. <b>You are free to post more comments, reply to others opinions as you will.</b> </li>
-          <li>Make sure to visitthe site <b>at least once a day</b> for the duration of the study, and answer <b>ALL</b> questions to be eligible for the reward.</li>
+          <li>Make sure to visit the site <b>at least once a day</b> for the duration of the study, and answer <b>ALL</b> questions to be eligible for the reward.</li>
+          <li>You must <b>answer all questions</b> posted within <b>6 days</b> to complete this experiement. The time left for the experiement is displayed at the bottom of this page.</li>
+          <li>When the time allocated for the study runs out, please click on the button <b>"Take me to the Final Vote page.."</b> to provide your final votes on the topics debated.</li>
         </ol>
       </div>
       <br />
@@ -101,6 +103,15 @@
             <div id="modal-loader" class="modal-loader"></div>
           </div>
 
+        </div>
+      </div>
+
+      <div class="col-sm-12" style="padding-top: 15px;">
+        <div class="col-sm-8">
+          <button id="completed-submit" class="completed-submit" ng-click="finalVote()" disabled></button>
+        </div>
+        <div class="col-sm-4">
+          <div id="completed-submit-loader" class="completed-submit-loader"></div>
         </div>
       </div>
 
@@ -166,6 +177,7 @@
         </div>
       </div>
 
-</body>
+    </div>
 
+</body>
 </html>
