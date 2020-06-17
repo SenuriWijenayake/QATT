@@ -391,6 +391,52 @@ a:hover{
 }
 /* End styles for the modal */
 
+
+/* Styles for the final vote modal */
+
+.final-submit{
+  width: 25%;
+  height: 43px;
+  background-color: #117A65;
+  font-size: 19px;
+  color: white;
+  border: 1px solid #117A65;
+  border-radius: 5px;
+  display: none;
+}
+
+.vote-box{
+  padding: 5px;
+}
+
+.profile-vote{
+  text-align: center;
+  padding: 0px;
+}
+
+.profileImage-vote{
+  overflow: hidden;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+  width: 65px;
+  height: 65px;
+}
+
+.vote-button{
+  width: 20%;
+  height: 43px;
+  background-color: #117A65;
+  font-size: 19px;
+  color: white;
+  border: 1px solid #117A65;
+  border-radius: 5px;
+}
+
+/* ENd of styles for vote modal */
+
 .heading{
   padding: 15px;
   text-align: center;

@@ -47,7 +47,7 @@
         <div class="intro-smaller-heading">Topics to vote:</div>
 
         <div ng-repeat="q in questions" class="qcontainer col-sm-4">
-          <a href="" class="col-sm-12 qBox" ng-click="(q.voted == false) ? modalClick(q) : secondClick(q)">
+          <a href="" class="col-sm-12 qBox" ng-click="(q.voted == false) ? showCommentsDisabled(q) : showVotes(q)">
             <div class="qText">{{q.text}}</div>
             <div class="row">
               <span ng-if="q.voted" class="attempted-class"><i class="fa fa-check-circle" aria-hidden="true"></i> &nbsp; Voted</span>
@@ -58,29 +58,80 @@
         </div>
       </div>
 
-      <!-- Modal to collect private opinion -->
-      <div id="modal" class="modal">
+    </div>
+
+    <!-- Debating area -->
+    <div class="row col-sm-12 debating-area">
+      <div class="row">
+        <div class="back-button col-sm-1"><a href="./final.html"> <i class="fa fa-arrow-left fa-sm" aria-hidden="true"></i> Back Home</a></div>
+        <div class="home-text col-sm-9">{{qFocused.questionText}}</div>
+        <div class="profile col-sm-2">
+          <img src="data:image/png;base64,{{user.profilePicture}}" class="profileImage" /><br />
+          <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{user.name}}</div>
+          <a href="./index.html" class="header-name col-sm-12">Logout</a>
+        </div>
+        <div class="col-sm-12" style="text-align: center;padding: 20px;">
+          <button id="vote-button" class="vote-button" ng-show="qFocused.comments" ng-click="modalClick(qFocused)">Submit Final Answer</button>
+        </div>
+      </div>
+
+      <div class="comments-area">
+        <div class="comment row col-sm-12" ng-repeat="comm in qFocused.comments">
+          <div class="debate-profile col-sm-2">
+            <img src="data:image/png;base64,{{comm.profilePicture}}" class="profileImage" /><br />
+            <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{comm.username}}</div>
+            <div class="header-name col-sm-12" style="padding-top:3px;">{{comm.timestamp| date : 'MMM d, yyyy HH:mm'}}</div>
+          </div>
+
+          <div class="col-sm-10">
+            <label class="comm-label">{{comm.comment}}</label>
+          </div>
+
+          <div class="col-sm-12" style="padding-bottom: 10px;">
+            <a href="" id="{{comm.id}}_downvote" class="comm-downvote disable-vote"><i class="fa fa-thumbs-down" aria-hidden="true"></i> &nbsp;{{comm.downVotes}} &nbsp; &nbsp;</a>
+            <a href="" id="{{comm.id}}_upvote" class="comm-upvote disable-vote"><i class="fa fa-thumbs-up" aria-hidden="true"></i> &nbsp;{{comm.upVotes}} &nbsp; &nbsp;</a>
+
+          </div>
+
+          <div class="col-sm-12 reply-class" ng-repeat="reply in comm.replies">
+            <div class="debate-profile col-sm-2">
+              <img src="data:image/png;base64,{{reply.profilePicture}}" class="profileImage" /><br />
+              <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{reply.username}}</div>
+              <div class="header-name col-sm-12" style="padding-top:3px;">{{reply.timestamp| date : 'MMM d, yyyy HH:mm'}}</div>
+            </div>
+
+            <div class="col-sm-10">
+              <label class="comm-label">{{reply.comment}}</label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- Modal to collect final opinion -->
+      <div id="modal" class="modal" style="text-align:center;">
         <div class="modal-content">
           <span class="close">&times;</span>
           <div class="col-sm-12 modal-question">
-            Provide your final opinion: {{modalData.text}}
+            Provide your personal opinion: {{modalData.questionText}}
           </div>
           <br />
 
           <div class="btn-group btn-group-toggle" data-toggle="buttons" style="width: 40%;padding: 20px;">
             <label id="opinion-yes-label" class="btn btn-secondary button-yes-default">
-              <input type="radio" name="answer.newOpinion" ng-model="answer.opinion" value="yes" class="button-yes-default">
+              <input type="radio" name="answer.newOpinion" ng-model="answer.newOpinion" value="yes" class="button-yes-default">
               <i class="fa fa-thumbs-up" aria-hidden="true"></i> &nbsp; Yes
             </label>
 
             <label id="opinion-no-label" class="btn btn-secondary button-no-default">
-              <input type="radio" name="answer.newOpinion" ng-model="answer.opinion" value="no" class="button-no-default">
+              <input type="radio" name="answer.newOpinion" ng-model="answer.newOpinion" value="no" class="button-no-default">
               <i class="fa fa-thumbs-down" aria-hidden="true"></i> &nbsp; No
             </label>
           </div>
 
           <div class="modal-explain" style="display:none;">
-            <div class="explain-text-home">Please explain your final opinion here. Make sure your explanations are clear and complete.</div>
+            <div class="explain-text-home">Please explain your opinion here. Make sure your explanations are clear and complete.</div>
             <textarea ng-model="answer.newExplanation" class="modal-textarea"></textarea>
           </div>
 
@@ -95,7 +146,7 @@
           </div>
 
           <div class="modal-submit" style="padding: 15px;">
-            <button id="home-submit" class="home-submit" ng-click="submitVote(answer)">Submit Answer</button>
+            <button id="final-submit" class="final-submit" ng-click="submitVote(answer)">Submit Final Answer</button>
             <div id="modal-loader" class="modal-loader"></div>
           </div>
 
@@ -104,7 +155,6 @@
 
     </div>
   </div>
-
 </body>
 
 </html>

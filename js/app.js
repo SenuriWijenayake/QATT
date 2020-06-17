@@ -268,8 +268,8 @@ app.controller('HomeController', function($scope, $http, $window) {
 
   // When the user clicks on the button, open the modal
   $scope.modalClick = function(q) {
-    $scope.modalData = q;
 
+    $scope.modalData = q;
     $scope.answer.opinion = "";
     $scope.answer.confidence = 50;
     $scope.answer.explanation = "";
@@ -622,7 +622,7 @@ app.controller('FinalController', function ($scope, $http, $window) {
 
   // When the user clicks on the button, open the modal
   $scope.modalClick = function(q) {
-
+    console.log(q);
     $scope.modalData = q;
     $scope.answer.newOpinion = "";
     $scope.answer.newConfidence = 50;
@@ -635,25 +635,25 @@ app.controller('FinalController', function ($scope, $http, $window) {
 
     $('.modal-explain').css('display', 'none');
     $('.modal-confidence').css('display', 'none');
-    $('#home-submit').css('display', 'none');
+    $('#final-submit').css('display', 'none');
     $("#output").val("Not Specified");
     $("#output").css("color", "red");
 
     //Enable the modal and remove loader
-    $("#home-submit").attr("disabled", false);
+    $("#final-submit").attr("disabled", false);
     $("input[type=radio]").attr('disabled', false);
     $(".modal-textarea").attr("disabled", false);
     $(".slider-one").attr("disabled", false);
 
-    $("#home-submit").css("background-color", "#117A65");
-    $("#home-submit").css("border", "1px solid #117A65");
+    $("#final-submit").css("background-color", "#117A65");
+    $("#final-submit").css("border", "1px solid #117A65");
     $("#modal-loader").css("display", "none");
 
     $scope.opinionProvided = false;
     $scope.explainProvided = false;
     $scope.confProvided = false;
     modal.style.display = "block";
-  }
+  };
 
   //Modal
   var modal = document.getElementById("modal");
@@ -674,7 +674,7 @@ app.controller('FinalController', function ($scope, $http, $window) {
   $(".slidecontainer").change(function() {
     $scope.confProvided = true;
     $("#output").css("color", "green");
-    $("#home-submit").css("display", "inline");
+    $("#final-submit").css("display", "inline");
   });
 
   $("#opinion-yes-label").click(function() {
@@ -706,7 +706,6 @@ app.controller('FinalController', function ($scope, $http, $window) {
 
   $scope.submitVote = function(answer) {
     if ($scope.opinionProvided && $scope.confProvided && $scope.explainProvided) {
-
       //Disable the modal and show loader
       $("#home-submit").attr("disabled", true);
       $("input[type=radio]").attr('disabled', true);
@@ -735,14 +734,41 @@ app.controller('FinalController', function ($scope, $http, $window) {
         data: userAnswer,
         type: JSON,
       }).then(function(response) {
-        //Take to the page with user comments
-        modal.style.display = "none";
-        alert("Opinion successfully added.")
+        //Show how others voted here using a function
+        console.log(response.data);
+
       }, function(error) {
         console.log("Error occured while submitting final answer");
       });
-
     };
+  };
+
+  $scope.showCommentsDisabled = function(q) {
+
+    $('.debating-area').css('display', 'block');
+    $('.homecontainer').css('display', 'none');
+
+    var data = {
+      socialPresence: $scope.user.socialPresence,
+      structure: $scope.user.structure,
+      questionId: q.questionNumber,
+      questionText: q.text
+    };
+
+    //Call to get the relevant user comments
+    $http({
+      method: 'POST',
+      url: api + '/userComments',
+      data: data,
+      type: JSON,
+    }).then(function(response) {
+      $scope.qFocused = response.data;
+    }, function(error) {
+      console.log("Error occured while retrieving user comments on question.");
+    });
+  };
+
+  $scope.showVotes = function (){
 
   };
 
