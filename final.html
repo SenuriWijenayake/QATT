@@ -20,4 +20,91 @@
 
 </head>
 
+<body>
+  <div ng-app="app" ng-controller="FinalController">
+    <div class="row col-sm-12 homecontainer">
+
+      <div class="row">
+        <div class="home-text col-sm-10"> Vote </div>
+        <div class="profile col-sm-2">
+          <img src="data:image/png;base64,{{user.profilePicture}}" class="profileImage" /><br />
+          <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{user.name}}</div>
+          <a href="./index.html" class="header-name col-sm-12">Logout</a>
+        </div>
+      </div>
+
+      <div class="intro-smaller-heading"> Instructions:</div>
+      <div class="home-instructions">
+        <ol>
+          <li>Thank you for the time spent expressing your opinions on the topics provided. Now, it is time to provide your final opinion on the debated topics.</li>
+          <li>You may either agree or disagree with each statement. Click on each topic to see how others have voted and provide your <b>final vote</b> for each statement.</li>
+          <li>You may vote in in <b>ANY order you prefer. Once submitted, your vote can't be changed.</b></li>
+          <li>You have <b>24 hours</b> to complete voting on all topics, before you move to the next step of the experiment.</li>
+        </ol>
+      </div>
+
+      <div class="row col-sm-12 question-area">
+        <div class="intro-smaller-heading">Topics to vote:</div>
+
+        <div ng-repeat="q in questions" class="qcontainer col-sm-4">
+          <a href="" class="col-sm-12 qBox" ng-click="(q.voted == false) ? modalClick(q) : secondClick(q)">
+            <div class="qText">{{q.text}}</div>
+            <div class="row">
+              <span ng-if="q.voted" class="attempted-class"><i class="fa fa-check-circle" aria-hidden="true"></i> &nbsp; Voted</span>
+              <span class="commCount-class"><i class="fas fa-poll fa-lg" aria-hidden="true"></i>&nbsp;{{q.voteCount}}</span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- Modal to collect private opinion -->
+      <div id="modal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <div class="col-sm-12 modal-question">
+            Provide your final opinion: {{modalData.text}}
+          </div>
+          <br />
+
+          <div class="btn-group btn-group-toggle" data-toggle="buttons" style="width: 40%;padding: 20px;">
+            <label id="opinion-yes-label" class="btn btn-secondary button-yes-default">
+              <input type="radio" name="answer.newOpinion" ng-model="answer.opinion" value="yes" class="button-yes-default">
+              <i class="fa fa-thumbs-up" aria-hidden="true"></i> &nbsp; Yes
+            </label>
+
+            <label id="opinion-no-label" class="btn btn-secondary button-no-default">
+              <input type="radio" name="answer.newOpinion" ng-model="answer.opinion" value="no" class="button-no-default">
+              <i class="fa fa-thumbs-down" aria-hidden="true"></i> &nbsp; No
+            </label>
+          </div>
+
+          <div class="modal-explain" style="display:none;">
+            <div class="explain-text-home">Please explain your final opinion here. Make sure your explanations are clear and complete.</div>
+            <textarea ng-model="answer.newExplanation" class="modal-textarea"></textarea>
+          </div>
+
+          <div class="modal-confidence" style="display:none;">
+            <div class="confidence-text-home">How confident are you of your argument on this topic?</div>
+            <div class="slidecontainer" style="width:510px; padding:0px;">
+              <input type="range" ng-model="answer.newConfidence" min="0" max="100" value="50" step="1" id="rangeInputOne" oninput="output.value = rangeInputOne.value" class="slider-one">
+            </div>
+            <div class="outputcontainer" style="width:100%;">
+              <output id="output" for="rangeInputOne">Not Selected</output>
+            </div>
+          </div>
+
+          <div class="modal-submit" style="padding: 15px;">
+            <button id="home-submit" class="home-submit" ng-click="submitVote(answer)">Submit Answer</button>
+            <div id="modal-loader" class="modal-loader"></div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+
 </html>

@@ -88,10 +88,11 @@ app.controller('IndexController', function($scope, $http, $window) {
 
           if (response.data.firstVisit == true) {
             $window.location.href = './intro.html';
-          } else {
+          } else if (response.data.firstVisit == false && response.data.completedComments == false){
             $window.location.href = './home.html';
+          } else {
+            $window.location.href = './final.html';
           }
-
 
         }, function errorCallback(response) {
 
@@ -227,7 +228,8 @@ app.controller('IntroController', function($scope, $http, $window, $interval) {
       url: api + '/updateuser',
       data: {
         userId: $scope.user.userId,
-        firstVisit: false
+        type : "firstVisit",
+        value: false
       },
       type: JSON,
     }).then(function(response) {
@@ -531,7 +533,7 @@ app.controller('HomeController', function($scope, $http, $window) {
   };
 
   //Timer till end date
-  var countDownDate = new Date("Jun 17, 2020 13:22:00").getTime();
+  var countDownDate = new Date("Jun 17, 2020 19:44:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -578,8 +580,171 @@ app.controller('HomeController', function($scope, $http, $window) {
     $('#completed-submit').attr('disabled', 'true');
     $('#completed-submit').css('background-color', 'grey');
     $('#completed-submit').attr('border', '1px solid grey');
-    $window.location.href = './final.html';
+
+    //Update that the user has moved to final stage
+    $http({
+      method: 'POST',
+      url: api + '/updateuser',
+      data: {
+        userId: $scope.user.userId,
+        type : "completedComments",
+        value: true
+      },
+      type: JSON,
+    }).then(function(response) {
+      $('#completed-submit-loader').css('display', 'none');
+      $window.location.href = './final.html';
+    }, function(error) {
+      console.log("Error occured while updating user status");
+    });
+  };
+
+});
+
+app.controller('FinalController', function ($scope, $http, $window) {
+  $scope.questions = [];
+  $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
+
+  //HTTP call to get all questions
+  $http({
+    method: 'POST',
+    url: api + '/questionsAtVote',
+    data: {
+      "userId": $scope.user.userId,
+      "order": $scope.user.order
+    },
+    type: JSON,
+  }).then(function(response) {
+    $scope.questions = response.data;
+  }, function(error) {
+    console.log("Error occured while retrieving questionsAtVote");
+  });
+
+  // When the user clicks on the button, open the modal
+  $scope.modalClick = function(q) {
+
+    $scope.modalData = q;
+    $scope.answer.newOpinion = "";
+    $scope.answer.newConfidence = 50;
+    $scope.answer.newExplanation = "";
+
+    $('#opinion-no-label').removeClass('button-no');
+    $('#opinion-no-label').addClass('button-no-default');
+    $('#opinion-yes-label').removeClass('button-yes');
+    $('#opinion-yes-label').addClass('button-yes-default');
+
+    $('.modal-explain').css('display', 'none');
+    $('.modal-confidence').css('display', 'none');
+    $('#home-submit').css('display', 'none');
+    $("#output").val("Not Specified");
+    $("#output").css("color", "red");
+
+    //Enable the modal and remove loader
+    $("#home-submit").attr("disabled", false);
+    $("input[type=radio]").attr('disabled', false);
+    $(".modal-textarea").attr("disabled", false);
+    $(".slider-one").attr("disabled", false);
+
+    $("#home-submit").css("background-color", "#117A65");
+    $("#home-submit").css("border", "1px solid #117A65");
+    $("#modal-loader").css("display", "none");
+
+    $scope.opinionProvided = false;
+    $scope.explainProvided = false;
+    $scope.confProvided = false;
+    modal.style.display = "block";
+  }
+
+  //Modal
+  var modal = document.getElementById("modal");
+  var span = document.getElementsByClassName("close")[0];
+
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
+  $(".slidecontainer").change(function() {
+    $scope.confProvided = true;
+    $("#output").css("color", "green");
+    $("#home-submit").css("display", "inline");
+  });
+
+  $("#opinion-yes-label").click(function() {
+    $scope.answer.newOpinion = "yes";
+    $scope.opinionProvided = true;
+    $('#opinion-yes-label').removeClass('button-yes-default');
+    $('#opinion-no-label').removeClass('button-no');
+    $('#opinion-yes-label').addClass('button-yes');
+    $('#opinion-no-label').addClass('button-no-default');
+    $('.modal-explain').css('display', 'inline');
+  });
+
+  $("#opinion-no-label").click(function() {
+    $scope.answer.newOpinion = "no";
+    $scope.opinionProvided = true;
+    $('#opinion-yes-label').removeClass('button-yes');
+    $('#opinion-yes-label').addClass('button-yes-default');
+    $('#opinion-no-label').removeClass('button-no-default');
+    $('#opinion-no-label').addClass('button-no');
+    $('.modal-explain').css('display', 'inline');
+  });
+
+  $(".modal-textarea").keyup(function() {
+    if ($.trim($(".modal-textarea").val())) {
+      $scope.explainProvided = true;
+      $('.modal-confidence').css('display', 'inline');
+    }
+  });
+
+  $scope.submitVote = function(answer) {
+    if ($scope.opinionProvided && $scope.confProvided && $scope.explainProvided) {
+
+      //Disable the modal and show loader
+      $("#home-submit").attr("disabled", true);
+      $("input[type=radio]").attr('disabled', true);
+      $(".modal-textarea").attr("disabled", true);
+      $(".slider-one").attr("disabled", true);
+
+      $("#home-submit").css("background-color", "grey");
+      $("#home-submit").css("border", "1px solid grey");
+      $("#modal-loader").css("display", "inline");
+
+      var userAnswer = {
+        userId: $scope.user.userId,
+        questionId: $scope.modalData.questionNumber,
+        questionText: $scope.modalData.text,
+        newAnswer: $scope.answer.newOpinion,
+        newConfidence: $scope.answer.newConfidence,
+        newComment: $scope.answer.newExplanation,
+        socialPresence: $scope.user.socialPresence,
+        structure: $scope.user.structure,
+        userName: $scope.user.name
+      };
+
+      $http({
+        method: 'POST',
+        url: api + '/updateAnswer',
+        data: userAnswer,
+        type: JSON,
+      }).then(function(response) {
+        //Take to the page with user comments
+        modal.style.display = "none";
+        alert("Opinion successfully added.")
+      }, function(error) {
+        console.log("Error occured while submitting final answer");
+      });
+
+    };
 
   };
+
 
 });
