@@ -531,7 +531,7 @@ app.controller('HomeController', function($scope, $http, $window) {
   };
 
   //Timer till end date
-  var countDownDate = new Date("Jun 17, 2020 13:00:00").getTime();
+  var countDownDate = new Date("Jun 17, 2020 13:22:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -553,9 +553,23 @@ app.controller('HomeController', function($scope, $http, $window) {
       clearInterval(x);
       document.getElementById("completed-submit").innerHTML = "Take me to the Final Vote page..";
       //Check if user has answered all questions
-      $('#completed-submit').attr('disabled', false);
-      $('#completed-submit').css('background-color', '#117A65');
-      $('#completed-submit').attr('border', '1px solid #117A65');
+
+      $http({
+        method: 'POST',
+        url: api + '/questionsPerUser',
+        data: {userId : $scope.user.userId},
+        type: JSON,
+      }).then(function(response) {
+        if (response.data.length == 2){
+          $('#completed-submit').attr('disabled', false);
+          $('#completed-submit').css('background-color', '#117A65');
+          $('#completed-submit').attr('border', '1px solid #117A65');
+        } else {
+          alert("You are yet to complete answering " + (18 - response.data.length) + " questions. Please answer all questions and return to Home page to proceed.")
+        }
+      }, function(error) {
+        console.log("Error occured while retrieving questions answered by user.");
+      });
     }
   }, 1000);
 
@@ -564,7 +578,6 @@ app.controller('HomeController', function($scope, $http, $window) {
     $('#completed-submit').attr('disabled', 'true');
     $('#completed-submit').css('background-color', 'grey');
     $('#completed-submit').attr('border', '1px solid grey');
-
     $window.location.href = './final.html';
 
   };
