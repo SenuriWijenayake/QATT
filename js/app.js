@@ -88,7 +88,7 @@ app.controller('IndexController', function($scope, $http, $window) {
 
           if (response.data.firstVisit == true) {
             $window.location.href = './intro.html';
-          } else if (response.data.firstVisit == false && response.data.completedComments == false){
+          } else if (response.data.firstVisit == false && response.data.completedComments == false) {
             $window.location.href = './home.html';
           } else {
             $window.location.href = './final.html';
@@ -228,7 +228,7 @@ app.controller('IntroController', function($scope, $http, $window, $interval) {
       url: api + '/updateuser',
       data: {
         userId: $scope.user.userId,
-        type : "firstVisit",
+        type: "firstVisit",
         value: false
       },
       type: JSON,
@@ -320,23 +320,27 @@ app.controller('HomeController', function($scope, $http, $window) {
   });
 
   $("#opinion-yes-label").click(function() {
-    $scope.answer.opinion = "yes";
-    $scope.opinionProvided = true;
-    $('#opinion-yes-label').removeClass('button-yes-default');
-    $('#opinion-no-label').removeClass('button-no');
-    $('#opinion-yes-label').addClass('button-yes');
-    $('#opinion-no-label').addClass('button-no-default');
-    $('.modal-explain').css('display', 'inline');
+    if (!$('input[type=radio]').is(':disabled')) {
+      $scope.answer.opinion = "yes";
+      $scope.opinionProvided = true;
+      $('#opinion-yes-label').removeClass('button-yes-default');
+      $('#opinion-no-label').removeClass('button-no');
+      $('#opinion-yes-label').addClass('button-yes');
+      $('#opinion-no-label').addClass('button-no-default');
+      $('.modal-explain').css('display', 'inline');
+    }
   });
 
   $("#opinion-no-label").click(function() {
-    $scope.answer.opinion = "no";
-    $scope.opinionProvided = true;
-    $('#opinion-yes-label').removeClass('button-yes');
-    $('#opinion-yes-label').addClass('button-yes-default');
-    $('#opinion-no-label').removeClass('button-no-default');
-    $('#opinion-no-label').addClass('button-no');
-    $('.modal-explain').css('display', 'inline');
+    if (!$('input[type=radio]').is(':disabled')) {
+      $scope.answer.opinion = "no";
+      $scope.opinionProvided = true;
+      $('#opinion-yes-label').removeClass('button-yes');
+      $('#opinion-yes-label').addClass('button-yes-default');
+      $('#opinion-no-label').removeClass('button-no-default');
+      $('#opinion-no-label').addClass('button-no');
+      $('.modal-explain').css('display', 'inline');
+    }
   });
 
   $(".modal-textarea").keyup(function() {
@@ -533,7 +537,7 @@ app.controller('HomeController', function($scope, $http, $window) {
   };
 
   //Timer till end date
-  var countDownDate = new Date("Jun 17, 2020 19:44:00").getTime();
+  var countDownDate = new Date("Jun 18, 2020 10:03:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -559,10 +563,12 @@ app.controller('HomeController', function($scope, $http, $window) {
       $http({
         method: 'POST',
         url: api + '/questionsPerUser',
-        data: {userId : $scope.user.userId},
+        data: {
+          userId: $scope.user.userId
+        },
         type: JSON,
       }).then(function(response) {
-        if (response.data.length == 2){
+        if (response.data.length == 2) {
           $('#completed-submit').attr('disabled', false);
           $('#completed-submit').css('background-color', '#117A65');
           $('#completed-submit').attr('border', '1px solid #117A65');
@@ -575,7 +581,7 @@ app.controller('HomeController', function($scope, $http, $window) {
     }
   }, 1000);
 
-  $scope.finalVote = function (){
+  $scope.finalVote = function() {
     $('#completed-submit-loader').css('display', 'inline');
     $('#completed-submit').attr('disabled', 'true');
     $('#completed-submit').css('background-color', 'grey');
@@ -587,7 +593,7 @@ app.controller('HomeController', function($scope, $http, $window) {
       url: api + '/updateuser',
       data: {
         userId: $scope.user.userId,
-        type : "completedComments",
+        type: "completedComments",
         value: true
       },
       type: JSON,
@@ -601,7 +607,7 @@ app.controller('HomeController', function($scope, $http, $window) {
 
 });
 
-app.controller('FinalController', function ($scope, $http, $window) {
+app.controller('FinalController', function($scope, $http, $window) {
   $scope.questions = [];
   $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
 
@@ -622,7 +628,7 @@ app.controller('FinalController', function ($scope, $http, $window) {
 
   // When the user clicks on the button, open the modal
   $scope.modalClick = function(q) {
-    console.log(q);
+
     $scope.modalData = q;
     $scope.answer.newOpinion = "";
     $scope.answer.newConfidence = 50;
@@ -678,23 +684,27 @@ app.controller('FinalController', function ($scope, $http, $window) {
   });
 
   $("#opinion-yes-label").click(function() {
-    $scope.answer.newOpinion = "yes";
-    $scope.opinionProvided = true;
-    $('#opinion-yes-label').removeClass('button-yes-default');
-    $('#opinion-no-label').removeClass('button-no');
-    $('#opinion-yes-label').addClass('button-yes');
-    $('#opinion-no-label').addClass('button-no-default');
-    $('.modal-explain').css('display', 'inline');
+    if (!$('input[type=radio]').is(':disabled')) {
+      $scope.answer.newOpinion = "yes";
+      $scope.opinionProvided = true;
+      $('#opinion-yes-label').removeClass('button-yes-default');
+      $('#opinion-no-label').removeClass('button-no');
+      $('#opinion-yes-label').addClass('button-yes');
+      $('#opinion-no-label').addClass('button-no-default');
+      $('.modal-explain').css('display', 'inline');
+    }
   });
 
   $("#opinion-no-label").click(function() {
-    $scope.answer.newOpinion = "no";
-    $scope.opinionProvided = true;
-    $('#opinion-yes-label').removeClass('button-yes');
-    $('#opinion-yes-label').addClass('button-yes-default');
-    $('#opinion-no-label').removeClass('button-no-default');
-    $('#opinion-no-label').addClass('button-no');
-    $('.modal-explain').css('display', 'inline');
+    if (!$('input[type=radio]').is(':disabled')) {
+      $scope.answer.newOpinion = "no";
+      $scope.opinionProvided = true;
+      $('#opinion-yes-label').removeClass('button-yes');
+      $('#opinion-yes-label').addClass('button-yes-default');
+      $('#opinion-no-label').removeClass('button-no-default');
+      $('#opinion-no-label').addClass('button-no');
+      $('.modal-explain').css('display', 'inline');
+    }
   });
 
   $(".modal-textarea").keyup(function() {
@@ -707,19 +717,19 @@ app.controller('FinalController', function ($scope, $http, $window) {
   $scope.submitVote = function(answer) {
     if ($scope.opinionProvided && $scope.confProvided && $scope.explainProvided) {
       //Disable the modal and show loader
-      $("#home-submit").attr("disabled", true);
-      $("input[type=radio]").attr('disabled', true);
+      $("#final-submit").attr("disabled", true);
+      $('input[type=radio]').attr('disabled', true);
       $(".modal-textarea").attr("disabled", true);
       $(".slider-one").attr("disabled", true);
 
-      $("#home-submit").css("background-color", "grey");
-      $("#home-submit").css("border", "1px solid grey");
+      $("#final-submit").css("background-color", "grey");
+      $("#final-submit").css("border", "1px solid grey");
       $("#modal-loader").css("display", "inline");
 
       var userAnswer = {
         userId: $scope.user.userId,
-        questionId: $scope.modalData.questionNumber,
-        questionText: $scope.modalData.text,
+        questionId: $scope.modalData.questionId,
+        questionText: $scope.modalData.questionText,
         newAnswer: $scope.answer.newOpinion,
         newConfidence: $scope.answer.newConfidence,
         newComment: $scope.answer.newExplanation,
@@ -734,9 +744,8 @@ app.controller('FinalController', function ($scope, $http, $window) {
         data: userAnswer,
         type: JSON,
       }).then(function(response) {
-        //Show how others voted here using a function
+        //Show how others voted here using a function in the modal
         console.log(response.data);
-
       }, function(error) {
         console.log("Error occured while submitting final answer");
       });
@@ -768,7 +777,7 @@ app.controller('FinalController', function ($scope, $http, $window) {
     });
   };
 
-  $scope.showVotes = function (){
+  $scope.showVotes = function() {
 
   };
 

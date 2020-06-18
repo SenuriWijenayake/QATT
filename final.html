@@ -71,7 +71,7 @@
           <a href="./index.html" class="header-name col-sm-12">Logout</a>
         </div>
         <div class="col-sm-12" style="text-align: center;padding: 20px;">
-          <button id="vote-button" class="vote-button" ng-show="qFocused.comments" ng-click="modalClick(qFocused)">Submit Final Answer</button>
+          <button id="vote-button" class="vote-button" ng-show="qFocused.comments" ng-click="modalClick(qFocused)">Submit Final Vote</button>
         </div>
       </div>
 
@@ -114,7 +114,7 @@
         <div class="modal-content">
           <span class="close">&times;</span>
           <div class="col-sm-12 modal-question">
-            Provide your personal opinion: {{modalData.questionText}}
+            Provide your final vote: {{modalData.questionText}}
           </div>
           <br />
 
@@ -146,7 +146,7 @@
           </div>
 
           <div class="modal-submit" style="padding: 15px;">
-            <button id="final-submit" class="final-submit" ng-click="submitVote(answer)">Submit Final Answer</button>
+            <button id="final-submit" class="final-submit" ng-click="submitVote(answer)">Submit Final Vote</button>
             <div id="modal-loader" class="modal-loader"></div>
           </div>
 
