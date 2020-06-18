@@ -436,7 +436,7 @@ a:hover{
 }
 
 .modal-votes{
-  /* display: none; */
+  display: none;
 }
 
 .vote-area{

@@ -110,7 +110,7 @@
       <div id="modal" class="modal" style="text-align:center;">
         <div class="modal-content">
           <span class="close">&times;</span>
-          <div class="modal-first" style="display:none">
+          <div class="modal-first">
             <div class="col-sm-12 modal-question">
               Provide your final vote: {{modalData.questionText}}
             </div>
@@ -150,12 +150,12 @@
           </div>
           <div class="modal-votes row">
             <div class="col-sm-12 modal-question">
-              Final votes from your group members on: {{modalData.questionText}}
+              Final votes from your group members on: {{focusedVotes.questionText}}
             </div>
             <br />
 
             <div class="vote-area col-sm-12">
-              <div class="col-sm-6 vote-box" ng-repeat="v in votes">
+              <div class="col-sm-6 vote-box" ng-repeat="v in focusedVotes.votes">
                 <div class="profile-vote col-sm-5">
                   <img src="data:image/png;base64,{{v.userPicture}}" class="profileImage-vote" /><br />
                   <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{v.userName}}</div>
