@@ -74,7 +74,6 @@
           <button id="vote-button" class="vote-button" ng-show="qFocused.comments" ng-click="modalClick(qFocused)">Submit Final Vote</button>
         </div>
       </div>
-
       <div class="comments-area">
         <div class="comment row col-sm-12" ng-repeat="comm in qFocused.comments">
           <div class="debate-profile col-sm-2">
@@ -105,56 +104,76 @@
             </div>
           </div>
         </div>
-
       </div>
-
 
       <!-- Modal to collect final opinion -->
       <div id="modal" class="modal" style="text-align:center;">
         <div class="modal-content">
           <span class="close">&times;</span>
-          <div class="col-sm-12 modal-question">
-            Provide your final vote: {{modalData.questionText}}
-          </div>
-          <br />
-
-          <div class="btn-group btn-group-toggle" data-toggle="buttons" style="width: 40%;padding: 20px;">
-            <label id="opinion-yes-label" class="btn btn-secondary button-yes-default">
-              <input type="radio" name="answer.newOpinion" ng-model="answer.newOpinion" value="yes" class="button-yes-default">
-              <i class="fa fa-thumbs-up" aria-hidden="true"></i> &nbsp; Yes
-            </label>
-
-            <label id="opinion-no-label" class="btn btn-secondary button-no-default">
-              <input type="radio" name="answer.newOpinion" ng-model="answer.newOpinion" value="no" class="button-no-default">
-              <i class="fa fa-thumbs-down" aria-hidden="true"></i> &nbsp; No
-            </label>
-          </div>
-
-          <div class="modal-explain" style="display:none;">
-            <div class="explain-text-home">Please explain your opinion here. Make sure your explanations are clear and complete.</div>
-            <textarea ng-model="answer.newExplanation" class="modal-textarea"></textarea>
-          </div>
-
-          <div class="modal-confidence" style="display:none;">
-            <div class="confidence-text-home">How confident are you of your argument on this topic?</div>
-            <div class="slidecontainer" style="width:510px; padding:0px;">
-              <input type="range" ng-model="answer.newConfidence" min="0" max="100" value="50" step="1" id="rangeInputOne" oninput="output.value = rangeInputOne.value" class="slider-one">
+          <div class="modal-first" style="display:none">
+            <div class="col-sm-12 modal-question">
+              Provide your final vote: {{modalData.questionText}}
             </div>
-            <div class="outputcontainer" style="width:100%;">
-              <output id="output" for="rangeInputOne">Not Selected</output>
+            <br />
+
+            <div class="btn-group btn-group-toggle" data-toggle="buttons" style="width: 40%;padding: 20px;">
+              <label id="opinion-yes-label" class="btn btn-secondary button-yes-default">
+                <input type="radio" name="answer.newOpinion" ng-model="answer.newOpinion" value="yes" class="button-yes-default">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> &nbsp; Yes
+              </label>
+
+              <label id="opinion-no-label" class="btn btn-secondary button-no-default">
+                <input type="radio" name="answer.newOpinion" ng-model="answer.newOpinion" value="no" class="button-no-default">
+                <i class="fa fa-thumbs-down" aria-hidden="true"></i> &nbsp; No
+              </label>
+            </div>
+
+            <div class="modal-explain" style="display:none;">
+              <div class="explain-text-home">Please explain your opinion here. Make sure your explanations are clear and complete.</div>
+              <textarea ng-model="answer.newExplanation" class="modal-textarea"></textarea>
+            </div>
+
+            <div class="modal-confidence" style="display:none;">
+              <div class="confidence-text-home">How confident are you of your argument on this topic?</div>
+              <div class="slidecontainer" style="width:510px; padding:0px;">
+                <input type="range" ng-model="answer.newConfidence" min="0" max="100" value="50" step="1" id="rangeInputOne" oninput="output.value = rangeInputOne.value" class="slider-one">
+              </div>
+              <div class="outputcontainer" style="width:100%;">
+                <output id="output" for="rangeInputOne">Not Selected</output>
+              </div>
+            </div>
+
+            <div class="modal-submit" style="padding: 15px;">
+              <button id="final-submit" class="final-submit" ng-click="submitVote(answer)">Submit Final Vote</button>
+              <div id="modal-loader" class="modal-loader"></div>
             </div>
           </div>
+          <div class="modal-votes row">
+            <div class="col-sm-12 modal-question">
+              Final votes from your group members on: {{modalData.questionText}}
+            </div>
+            <br />
 
-          <div class="modal-submit" style="padding: 15px;">
-            <button id="final-submit" class="final-submit" ng-click="submitVote(answer)">Submit Final Vote</button>
-            <div id="modal-loader" class="modal-loader"></div>
+            <div class="vote-area col-sm-12">
+              <div class="col-sm-6 vote-box" ng-repeat="v in votes">
+                <div class="profile-vote col-sm-5">
+                  <img src="data:image/png;base64,{{v.userPicture}}" class="profileImage-vote" /><br />
+                  <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{v.userName}}</div>
+                </div>
+                <div class="vote-text col-sm-6">
+                  <span ng-show="v.vote == 'yes'"><i class="fa fa-thumbs-up fa-3x" aria-hidden="true" style="color:#117A65"></i></span>
+                  <span ng-show="v.vote == 'no'"><i class="fa fa-thumbs-down fa-3x" aria-hidden="true" style="color:#B22222"></i></span>
+                  <span ng-show="v.vote == 'not-attempted'"><h3>Not Attempted</h3></span>
+                </div>
+                <div class="col-sm-1"></div>
+              </div>
+            </div>
+
           </div>
-
         </div>
       </div>
 
     </div>
-  </div>
 </body>
 
 </html>

@@ -435,6 +435,16 @@ a:hover{
   border-radius: 5px;
 }
 
+.modal-votes{
+  /* display: none; */
+}
+
+.vote-area{
+  width: 88%;
+  padding: 20px 50px;
+  padding-left: 16%;
+}
+
 /* ENd of styles for vote modal */
 
 .heading{
