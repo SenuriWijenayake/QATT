@@ -812,7 +812,7 @@ input[type=radio]+label>img {
 }
 
 .statement {
-  width: 450px;
+  width: 312px;
 }
 
 .size-adjust {
@@ -829,6 +829,7 @@ input[type=radio]+label>img {
   width: 64%;
   margin-left: auto;
   margin-right: auto;
+  padding-top:30px;
 }
 
 .shaded-tr {

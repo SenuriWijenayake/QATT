@@ -3,12 +3,15 @@ var app = angular.module('app', []);
 var api = 'http://localhost:5000';
 
 app.controller('BigFiveController', function($scope, $http, $window) {
+
+  $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
+
   $http({
     method: 'GET',
     url: api + '/bigFiveQuestions'
   }).then(function(response) {
     $scope.questions = response.data;
-    document.getElementById('userId').value = $window.sessionStorage.getItem('userId');
+    document.getElementById('userId').value = $scope.user.userId;
   }, function(error) {
     console.log("Error occured when loading the big five questions");
   });
@@ -90,8 +93,10 @@ app.controller('IndexController', function($scope, $http, $window) {
             $window.location.href = './intro.html';
           } else if (response.data.firstVisit == false && response.data.completedComments == false) {
             $window.location.href = './home.html';
-          } else {
+          } else if (response.data.firstVisit == false && response.data.completedComments == true && response.data.completedVotes == false) {
             $window.location.href = './final.html';
+          } else {
+            $window.location.href = './big-five.html';
           }
 
         }, function errorCallback(response) {
@@ -846,7 +851,7 @@ app.controller('FinalController', function($scope, $http, $window) {
   };
 
   //Timer till end date
-  var countDownDate = new Date("Jun 19, 2020 17:40:00").getTime();
+  var countDownDate = new Date("Jun 19, 2020 18:49:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -888,5 +893,29 @@ app.controller('FinalController', function($scope, $http, $window) {
       });
     }
   }, 1000);
+
+  $scope.toBigFive = function (){
+    $('#completed-vote-loader').css('display', 'inline');
+    $('#onto-bigfive').attr('disabled', true);
+    $('#onto-bigfive').css('background-color', 'grey');
+    $('#onto-bigfive').attr('border', '1px solid grey');
+
+    //Mark user status
+    $http({
+      method: 'POST',
+      url: api + '/updateuser',
+      data: {
+        userId: $scope.user.userId,
+        type: "completedVotes",
+        value: true
+      },
+      type: JSON,
+    }).then(function(response) {
+      $('#completed-vote-loader').css('display', 'none');
+      $window.location.href = './big-five.html';
+    }, function(error) {
+      console.log("Error occured while updating user status");
+    });
+  };
 
 });
