@@ -645,7 +645,7 @@ app.controller('FinalController', function($scope, $http, $window) {
 
   // When the user clicks anywhere outside of the modal, close it
   window.onclick = function(event) {
-    if (event.target == modal){
+    if (event.target == modal) {
       modal.style.display = "none";
     } else if (event.target == modal_vote) {
       modal_vote.style.display = "none";
@@ -819,7 +819,6 @@ app.controller('FinalController', function($scope, $http, $window) {
     });
   };
 
-
   $scope.showVotesAtHome = function(d) {
     $('.debating-area').css('display', 'none');
     $('.homecontainer').css('display', 'block');
@@ -846,5 +845,48 @@ app.controller('FinalController', function($scope, $http, $window) {
     });
   };
 
+  //Timer till end date
+  var countDownDate = new Date("Jun 19, 2020 17:40:00").getTime();
+
+  // Update the count down every 1 second
+  var x = setInterval(function() {
+    var now = new Date().getTime();
+    var distance = countDownDate - now;
+
+    // Time calculations for days, hours, minutes and seconds
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    // Display the result in the element with id="demo"
+    document.getElementById("onto-bigfive").innerHTML = days + "d " + hours + "h " +
+      minutes + "m " + seconds + "s left to complete voting";
+
+    // If the count down is finished, write some text
+    if (distance < 0) {
+      clearInterval(x);
+      document.getElementById("onto-bigfive").innerHTML = "Complete Personality Quiz";
+      //Check if user has voted for all questions
+      $http({
+        method: 'POST',
+        url: api + '/votesPerUser',
+        data: {
+          userId: $scope.user.userId
+        },
+        type: JSON,
+      }).then(function(response) {
+        if (response.data.length == 2) {
+          $('#onto-bigfive').attr('disabled', false);
+          $('#onto-bigfive').css('background-color', '#117A65');
+          $('#onto-bigfive').attr('border', '1px solid #117A65');
+        } else {
+          alert("You are yet to complete voting for " + (18 - response.data.length) + " questions. Please vote for all questions and return to Vote page to proceed.")
+        }
+      }, function(error) {
+        console.log("Error occured while retrieving votes provided by user.");
+      });
+    }
+  }, 1000);
 
 });
