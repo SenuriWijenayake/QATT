@@ -445,6 +445,10 @@ a:hover{
   padding-left: 16%;
 }
 
+.vote-text{
+  padding: 20px;
+}
+
 /* ENd of styles for vote modal */
 
 .heading{

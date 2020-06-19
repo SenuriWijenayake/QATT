@@ -627,7 +627,7 @@ app.controller('FinalController', function($scope, $http, $window) {
   });
 
   // When the user clicks on the button, open the modal
-  $scope.modalClick = function(q) {
+  $scope.finalModalClick = function(q) {
 
     $scope.modalData = q;
     $scope.answer.newOpinion = "";
@@ -654,6 +654,8 @@ app.controller('FinalController', function($scope, $http, $window) {
     $("#final-submit").css("background-color", "#117A65");
     $("#final-submit").css("border", "1px solid #117A65");
     $("#modal-loader").css("display", "none");
+    $(".modal-first").css("display", "inline");
+    $(".modal-votes").css("display", "none");
 
     $scope.opinionProvided = false;
     $scope.explainProvided = false;
@@ -718,6 +720,7 @@ app.controller('FinalController', function($scope, $http, $window) {
     if ($scope.opinionProvided && $scope.confProvided && $scope.explainProvided) {
       //Disable the modal and show loader
       $("#final-submit").attr("disabled", true);
+      $("#vote-button-" + $scope.modalData.questionId).css("display", "none");
       $('input[type=radio]').attr('disabled', true);
       $(".modal-textarea").attr("disabled", true);
       $(".slider-one").attr("disabled", true);
@@ -745,10 +748,8 @@ app.controller('FinalController', function($scope, $http, $window) {
         type: JSON,
       }).then(function(response) {
         var data = {
-          questionId: $scope.modalData.questionId,
-          questionText: $scope.modalData.questionText,
-          socialPresence: $scope.user.socialPresence,
-          structure: $scope.user.structure,
+          questionNumber: $scope.modalData.questionId,
+          text: $scope.modalData.questionText
         };
         $scope.showVotes(data);
       }, function(error) {
@@ -758,7 +759,6 @@ app.controller('FinalController', function($scope, $http, $window) {
   };
 
   $scope.showCommentsDisabled = function(q) {
-
     $('.debating-area').css('display', 'block');
     $('.homecontainer').css('display', 'none');
 
@@ -782,8 +782,13 @@ app.controller('FinalController', function($scope, $http, $window) {
     });
   };
 
-  $scope.showVotes = function(data) {
-    console.log(data);
+  $scope.showVotes = function(d) {
+    var data = {
+      questionId : d.questionNumber,
+      questionText : d.text,
+      socialPresence: $scope.user.socialPresence,
+      structure: $scope.user.structure,
+    };
     //HTTP Call to get Votes to display
     $http({
       method: 'POST',
@@ -791,9 +796,40 @@ app.controller('FinalController', function($scope, $http, $window) {
       data: data,
       type: JSON,
     }).then(function(response) {
+      console.log(response.data);
       $scope.focusedVotes = response.data;
+      modal.style.display = "block";
       $('.modal-first').css('display', 'none');
       $('.modal-votes').css('display', 'inline');
+
+    }, function(error) {
+      console.log("Error occured while retrieving votes");
+    });
+  };
+
+
+  $scope.showVotesAtHome = function(d) {
+    $('.debating-area').css('display', 'none');
+    $('.homecontainer').css('display', 'block');
+
+    var data = {
+      questionId : d.questionNumber,
+      questionText : d.text,
+      socialPresence: $scope.user.socialPresence,
+      structure: $scope.user.structure,
+    };
+    //HTTP Call to get Votes to display
+    $http({
+      method: 'POST',
+      url: api + '/displayVotes',
+      data: data,
+      type: JSON,
+    }).then(function(response) {
+
+      $scope.focusedVotes = response.data;
+      modal.style.display = "block";
+      $('.modal-votes').css('display', 'inline');
+
     }, function(error) {
       console.log("Error occured while retrieving votes");
     });
