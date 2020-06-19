@@ -58,9 +58,9 @@
         </div>
       </div>
 
-      <!-- Modal to display votes-->
+      <!-- Modal to display votes in home-->
       <div id="modal" class="modal" style="text-align:center;">
-        <div class="modal-content">
+        <div class="modal-content-home">
           <span class="close">&times;</span>
           <div class="modal-votes row">
             <div class="col-sm-12 modal-question">
@@ -84,7 +84,6 @@
                 <div class="col-sm-1"></div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -102,7 +101,7 @@
           <a href="./index.html" class="header-name col-sm-12">Logout</a>
         </div>
         <div class="col-sm-12" style="text-align: center;padding: 20px;">
-          <button id="vote-button-{{qFocused.questionId}}" class="vote-button" ng-show="qFocused.comments" ng-click="finalModalClick(qFocused)">Submit Final Vote</button>
+          <button id="vote-button-{{qFocused.questionId}}" class="vote-button" ng-show="qFocused.comments" ng-click="modalToVote(qFocused)">Submit Final Vote</button>
         </div>
       </div>
       <div class="comments-area">
@@ -137,10 +136,10 @@
         </div>
       </div>
 
-      <!-- Modal to collect final opinion -->
-      <div id="modal" class="modal" style="text-align:center;">
+      <!-- Modal to collect final opinion in the debating area -->
+      <div id="modal-vote" class="modal" style="text-align:center;">
         <div class="modal-content">
-          <span class="close">&times;</span>
+          <span class="close-vote">&times;</span>
           <div class="modal-first">
             <div class="col-sm-12 modal-question">
               Provide your final vote: {{modalData.questionText}}

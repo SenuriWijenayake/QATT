@@ -257,6 +257,14 @@ a:hover{
   width: 80%; /* Could be more or less, depending on screen size */
 }
 
+.modal-content-home {
+  background-color: #fefefe;
+  margin: 3.5% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
 /* The Close Button */
 .close {
   color: #aaa;
@@ -267,6 +275,20 @@ a:hover{
 
 .close:hover,
 .close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.close-vote {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close-vote:hover,
+.close-vote:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
@@ -441,7 +463,7 @@ a:hover{
 
 .vote-area{
   width: 88%;
-  padding: 20px 50px;
+  padding: 20px 50px 0px;
   padding-left: 16%;
 }
 

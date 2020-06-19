@@ -626,9 +626,35 @@ app.controller('FinalController', function($scope, $http, $window) {
     console.log("Error occured while retrieving questionsAtVote");
   });
 
-  // When the user clicks on the button, open the modal
-  $scope.finalModalClick = function(q) {
+  //Modal
+  var modal_vote = document.getElementById("modal-vote");
+  var span_vote = document.getElementsByClassName("close-vote")[0];
 
+  //Modal
+  var modal = document.getElementById("modal");
+  var span = document.getElementsByClassName("close")[0];
+
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  };
+
+  span_vote.onclick = function() {
+    modal_vote.style.display = "none";
+  };
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal){
+      modal.style.display = "none";
+    } else if (event.target == modal_vote) {
+      modal_vote.style.display = "none";
+    }
+  };
+
+  // When the user clicks on the button, open the modal
+  $scope.modalToVote = function(q) {
+    //Initializing before the vote
     $scope.modalData = q;
     $scope.answer.newOpinion = "";
     $scope.answer.newConfidence = 50;
@@ -645,7 +671,6 @@ app.controller('FinalController', function($scope, $http, $window) {
     $("#output").val("Not Specified");
     $("#output").css("color", "red");
 
-    //Enable the modal and remove loader
     $("#final-submit").attr("disabled", false);
     $("input[type=radio]").attr('disabled', false);
     $(".modal-textarea").attr("disabled", false);
@@ -654,30 +679,17 @@ app.controller('FinalController', function($scope, $http, $window) {
     $("#final-submit").css("background-color", "#117A65");
     $("#final-submit").css("border", "1px solid #117A65");
     $("#modal-loader").css("display", "none");
+
+    //First should always appear first
     $(".modal-first").css("display", "inline");
     $(".modal-votes").css("display", "none");
 
     $scope.opinionProvided = false;
     $scope.explainProvided = false;
     $scope.confProvided = false;
-    modal.style.display = "block";
+
+    modal_vote.style.display = "block";
   };
-
-  //Modal
-  var modal = document.getElementById("modal");
-  var span = document.getElementsByClassName("close")[0];
-
-  // When the user clicks on <span> (x), close the modal
-  span.onclick = function() {
-    modal.style.display = "none";
-  }
-
-  // When the user clicks anywhere outside of the modal, close it
-  window.onclick = function(event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  }
 
   $(".slidecontainer").change(function() {
     $scope.confProvided = true;
@@ -784,8 +796,8 @@ app.controller('FinalController', function($scope, $http, $window) {
 
   $scope.showVotes = function(d) {
     var data = {
-      questionId : d.questionNumber,
-      questionText : d.text,
+      questionId: d.questionNumber,
+      questionText: d.text,
       socialPresence: $scope.user.socialPresence,
       structure: $scope.user.structure,
     };
@@ -796,9 +808,9 @@ app.controller('FinalController', function($scope, $http, $window) {
       data: data,
       type: JSON,
     }).then(function(response) {
-      console.log(response.data);
+
       $scope.focusedVotes = response.data;
-      modal.style.display = "block";
+      modal_vote.style.display = "block";
       $('.modal-first').css('display', 'none');
       $('.modal-votes').css('display', 'inline');
 
@@ -813,8 +825,8 @@ app.controller('FinalController', function($scope, $http, $window) {
     $('.homecontainer').css('display', 'block');
 
     var data = {
-      questionId : d.questionNumber,
-      questionText : d.text,
+      questionId: d.questionNumber,
+      questionText: d.text,
       socialPresence: $scope.user.socialPresence,
       structure: $scope.user.structure,
     };
@@ -825,7 +837,6 @@ app.controller('FinalController', function($scope, $http, $window) {
       data: data,
       type: JSON,
     }).then(function(response) {
-
       $scope.focusedVotes = response.data;
       modal.style.display = "block";
       $('.modal-votes').css('display', 'inline');
