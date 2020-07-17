@@ -23,12 +23,12 @@
     <div class="row col-sm-12 introcontainer">
       <div class="welcome-text"> Welcome, {{user.name}}! </div>
       <div class="intro-text">Thank you again for signing up to take part in this study.
-        <br/>In this study you will be grouped with <b>9 others</b> to discuss your opinions on several topics, over a period of <b>one week</b>.
-        <br/>When all 9 members of your group joins the platform, you will receive instructions to initiate the discussion. Please be patient till then. Thank you!</div>
+        <br/>In this study you will be grouped with <b>11 others</b> to discuss your opinions on several topics over a period of <b>one week</b>.
+        <br/>When all 11 members of your group joins the platform, you will receive instructions to initiate the discussion. Please be patient till then. Thank you!</div>
 
       <div class="row col-sm-12">
         <div class="col-sm-3"></div>
-        <div class="col-sm-6 friends">
+        <div class="col-sm-6 friends" ng-show="group.length > 0">
           <div class="intro-smaller-heading">Get to know your group members:</div>
           <div class="col-sm-4 pictureFrame" ng-repeat="friend in group">
             <div class="profilePicture">
@@ -38,7 +38,7 @@
           </div>
           <br/>
 
-          <div class="col-sm-12" ng-if="group.length == 9" style="padding-top: 15px;">
+          <div class="col-sm-12" ng-if="group.length == 11" style="padding-top: 15px;">
             <div class="col-sm-9">
               <button id="intro-start" class="intro-start" ng-click="start()" disabled>Start Discussion!</button><br/>
             </div>

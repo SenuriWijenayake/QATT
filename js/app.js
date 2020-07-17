@@ -103,6 +103,7 @@ app.controller('IndexController', function($scope, $http, $window) {
 
           if (response.data == "Invalid email address. Please try again.") {
             $scope.user.email = "";
+            $scope.user.password = "";
           } else {
             $scope.user.password = "";
           }
@@ -187,7 +188,7 @@ app.controller('IntroController', function($scope, $http, $window, $interval) {
   $scope.getGroupUsers = function() {
     if (angular.isDefined(stop)) return;
     stop = $interval(function() {
-      if ($scope.group.length == 9) {
+      if ($scope.group.length == 11) {
         //Stop checking and enable button
         $scope.stopChecking();
         $("#intro-start").attr("disabled", false);
@@ -541,8 +542,8 @@ app.controller('HomeController', function($scope, $http, $window) {
     });
   };
 
-  //Timer till end date
-  var countDownDate = new Date("Jun 18, 2020 10:03:00").getTime();
+  //Timer to complete answers
+  var countDownDate = new Date("Jul 17, 2020 16:40:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -850,8 +851,8 @@ app.controller('FinalController', function($scope, $http, $window) {
     });
   };
 
-  //Timer till end date
-  var countDownDate = new Date("Jun 19, 2020 18:49:00").getTime();
+  //Timer to the personality quiz
+  var countDownDate = new Date("Jul 17, 2020 16:45:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {

@@ -47,6 +47,11 @@
 
 
 /* Styls for the home page */
+.highlight-comm{
+  background-color: #ffe359;
+  /* background-image: linear-gradient(to right, #ffe359 0%, #fff2ac 100%); */
+}
+
 .homecontainer{
   padding: 30px 50px;
   text-align: center;

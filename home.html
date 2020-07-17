@@ -41,7 +41,7 @@
           <li>You will be first asked to provide your initial opinion on the topic <b>WITHOUT viewing others’ comments</b>. Click on the topic, to add your opinion. </li>
           <li>Upon submitting your initial opinion on the topic, you will see comments others have posted on the same topic. <b>You are free to post more comments, reply to others opinions as you will.</b> </li>
           <li>Make sure to visit the site <b>at least once a day</b> for the duration of the study, and answer <b>ALL</b> questions to be eligible for the reward.</li>
-          <li>You must <b>answer all questions</b> posted within <b>6 days</b> to complete this experiement. The time left for the experiement is displayed at the bottom of this page.</li>
+          <li>You must <b>answer ALL questions</b> within <b>6 days</b> to complete this experiement. The time left for the experiement is displayed at the bottom of this page.</li>
           <li>When the time allocated for the study runs out, please click on the button <b>"Take me to the Final Vote page.."</b> to provide your final votes on the topics debated.</li>
         </ol>
       </div>
@@ -54,7 +54,7 @@
           <a href="" class="col-sm-12 qBox" ng-click="(q.attempted == false) ? modalClick(q) : secondClick(q)">
             <div class="qText">{{q.text}}</div>
             <div class="row">
-              <span ng-if="q.attempted" class="attempted-class"><i class="fa fa-check-circle" aria-hidden="true"></i> &nbsp; Attempted</span>
+              <span ng-if="q.attempted" class="attempted-class"><i class="fa fa-check-circle" aria-hidden="true"></i> &nbsp; Commented</span>
               <span class="commCount-class"><i class="fas fa-comments fa-lg" aria-hidden="true"></i>&nbsp;{{q.commCount}}</span>
             </div>
           </a>
@@ -138,7 +138,7 @@
           </div>
 
           <div class="col-sm-10">
-            <label class="comm-label">{{comm.comment}}</label>
+            <label class="comm-label" ng-class="{'highlight-comm': comm.username == user.name}">{{comm.comment}}</label>
           </div>
 
           <div class="col-sm-12" style="padding-bottom: 10px;">
