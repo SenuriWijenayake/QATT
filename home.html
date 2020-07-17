@@ -146,8 +146,8 @@
             <a href="" id="{{comm.id}}_reply" class="comm-reply" ng-click="showReply(comm.id)"><i class="fa fa-reply" aria-hidden="true"></i> &nbsp;Reply &nbsp;</a>
             <a href="" id="{{comm.id}}_submit" class="comm-submit" ng-click="sendReply(comm.id, comm.id, qFocused.questionText, qFocused.questionId)">Submit</a>
 
-            <a href="" id="{{comm.id}}_downvote" class="comm-downvote" ng-class="{'disable-vote': comm.userId == user.userId}" ng-click="updateVoteForComment(comm.id, qFocused.questionText, qFocused.questionId, false)"><i class="fa fa-thumbs-down" aria-hidden="true"></i> &nbsp;{{comm.downVotes}} &nbsp; &nbsp;</a>
-            <a href="" id="{{comm.id}}_upvote" class="comm-upvote" ng-class="{'disable-vote': comm.userId == user.userId}" ng-click="updateVoteForComment(comm.id, qFocused.questionText, qFocused.questionId, true)"><i class="fa fa-thumbs-up" aria-hidden="true"></i> &nbsp;{{comm.upVotes}} &nbsp; &nbsp;</a>
+            <a href="" id="{{comm.id}}_downvote" class="comm-downvote" ng-class="{'disable-vote': comm.userId == user.userId}" ng-click="updateVoteForComment(comm.id, qFocused.questionText, qFocused.questionId, false)"><i class="fa fa-thumbs-down" aria-hidden="true"></i> &nbsp;{{comm.downVotes.length}} &nbsp; &nbsp;</a>
+            <a href="" id="{{comm.id}}_upvote" class="comm-upvote" ng-class="{'disable-vote': comm.userId == user.userId}" ng-click="updateVoteForComment(comm.id, qFocused.questionText, qFocused.questionId, true)"><i class="fa fa-thumbs-up" aria-hidden="true"></i> &nbsp;{{comm.upVotes.length}} &nbsp; &nbsp;</a>
 
             <textarea id="{{comm.id}}" class="reply-textarea"></textarea>
           </div>

@@ -517,11 +517,13 @@ app.controller('HomeController', function($scope, $http, $window) {
   };
 
   $scope.updateVoteForComment = function(commentId, qText, qId, vote) {
+
     var data = {
       questionId: qId,
       socialPresence: $scope.user.socialPresence,
       structure: $scope.user.structure,
       commentId: commentId,
+      userId: $scope.user.userId,
       vote: vote,
       questionText: qText
     };
@@ -543,7 +545,7 @@ app.controller('HomeController', function($scope, $http, $window) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Jul 17, 2020 16:40:00").getTime();
+  var countDownDate = new Date("Jul 19, 2020 16:40:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -852,7 +854,7 @@ app.controller('FinalController', function($scope, $http, $window) {
   };
 
   //Timer to the personality quiz
-  var countDownDate = new Date("Jul 17, 2020 16:45:00").getTime();
+  var countDownDate = new Date("Jul 19, 2020 16:45:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
