@@ -518,6 +518,19 @@ app.controller('HomeController', function($scope, $http, $window) {
 
   $scope.updateVoteForComment = function(commentId, qText, qId, vote) {
 
+    var e;
+    if (vote) {
+      e = commentId + "_" + "upvote"
+    } else {
+      e = commentId + "_" + "downvote"
+    }
+
+    var removeVote = false;
+    if ($('#' + e).hasClass("have-voted")) {
+      // If voted already, remove vote
+      removeVote = true;
+    }
+
     var data = {
       questionId: qId,
       socialPresence: $scope.user.socialPresence,
@@ -525,6 +538,7 @@ app.controller('HomeController', function($scope, $http, $window) {
       commentId: commentId,
       userId: $scope.user.userId,
       vote: vote,
+      removeVote: removeVote,
       questionText: qText
     };
 
@@ -542,6 +556,7 @@ app.controller('HomeController', function($scope, $http, $window) {
     }, function(error) {
       console.log("Error occured while updating vote count.");
     });
+
   };
 
   //Timer to complete answers
@@ -897,7 +912,7 @@ app.controller('FinalController', function($scope, $http, $window) {
     }
   }, 1000);
 
-  $scope.toBigFive = function (){
+  $scope.toBigFive = function() {
     $('#completed-vote-loader').css('display', 'inline');
     $('#onto-bigfive').attr('disabled', true);
     $('#onto-bigfive').css('background-color', 'grey');

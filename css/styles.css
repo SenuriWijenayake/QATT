@@ -47,6 +47,10 @@
 
 
 /* Styls for the home page */
+.have-voted{
+  color: #1e0b9c;
+}
+
 .highlight-comm{
   background-color: #ffe359;
   /* background-image: linear-gradient(to right, #ffe359 0%, #fff2ac 100%); */
