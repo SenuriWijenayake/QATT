@@ -160,7 +160,7 @@
             </div>
 
             <div class="col-sm-10">
-              <label class="comm-label">{{reply.comment}}</label>
+              <label class="comm-label" ng-class="{'highlight-comm': reply.username == user.name}">{{reply.comment}}</label>
             </div>
 
             <div class="col-sm-12" style="padding-right: 0px;">
