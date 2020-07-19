@@ -6,15 +6,42 @@ app.controller('BigFiveController', function($scope, $http, $window) {
 
   $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
 
-  //Get UES questions
+  //Get user status
   $http({
-    method: 'GET',
-    url: api + '/UESQuestions'
+    method: 'POST',
+    url: api + '/userById',
+    data : {
+      userId: $scope.user.userId
+    }
   }).then(function(response) {
-    $scope.uesQuestions = response.data;
-    document.getElementById('userId').value = $scope.user.userId;
+    if (response.data.completedUES){
+      $('.UES-container').css("display", "none");
+      //Get Big five questions
+      $http({
+        method: 'GET',
+        url: api + '/bigFiveQuestions'
+      }).then(function(response) {
+        $scope.questions = response.data;
+        document.getElementById('userId').value = $scope.user.userId;
+        $('.big-five-question-container').css("display", "block");
+      }, function(error) {
+        console.log("Error occured when loading the big five questions");
+      });
+
+    } else {
+      //Get UES questions
+      $http({
+        method: 'GET',
+        url: api + '/UESQuestions'
+      }).then(function(response) {
+        $scope.uesQuestions = response.data;
+        document.getElementById('userId').value = $scope.user.userId;
+      }, function(error) {
+        console.log("Error occured when loading the UES questions");
+      });
+    }
   }, function(error) {
-    console.log("Error occured when loading the UES questions");
+    console.log("Error occured when checking user status");
   });
 
   $scope.UES_Submit = function() {
@@ -23,8 +50,6 @@ app.controller('BigFiveController', function($scope, $http, $window) {
       obj[item.name] = item.value;
       return obj;
     }, {});
-
-    console.log(UESData);
 
     if (Object.getOwnPropertyNames(UESData).length == 13){
       $('.UES-container').css("display", "none");
@@ -35,7 +60,7 @@ app.controller('BigFiveController', function($scope, $http, $window) {
       }).then(function(response) {
         $scope.questions = response.data;
         document.getElementById('userId').value = $scope.user.userId;
-        $('.big-five-question-container').css("display", "inline");
+        $('.big-five-question-container').css("display", "block");
       }, function(error) {
         console.log("Error occured when loading the big five questions");
       });
