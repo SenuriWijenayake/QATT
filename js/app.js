@@ -147,6 +147,9 @@ app.controller('IndexController', function($scope, $http, $window) {
             $window.location.href = './home.html';
           } else if (response.data.firstVisit == false && response.data.completedComments == true && response.data.completedVotes == false) {
             $window.location.href = './final.html';
+          } else if (response.data.firstVisit == false && response.data.completedComments == true && response.data.completedVotes == true && response.data.completedUES == true && response.data.code != null){
+            alert("You have completed the experiment already. Please contact the researcher for further assitance.");
+            $window.location.href = './index.html';
           } else {
             $window.location.href = './big-five.html';
           }
