@@ -6,15 +6,42 @@ app.controller('BigFiveController', function($scope, $http, $window) {
 
   $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
 
+  //Get UES questions
   $http({
     method: 'GET',
-    url: api + '/bigFiveQuestions'
+    url: api + '/UESQuestions'
   }).then(function(response) {
-    $scope.questions = response.data;
+    $scope.uesQuestions = response.data;
     document.getElementById('userId').value = $scope.user.userId;
   }, function(error) {
-    console.log("Error occured when loading the big five questions");
+    console.log("Error occured when loading the UES questions");
   });
+
+  $scope.UES_Submit = function() {
+    //Get the form data
+    var UESData = $('#ues-form').serializeArray().reduce(function(obj, item) {
+      obj[item.name] = item.value;
+      return obj;
+    }, {});
+
+    console.log(UESData);
+
+    if (Object.getOwnPropertyNames(UESData).length == 13){
+      $('.UES-container').css("display", "none");
+      $http({
+        method: 'POST',
+        url: api + '/engagementSurvey',
+        data: UESData
+      }).then(function(response) {
+        $scope.questions = response.data;
+        document.getElementById('userId').value = $scope.user.userId;
+        $('.big-five-question-container').css("display", "inline");
+      }, function(error) {
+        console.log("Error occured when loading the big five questions");
+      });
+    }
+  };
+
 
 });
 
@@ -560,7 +587,7 @@ app.controller('HomeController', function($scope, $http, $window) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Jul 18, 2020 18:09:00").getTime();
+  var countDownDate = new Date("Jul 19, 2020 16:06:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -869,7 +896,7 @@ app.controller('FinalController', function($scope, $http, $window) {
   };
 
   //Timer to the personality quiz
-  var countDownDate = new Date("Jul 18, 2020 18:13:00").getTime();
+  var countDownDate = new Date("Jul 19, 2020 14:11:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -889,7 +916,7 @@ app.controller('FinalController', function($scope, $http, $window) {
     // If the count down is finished, write some text
     if (distance < 0) {
       clearInterval(x);
-      document.getElementById("onto-bigfive").innerHTML = "Complete Personality Quiz";
+      document.getElementById("onto-bigfive").innerHTML = "Complete Post Survey Questionnaire";
       //Check if user has voted for all questions
       $http({
         method: 'POST',

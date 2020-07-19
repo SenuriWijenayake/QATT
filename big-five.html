@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<title>Questionnaire</title>
+	<title>Post Survey Questionnaire</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -23,7 +23,7 @@
 		<div class="row col-sm-12 homecontainer">
 
 			<div class="row">
-				<div class="home-text col-sm-10"> Personality Quiz </div>
+				<div class="home-text col-sm-10"> Post Survey Questionnaire </div>
 				<div class="profile col-sm-2">
 					<img src="data:image/png;base64,{{user.profilePicture}}" class="profileImage" /><br />
 					<div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{user.name}}</div>
@@ -31,27 +31,67 @@
 				</div>
 			</div>
 
-			<div class="intro-smaller-heading">You have successfully completed our survey!</div>
+			<div class="intro-smaller-heading">You are almost done!</div>
 			<div class="home-instructions">
 				<ol>
-					<li>Thank you for taking the time to complete voting. You are not at the final step of this experiement</li>
-					<li>Given below are a number of characteristics that may or may not apply to you. Indiciate to what extent you agree or disagree with each statement.</li>
-					<li>Select a value for <b>ALL</b> the statements.</li>
-					<li>Upon completing thiz quix, you will receive a <b>COMPLETION CODE</b>. Email the completion code to wijenayakes@unimelb.edu.au to receive your reward for this survey.</li>
+					<li>Thank you for taking the time to complete voting. You are now at the <b>FINAL</b> step of this experiment: completing the post survey questionnaire.</li>
+					<li>This post survey questionnaire has two sections: <b>(a) User Engagement Survey, &nbsp; (b) Personality Quiz.</b></li>
+					<li>You are required to complete both sections of the questionnaire in <b>ONE</b> attempt. </li>
+					<li>You may take as much time as you need to complete the questionnaire. <b>DO NOT REFRESH the browser, to avoid loosing your responses.</b></li>
+					<li>Upon completing <b>BOTH</b> these sections, you will receive a <b>COMPLETION CODE</b>. Email the completion code to <a href="mailto:wijenayakes@unimelb.edu.au">wijenayakes@unimelb.edu.au</a> to receive your reward for this survey.</li>
 				</ol>
 			</div>
 
-			<div class="big-five-question-container">
+			<div class="UES-container">
+				<div class="intro-smaller-heading">Part A: User Engagement Survey</div>
+				<div class="big-five-instructions">The following statements ask you to reflect your experience of engaging with this website.
+					<br />For each statement, please use the following scale to indicate what is most true for you.</div>
+				<form id="ues-form">
+					<input type="hidden" name="userId" id="userId" value="{{user.userId}}">
+					<table>
+						<tr>
+							<th class="statement-new left"></th>
+							<th class="size-adjust center">Strongly disagree</th>
+							<th class="size-adjust center">Disagree</th>
+							<th class="size-adjust center">Neither agree nor disagree</th>
+							<th class="size-adjust center">Agree</th>
+							<th class="size-adjust center">Strongly agree</th>
+						</tr>
+						<tr ng-repeat="q in uesQuestions" ng-class-even="'shaded-tr'" style="text-align: left;">
+							<td style="font-size:15px;">{{q.order}}. {{q.question}}</td>
+							<td><input type="radio" value="1" name="{{q.id}}" class="align-td" required></td>
+							<td><input type="radio" value="2" name="{{q.id}}" class="align-td"></td>
+							<td><input type="radio" value="3" name="{{q.id}}" class="align-td"></td>
+							<td><input type="radio" value="4" name="{{q.id}}" class="align-td"></td>
+							<td><input type="radio" value="5" name="{{q.id}}" class="align-td"></td>
+						</tr>
+					</table>
+					<br />
+
+					<div class="row">
+						<div class="col-sm-8">
+							<input id="ues-submit" class="big-five-next" type="submit" value="Next: Personality Quiz" ng-click="UES_Submit()">
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<div class="big-five-question-container" style="padding:20px;display:none;">
+				<div class="intro-smaller-heading">Part B: Personality Quiz</div>
+				<div class="big-five-instructions">
+					Given below are a number of characteristics that may or may not apply to you.
+					Indiciate to what extent you agree or disagree with each statement.
+					<br />Select a value for ALL the statements.</div>
 				<form id="my-form" action="http://localhost:5000/bigFiveData" method="post">
 					<input type="hidden" name="userId" id="userId" value="{{user.userId}}">
 					<table>
 						<tr>
 							<th class="statement left">I see Myself as Someone Who...</th>
-							<th class="size-adjust center">Disagree strongly</th>
-							<th class="size-adjust center">Disagree a little</th>
+							<th class="size-adjust center">Strongly disagree</th>
+							<th class="size-adjust center">Disagree</th>
 							<th class="size-adjust center">Neither agree nor disagree</th>
-							<th class="size-adjust center">Agree a little</th>
-							<th class="size-adjust center">Agree strongly</th>
+							<th class="size-adjust center">Agree</th>
+							<th class="size-adjust center">Strongly agree</th>
 						</tr>
 						<tr ng-repeat="q in questions" ng-class-even="'shaded-tr'" style="text-align: left;">
 							<td style="font-size:15px;">{{q.id}}. {{q.question}}</td>
@@ -66,7 +106,7 @@
 
 					<div class="row">
 						<div class="col-sm-8">
-							<input id="big-five-submit" class="submit" type="submit" value="Submit Answers">
+							<input id="big-five-submit" class="big-five-next" type="submit" value="Next: Get Completion Code">
 						</div>
 					</div>
 				</form>
