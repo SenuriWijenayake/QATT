@@ -374,7 +374,9 @@ app.controller('HomeController', function($scope, $http, $window) {
     url: api + '/questions',
     data: {
       "userId": $scope.user.userId,
-      "order": $scope.user.order
+      "order": $scope.user.order,
+      "socialPresence" : $scope.user.socialPresence,
+      "structure" : $scope.user.structure
     },
     type: JSON,
   }).then(function(response) {

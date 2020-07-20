@@ -27,7 +27,8 @@
       <div class="row">
         <div class="home-text col-sm-10"> Home </div>
         <div class="profile col-sm-2">
-          <img src="data:image/png;base64,{{user.profilePicture}}" class="profileImage" /><br />
+          <img ng-show="user.socialPresence == false" src="./assets/neutral.png" class="profileImage" />
+          <img ng-show="user.socialPresence == true" src="data:image/png;base64,{{user.profilePicture}}" class="profileImage" /><br />
           <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{user.name}}</div>
           <a href="./index.html" class="header-name col-sm-12">Logout</a>
         </div>
@@ -122,8 +123,10 @@
       <div class="row">
         <div class="back-button col-sm-1"><a href="./home.html"> <i class="fa fa-arrow-left fa-sm" aria-hidden="true"></i> Back Home</a></div>
         <div class="home-text col-sm-9">{{qFocused.questionText}}</div>
+
         <div class="profile col-sm-2">
-          <img src="data:image/png;base64,{{user.profilePicture}}" class="profileImage" /><br />
+          <img ng-show="user.socialPresence == false" src="./assets/neutral.png" class="profileImage" />
+          <img ng-show="user.socialPresence == true" src="data:image/png;base64,{{user.profilePicture}}" class="profileImage" /><br />
           <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{user.name}}</div>
           <a href="./index.html" class="header-name col-sm-12">Logout</a>
         </div>
@@ -132,7 +135,8 @@
       <div class="comments-area">
         <div class="comment row col-sm-12" ng-repeat="comm in qFocused.comments">
           <div class="debate-profile col-sm-2">
-            <img src="data:image/png;base64,{{comm.profilePicture}}" class="profileImage" /><br />
+            <img ng-show="user.socialPresence == false" src="./assets/neutral.png" class="profileImage" />
+            <img ng-show="user.socialPresence == true" src="data:image/png;base64,{{comm.profilePicture}}" class="profileImage" /><br />
             <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{comm.username}}</div>
             <div class="header-name col-sm-12" style="padding-top:3px;">{{comm.timestamp| date : 'MMM d, yyyy HH:mm'}}</div>
           </div>
@@ -146,15 +150,18 @@
             <a href="" id="{{comm.id}}_reply" class="comm-reply" ng-click="showReply(comm.id)"><i class="fa fa-reply" aria-hidden="true"></i> &nbsp;Reply &nbsp;</a>
             <a href="" id="{{comm.id}}_submit" class="comm-submit" ng-click="sendReply(comm.id, comm.id, qFocused.questionText, qFocused.questionId)">Submit</a>
 
-            <a href="" id="{{comm.id}}_downvote" class="comm-downvote" ng-class="{'disable-vote': comm.userId == user.userId, 'have-voted': comm.downVotes.includes(user.userId)}" ng-click="updateVoteForComment(comm.id, qFocused.questionText, qFocused.questionId, false)"><i class="fa fa-thumbs-down" aria-hidden="true"></i> &nbsp;{{comm.downVotes.length}} &nbsp; &nbsp;</a>
-            <a href="" id="{{comm.id}}_upvote" class="comm-upvote" ng-class="{'disable-vote': comm.userId == user.userId, 'have-voted': comm.upVotes.includes(user.userId)}" ng-click="updateVoteForComment(comm.id, qFocused.questionText, qFocused.questionId, true)"><i class="fa fa-thumbs-up" aria-hidden="true"></i> &nbsp;{{comm.upVotes.length}} &nbsp; &nbsp;</a>
+            <a href="" id="{{comm.id}}_downvote" class="comm-downvote" ng-class="{'disable-vote': comm.userId == user.userId, 'have-voted': comm.downVotes.includes(user.userId)}" ng-click="updateVoteForComment(comm.id, qFocused.questionText, qFocused.questionId, false)"><i
+                class="fa fa-thumbs-down" aria-hidden="true"></i> &nbsp;{{comm.downVotes.length}} &nbsp; &nbsp;</a>
+            <a href="" id="{{comm.id}}_upvote" class="comm-upvote" ng-class="{'disable-vote': comm.userId == user.userId, 'have-voted': comm.upVotes.includes(user.userId)}" ng-click="updateVoteForComment(comm.id, qFocused.questionText, qFocused.questionId, true)"><i
+                class="fa fa-thumbs-up" aria-hidden="true"></i> &nbsp;{{comm.upVotes.length}} &nbsp; &nbsp;</a>
 
             <textarea id="{{comm.id}}" class="reply-textarea"></textarea>
           </div>
 
           <div class="col-sm-12 reply-class" ng-repeat="reply in comm.replies">
             <div class="debate-profile col-sm-2">
-              <img src="data:image/png;base64,{{reply.profilePicture}}" class="profileImage" /><br />
+              <img ng-show="user.socialPresence == false" src="./assets/neutral.png" class="profileImage" />
+              <img ng-show="user.socialPresence == true" src="data:image/png;base64,{{comm.profilePicture}}" class="profileImage" /><br />
               <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{reply.username}}</div>
               <div class="header-name col-sm-12" style="padding-top:3px;">{{reply.timestamp| date : 'MMM d, yyyy HH:mm'}}</div>
             </div>
@@ -180,4 +187,5 @@
     </div>
 
 </body>
+
 </html>

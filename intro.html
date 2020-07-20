@@ -32,7 +32,8 @@
           <div class="intro-smaller-heading">Get to know your group members:</div>
           <div class="col-sm-4 pictureFrame" ng-repeat="friend in group">
             <div class="profilePicture">
-              <img src="data:image/png;base64,{{friend.profilePicture}}" width="150" height="150" />
+              <img ng-show="user.socialPresence == false" src="./assets/neutral.png" width="150" height="150" />
+              <img ng-show="user.socialPresence == true" src="data:image/png;base64,{{friend.profilePicture}}" width="150" height="150" />
             </div>
             <div class="intro-name">{{friend.name}}</div>
           </div>
