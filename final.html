@@ -38,7 +38,9 @@
       <div class="home-instructions">
         <ol>
           <li>Thank you for the time spent expressing your opinions on the topics provided. Now, it is time to provide your final opinion on the debated topics.</li>
-          <li>You may either agree or disagree with each statement. Click on each topic to see how others have voted and provide your <b>final vote</b> for each statement.</li>
+          <li>You may either agree or disagree with each statement. Click on each topic to provide your <b>final vote</b> for each statement.</li>
+          <li ng-show="user.socialPresence == true">Final votes of the group are <b>VISIBLE</b> to other group members. Upon submitting your vote, you may see how others votes for the same question.</li>
+          <li ng-show="user.socialPresence == false">Final votes of the group are <b>NOT VISIBLE</b> to other group members.</li>
           <li>You may vote in in <b>ANY order you prefer. Once submitted, your vote can't be changed.</b></li>
           <li>You have <b>24 hours</b> to complete voting on all topics, before you move to the next step of the experiment. The <b>time left for you to complete voting</b> is displayed at the <b>bottom</b> of this page.</li>
         </ol>
@@ -48,7 +50,7 @@
         <div class="intro-smaller-heading">Topics to vote:</div>
 
         <div ng-repeat="q in questions" class="qcontainer col-sm-4">
-          <a href="" class="col-sm-12 qBox" ng-click="(q.voted == false) ? showCommentsDisabled(q) : showVotesAtHome(q)">
+          <a href="" class="col-sm-12 qBox" ng-click="(q.voted == false) ? showCommentsDisabled(q) : (user.socialPresence == true ? showVotesAtHome(q) : showCommentsDisabled(q)) ">
             <div class="qText">{{q.text}}</div>
             <div class="row">
               <span ng-if="q.voted" class="attempted-class"><i class="fa fa-check-circle" aria-hidden="true"></i> &nbsp; Voted</span>

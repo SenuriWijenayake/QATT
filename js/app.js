@@ -901,11 +901,18 @@ app.controller('FinalController', function($scope, $http, $window) {
         data: userAnswer,
         type: JSON,
       }).then(function(response) {
-        var data = {
-          questionNumber: $scope.modalData.questionId,
-          text: $scope.modalData.questionText
-        };
-        $scope.showVotes(data);
+        //To show public answers
+        if ($scope.user.socialPresence == true){
+          var data = {
+            questionNumber: $scope.modalData.questionId,
+            text: $scope.modalData.questionText
+          };
+          $scope.showVotes(data);
+        } else if ($scope.user.socialPresence == false){
+          //No public asnwers
+          alert("Vote submitted successfully!");
+          modal_vote.style.display = "none";
+        }
       }, function(error) {
         console.log("Error occured while submitting final answer");
       });
@@ -931,6 +938,10 @@ app.controller('FinalController', function($scope, $http, $window) {
       type: JSON,
     }).then(function(response) {
       $scope.qFocused = response.data;
+      if ($scope.user.socialPresence == false && q.voted == true){
+        console.log(q.questionNumber);
+        $("#vote-button-" + q.questionNumber).css("display", "none");
+      }
     }, function(error) {
       console.log("Error occured while retrieving user comments on question.");
     });
