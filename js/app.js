@@ -10,11 +10,11 @@ app.controller('BigFiveController', function($scope, $http, $window) {
   $http({
     method: 'POST',
     url: api + '/userById',
-    data : {
+    data: {
       userId: $scope.user.userId
     }
   }).then(function(response) {
-    if (response.data.completedUES){
+    if (response.data.completedUES) {
       $('.UES-container').css("display", "none");
       //Get Big five questions
       $http({
@@ -51,7 +51,7 @@ app.controller('BigFiveController', function($scope, $http, $window) {
       return obj;
     }, {});
 
-    if (Object.getOwnPropertyNames(UESData).length == 13){
+    if (Object.getOwnPropertyNames(UESData).length == 13) {
       $('.UES-container').css("display", "none");
       $http({
         method: 'POST',
@@ -72,9 +72,13 @@ app.controller('BigFiveController', function($scope, $http, $window) {
 
 app.controller('IndexController', function($scope, $http, $window) {
 
+  //Change here to change the experimental condition
   $scope.user = {};
   $scope.user.structure = false;
-  $scope.user.socialPresence = true;
+  $scope.user.socialPresence = false;
+
+  $scope.emailValid = false;
+  $scope.usernameValid = false;
   $scope.user.firstVisit = true;
 
   $("#profileImage").click(function(e) {
@@ -83,6 +87,60 @@ app.controller('IndexController', function($scope, $http, $window) {
 
   $("#imageUpload").change(function() {
     fasterPreview(this);
+  });
+
+  //To check availability of username
+  $("#username").change(function() {
+    if ($scope.user.socialPresence == false) {
+      $http({
+        method: 'POST',
+        url: api + '/username',
+        data: {
+          name: $scope.user.name
+        },
+        type: JSON,
+      }).then(function(response) {
+        if (response.data) {
+          $scope.usernameValid = true;
+          $("#username-valid").css("display", "inline");
+          $("#username-invalid").css("display", "none");
+        } else {
+          $scope.usernameValid = false;
+          $("#username-invalid").css("display", "inline");
+          $("#username-valid").css("display", "none");
+          $scope.user.name = "";
+          alert("Username already exists. Please try again.");
+        }
+      }, function(error) {
+        console.log("Error occured while validating username");
+      });
+    }
+  });
+
+  //To check availability of email
+  $("#email").change(function() {
+    $http({
+      method: 'POST',
+      url: api + '/email',
+      data: {
+        email: $scope.user.email
+      },
+      type: JSON,
+    }).then(function(response) {
+      if (response.data) {
+        $scope.emailValid = true;
+        $("#email-valid").css("display", "inline");
+        $("#email-invalid").css("display", "none");
+      } else {
+        $scope.emailValid = false;
+        $("#email-invalid").css("display", "inline");
+        $("#email-valid").css("display", "none");
+        $scope.user.email = "";
+        alert("An account under this email already exists. Try login.");
+      }
+    }, function(error) {
+      console.log("Error occured while validating email");
+    });
   });
 
   function fasterPreview(uploader) {
@@ -147,7 +205,7 @@ app.controller('IndexController', function($scope, $http, $window) {
             $window.location.href = './home.html';
           } else if (response.data.firstVisit == false && response.data.completedComments == true && response.data.completedVotes == false) {
             $window.location.href = './final.html';
-          } else if (response.data.firstVisit == false && response.data.completedComments == true && response.data.completedVotes == true && response.data.completedUES == true && response.data.code != null){
+          } else if (response.data.firstVisit == false && response.data.completedComments == true && response.data.completedVotes == true && response.data.completedUES == true && response.data.code != null) {
             alert("You have completed the experiment already. Please contact the researcher for further assitance.");
             $window.location.href = './index.html';
           } else {
@@ -176,7 +234,7 @@ app.controller('IndexController', function($scope, $http, $window) {
 
   $scope.submitDetails = function(user) {
 
-    if ((user.socialPresence == true ? $scope.profilePicture : true) && (user.socialPresence == true ? user.name : true) && user.email && user.password && user.gender && user.age && user.education && user.field && (user.gender == 'specified' ? user.genderSpecified : true) && (user.age >= 18)) {
+    if ((user.socialPresence == false ? $scope.usernameValid : true) && (user.socialPresence == true ? $scope.profilePicture : true) && user.name && user.email && $scope.emailValid && user.password && user.gender && user.age && user.education && user.field && (user.gender == 'specified' ? user.genderSpecified : true) && (user.age >= 18)) {
 
       $("#index-next").attr('disabled', true);
       $("#passwordCheck").attr('disabled', true);
@@ -188,6 +246,8 @@ app.controller('IndexController', function($scope, $http, $window) {
 
       $("#index-next").css('background-color', 'grey');
       $("#index-loader").css("display", "block");
+
+      console.log($scope.profilePicture);
 
       $http({
         method: 'POST',
