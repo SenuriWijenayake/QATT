@@ -757,7 +757,9 @@ app.controller('FinalController', function($scope, $http, $window) {
     url: api + '/questionsAtVote',
     data: {
       "userId": $scope.user.userId,
-      "order": $scope.user.order
+      "order": $scope.user.order,
+      "socialPresence" : $scope.user.socialPresence,
+      "structure" : $scope.user.structure
     },
     type: JSON,
   }).then(function(response) {

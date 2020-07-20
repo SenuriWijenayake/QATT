@@ -25,10 +25,11 @@
 			<div class="row">
 				<div class="home-text col-sm-10"> Post Survey Questionnaire </div>
 				<div class="profile col-sm-2">
-					<img src="data:image/png;base64,{{user.profilePicture}}" class="profileImage" /><br />
-					<div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{user.name}}</div>
-					<a href="./index.html" class="header-name col-sm-12">Logout</a>
-				</div>
+          <img ng-show="user.socialPresence == false" src="./assets/neutral.png" class="profileImage" />
+          <img ng-show="user.socialPresence == true" src="data:image/png;base64,{{user.profilePicture}}" class="profileImage" /><br />
+          <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{user.name}}</div>
+          <a href="./index.html" class="header-name col-sm-12">Logout</a>
+        </div>
 			</div>
 
 			<div class="intro-smaller-heading">You are almost done!</div>
