@@ -243,14 +243,14 @@ app.controller('IntroController', function($scope, $http, $window, $interval) {
   $scope.getGroupUsers = function() {
     if (angular.isDefined(stop)) return;
     stop = $interval(function() {
-      if ($scope.group.length == 11) {
+      if ($scope.group.length >= 11) {
         //Stop checking and enable button
         $scope.stopChecking();
         $("#intro-start").attr("disabled", false);
         $("#intro-start").css("background-color", "#117A65");
         $("#intro-start").css("border", "1px solid #117A65");
       } else {
-        //HTTP call to get users
+        //HTTP call to get other users of the same group
         $http({
           method: 'POST',
           url: api + '/usergroup',
@@ -615,7 +615,7 @@ app.controller('HomeController', function($scope, $http, $window) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Jul 19, 2020 16:06:00").getTime();
+  var countDownDate = new Date("Jul 20, 2020 13:13:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -646,7 +646,7 @@ app.controller('HomeController', function($scope, $http, $window) {
         },
         type: JSON,
       }).then(function(response) {
-        if (response.data.length == 2) {
+        if (response.data.length >= 2) {
           $('#completed-submit').attr('disabled', false);
           $('#completed-submit').css('background-color', '#117A65');
           $('#completed-submit').attr('border', '1px solid #117A65');
@@ -924,7 +924,7 @@ app.controller('FinalController', function($scope, $http, $window) {
   };
 
   //Timer to the personality quiz
-  var countDownDate = new Date("Jul 19, 2020 14:11:00").getTime();
+  var countDownDate = new Date("Jul 20, 2020 13:17:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -954,7 +954,7 @@ app.controller('FinalController', function($scope, $http, $window) {
         },
         type: JSON,
       }).then(function(response) {
-        if (response.data.length == 2) {
+        if (response.data.length >= 2) {
           $('#onto-bigfive').attr('disabled', false);
           $('#onto-bigfive').css('background-color', '#117A65');
           $('#onto-bigfive').attr('border', '1px solid #117A65');
