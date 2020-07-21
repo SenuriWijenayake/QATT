@@ -29,7 +29,7 @@
       <div class="row col-sm-12">
         <div class="col-sm-3"></div>
         <div class="col-sm-6 friends" ng-show="group.length > 0">
-          <div class="intro-smaller-heading">Get to know your group members:</div>
+          <div class="intro-smaller-heading">Get to know your group members ({{group.length}}/11):</div>
           <div class="col-sm-4 pictureFrame" ng-repeat="friend in group">
             <div class="profilePicture">
               <img ng-show="user.socialPresence == false" src="./assets/neutral.png" width="150" height="150" />

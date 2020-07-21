@@ -161,7 +161,7 @@
           <div class="col-sm-12 reply-class" ng-repeat="reply in comm.replies">
             <div class="debate-profile col-sm-2">
               <img ng-show="user.socialPresence == false" src="./assets/neutral.png" class="profileImage" />
-              <img ng-show="user.socialPresence == true" src="data:image/png;base64,{{comm.profilePicture}}" class="profileImage" /><br />
+              <img ng-show="user.socialPresence == true" src="data:image/png;base64,{{reply.profilePicture}}" class="profileImage" /><br />
               <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{reply.username}}</div>
               <div class="header-name col-sm-12" style="padding-top:3px;">{{reply.timestamp| date : 'MMM d, yyyy HH:mm'}}</div>
             </div>

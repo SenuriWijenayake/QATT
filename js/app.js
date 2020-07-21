@@ -75,7 +75,7 @@ app.controller('IndexController', function($scope, $http, $window) {
   //Change here to change the experimental condition
   $scope.user = {};
   $scope.user.structure = false;
-  $scope.user.socialPresence = false;
+  $scope.user.socialPresence = true;
 
   $scope.emailValid = false;
   $scope.usernameValid = false;
@@ -677,7 +677,7 @@ app.controller('HomeController', function($scope, $http, $window) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Jul 20, 2020 13:13:00").getTime();
+  var countDownDate = new Date("Jul 21, 2020 14:52:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -708,7 +708,7 @@ app.controller('HomeController', function($scope, $http, $window) {
         },
         type: JSON,
       }).then(function(response) {
-        if (response.data.length >= 2) {
+        if (response.data.length == 18) {
           $('#completed-submit').attr('disabled', false);
           $('#completed-submit').css('background-color', '#117A65');
           $('#completed-submit').attr('border', '1px solid #117A65');
@@ -999,7 +999,7 @@ app.controller('FinalController', function($scope, $http, $window) {
   };
 
   //Timer to the personality quiz
-  var countDownDate = new Date("Jul 20, 2020 13:17:00").getTime();
+  var countDownDate = new Date("Jul 21, 2020 15:00:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -1029,7 +1029,7 @@ app.controller('FinalController', function($scope, $http, $window) {
         },
         type: JSON,
       }).then(function(response) {
-        if (response.data.length >= 2) {
+        if (response.data.length == 18) {
           $('#onto-bigfive').attr('disabled', false);
           $('#onto-bigfive').css('background-color', '#117A65');
           $('#onto-bigfive').attr('border', '1px solid #117A65');
