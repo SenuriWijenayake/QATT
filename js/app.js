@@ -75,7 +75,7 @@ app.controller('IndexController', function($scope, $http, $window) {
   //Change here to change the experimental condition
   $scope.user = {};
   $scope.user.structure = false;
-  $scope.user.socialPresence = true;
+  $scope.user.socialPresence = false;
 
   $scope.emailValid = false;
   $scope.usernameValid = false;
@@ -677,7 +677,7 @@ app.controller('HomeController', function($scope, $http, $window) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Jul 21, 2020 14:52:00").getTime();
+  var countDownDate = new Date("Jul 22, 2020 19:22:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -999,7 +999,7 @@ app.controller('FinalController', function($scope, $http, $window) {
   };
 
   //Timer to the personality quiz
-  var countDownDate = new Date("Jul 21, 2020 15:00:00").getTime();
+  var countDownDate = new Date("Jul 22, 2020 19:30:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
