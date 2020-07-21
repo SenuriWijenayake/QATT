@@ -375,8 +375,8 @@ app.controller('HomeController', function($scope, $http, $window) {
     data: {
       "userId": $scope.user.userId,
       "order": $scope.user.order,
-      "socialPresence" : $scope.user.socialPresence,
-      "structure" : $scope.user.structure
+      "socialPresence": $scope.user.socialPresence,
+      "structure": $scope.user.structure
     },
     type: JSON,
   }).then(function(response) {
@@ -758,8 +758,8 @@ app.controller('FinalController', function($scope, $http, $window) {
     data: {
       "userId": $scope.user.userId,
       "order": $scope.user.order,
-      "socialPresence" : $scope.user.socialPresence,
-      "structure" : $scope.user.structure
+      "socialPresence": $scope.user.socialPresence,
+      "structure": $scope.user.structure
     },
     type: JSON,
   }).then(function(response) {
@@ -902,16 +902,16 @@ app.controller('FinalController', function($scope, $http, $window) {
         type: JSON,
       }).then(function(response) {
         //To show public answers
-        if ($scope.user.socialPresence == true){
+        if ($scope.user.socialPresence == true) {
           var data = {
             questionNumber: $scope.modalData.questionId,
             text: $scope.modalData.questionText
           };
           $scope.showVotes(data);
-        } else if ($scope.user.socialPresence == false){
+        } else if ($scope.user.socialPresence == false) {
           //No public asnwers
-          alert("Vote submitted successfully!");
           modal_vote.style.display = "none";
+          $("#voted-button-" + $scope.modalData.questionId).css("display", "inline");
         }
       }, function(error) {
         console.log("Error occured while submitting final answer");
@@ -938,9 +938,9 @@ app.controller('FinalController', function($scope, $http, $window) {
       type: JSON,
     }).then(function(response) {
       $scope.qFocused = response.data;
-      if ($scope.user.socialPresence == false && q.voted == true){
-        console.log(q.questionNumber);
-        $("#vote-button-" + q.questionNumber).css("display", "none");
+      if ($scope.user.socialPresence == false && q.voted == true) {
+        $(".vote-button").css("display", "none");
+        $(".voted-button").css("display", "inline");
       }
     }, function(error) {
       console.log("Error occured while retrieving user comments on question.");

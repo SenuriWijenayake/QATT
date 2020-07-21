@@ -115,7 +115,8 @@
           <a href="./index.html" class="header-name col-sm-12">Logout</a>
         </div>
         <div class="col-sm-12" style="text-align: center;padding: 20px;">
-          <button id="vote-button-{{qFocused.questionId}}" class="vote-button" ng-show="qFocused.comments" ng-click="modalToVote(qFocused)">Submit Final Vote</button>
+          <button id="vote-button-{{qFocused.questionId}}" class="vote-button" ng-click="modalToVote(qFocused)">Submit Final Vote</button>
+          <button id="voted-button-{{qFocused.questionId}}" class="voted-button" disabled>Vote Submitted</button>
         </div>
       </div>
       <div class="comments-area">
