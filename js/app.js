@@ -74,8 +74,8 @@ app.controller('IndexController', function($scope, $http, $window) {
 
   //Change here to change the experimental condition
   $scope.user = {};
-  $scope.user.structure = false;
-  $scope.user.socialPresence = false;
+  $scope.user.structure = true;
+  $scope.user.socialPresence = true;
 
   $scope.emailValid = false;
   $scope.usernameValid = false;
@@ -365,6 +365,82 @@ app.controller('IntroController', function($scope, $http, $window, $interval) {
 });
 
 app.controller('HomeController', function($scope, $http, $window) {
+
+  $scope.dummy = {
+  "questionText": "Should online degrees be valued equally to traditional degrees?",
+  "questionId": "3",
+  "socialPresence": false,
+  "structure": false,
+  "comments": {
+    "yes": [
+      {
+        "id": "1",
+        "userId": "123143",
+        "username": "Senuri",
+        "comment": "Comment One goes here - Yes",
+        "order": 1,
+        "profilePicture": "",
+        "downVotes": [],
+        "upVotes": [],
+        "replies": [],
+        "timestamp": "2017-01-10"
+      },
+      {
+        "id": "2",
+        "userId": "123143",
+        "username": "Senuri",
+        "comment": "Comment Two goes here - Yes",
+        "order": 2,
+        "profilePicture": "",
+        "downVotes": [],
+        "upVotes": [],
+        "replies": [],
+        "timestamp": "2017-01-10"
+      }
+    ],
+    "no": [
+      {
+        "id": "3",
+        "userId": "123143",
+        "username": "Senuri",
+        "comment": "Comment One goes here - No ",
+        "order": 1,
+        "profilePicture": "",
+        "downVotes": [],
+        "upVotes": [],
+        "replies": [],
+        "timestamp": "2017-01-10"
+      },
+      {
+        "id": "4",
+        "userId": "123143",
+        "username": "Senuri",
+        "comment": "Comment Two goes here - No",
+        "order": 2,
+        "profilePicture": "",
+        "downVotes": [],
+        "upVotes": [],
+        "replies": [],
+        "timestamp": "2017-01-10"
+      },
+      {
+        "id": "32",
+        "userId": "123143",
+        "username": "Senuri",
+        "comment": "Comment Three goes here - No ",
+        "order": 1,
+        "profilePicture": "",
+        "downVotes": [],
+        "upVotes": [],
+        "replies": [],
+        "timestamp": "2017-01-10"
+      }
+    ],
+    "progressY": 60,
+    "progressN": 40
+  }
+};
+
   $scope.questions = [];
   $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
 
@@ -499,7 +575,6 @@ app.controller('HomeController', function($scope, $http, $window) {
         isReply: false
       };
 
-      console.log(userAnswer);
       $http({
         method: 'POST',
         url: api + '/userAnswer',
@@ -535,6 +610,7 @@ app.controller('HomeController', function($scope, $http, $window) {
       data: data,
       type: JSON,
     }).then(function(response) {
+      console.log(response.data);
       $scope.qFocused = response.data;
     }, function(error) {
       console.log("Error occured while retrieving user comments on question.");
