@@ -190,6 +190,7 @@
           <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:{{qFocused.comments.progressY}}%">
           </div>
         </div>
+
         <div class="col-sm-12" style="padding-left:0px; padding-right:0px;">
           <div class="col-sm-6" style="padding-left:0px;">
             <div class="yes-span row">{{qFocused.comments.progressY}}% says <i class="fa fa-thumbs-up" aria-hidden="true"></i> </div>
@@ -237,7 +238,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-12 new-comment" ng-show="qFocused.comments">
+            <div class="col-sm-12 new-comment" ng-show="qFocused.comments.yes.length > 0">
               <textarea ng-model="newCommentYes" class="new-textarea-yes" placeholder="Enter a new comment to support this opinion here.."></textarea>
               <a href="" class="new-submit" id="new-submit-yes" ng-click="submitNewStructuredComment(qFocused.questionText, qFocused.questionId, true)">Submit New Comment </a>
             </div>
@@ -288,7 +289,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-12 new-comment" ng-show="qFocused.comments">
+            <div class="col-sm-12 new-comment" ng-show="qFocused.comments.no.length > 0">
               <textarea ng-model="newCommentNo" class="new-textarea-no" placeholder="Enter a new comment against this opinion here.."></textarea>
               <a href="" class="new-submit" id="new-submit-no" ng-click="submitNewStructuredComment(qFocused.questionText, qFocused.questionId, false)">Submit New Comment </a>
             </div>

@@ -795,7 +795,7 @@ app.controller('HomeController', function($scope, $http, $window) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Jul 25, 2020 19:22:00").getTime();
+  var countDownDate = new Date("Jul 25, 2020 17:08:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -826,7 +826,7 @@ app.controller('HomeController', function($scope, $http, $window) {
         },
         type: JSON,
       }).then(function(response) {
-        if (response.data.length == 18) {
+        if (response.data.length == 2) {
           $('#completed-submit').attr('disabled', false);
           $('#completed-submit').css('background-color', '#117A65');
           $('#completed-submit').attr('border', '1px solid #117A65');
@@ -1147,7 +1147,7 @@ app.controller('FinalController', function($scope, $http, $window) {
         },
         type: JSON,
       }).then(function(response) {
-        if (response.data.length == 18) {
+        if (response.data.length == 2) {
           $('#onto-bigfive').attr('disabled', false);
           $('#onto-bigfive').css('background-color', '#117A65');
           $('#onto-bigfive').attr('border', '1px solid #117A65');
