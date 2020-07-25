@@ -535,6 +535,7 @@ app.controller('HomeController', function($scope, $http, $window) {
       data: data,
       type: JSON,
     }).then(function(response) {
+      console.log(response.data);
       $scope.qFocused = response.data;
     }, function(error) {
       console.log("Error occured while retrieving user comments on question.");
