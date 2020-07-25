@@ -187,18 +187,18 @@
       <!-- Structured comments area -->
       <div class="comments-area" ng-show="user.structure == true">
         <div class="progress adjust-progress">
-          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:{{dummy.comments.progressY}}%">
+          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:{{qFocused.comments.progressY}}%">
           </div>
         </div>
         <div class="col-sm-12" style="padding-left:0px; padding-right:0px;">
           <div class="col-sm-6" style="padding-left:0px;">
-            <div class="yes-span row">{{dummy.comments.progressY}}% says <i class="fa fa-thumbs-up" aria-hidden="true"></i> </div>
-            <div class="col-sm-12 comment-small" ng-repeat="comm in dummy.comments.yes">
+            <div class="yes-span row">{{qFocused.comments.progressY}}% says <i class="fa fa-thumbs-up" aria-hidden="true"></i> </div>
+            <div class="col-sm-12 comment-small" ng-repeat="comm in qFocused.comments.yes">
               <div class="debate-profile col-sm-2">
                 <img ng-show="user.socialPresence == false" src="./assets/neutral.png" class="profileImage" />
                 <img ng-show="user.socialPresence == true" src="data:image/png;base64,{{comm.profilePicture}}" class="profileImage" /><br />
                 <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{comm.username}}</div>
-                <div class="header-name col-sm-12" style="padding-top:3px;">{{comm.timestamp| date : 'MMM d, HH:mm'}}</div>
+                <div class="header-name col-sm-12" style="padding-top:3px;">{{comm.timestamp| date : 'MMM d HH:mm'}}</div>
               </div>
 
               <div class="col-sm-10">
@@ -208,7 +208,7 @@
               <div class="col-sm-12" style="padding-bottom: 10px;">
 
                 <a href="" id="{{comm.id}}_reply" class="comm-reply" ng-click="showReply(comm.id)"><i class="fa fa-reply" aria-hidden="true"></i> &nbsp;Reply &nbsp;</a>
-                <a href="" id="{{comm.id}}_submit" class="comm-submit" ng-click="sendReply(comm.id, comm.id, qFocused.questionText, qFocused.questionId)">Submit</a>
+                <a href="" id="{{comm.id}}_submit" class="comm-submit" ng-click="sendStructuredReply(comm.id, comm.id, qFocused.questionText, qFocused.questionId, true)">Submit</a>
 
                 <a ng-show="user.socialPresence == true" href="" id="{{comm.id}}_downvote" class="comm-downvote" ng-class="{'disable-vote': comm.userId == user.userId, 'have-voted': comm.downVotes.includes(user.userId)}" ng-click="updateVoteForComment(comm.id, qFocused.questionText, qFocused.questionId, false)"><i
                     class="fa fa-thumbs-down" aria-hidden="true"></i> &nbsp;{{comm.downVotes.length}} &nbsp; &nbsp;</a>
@@ -218,12 +218,12 @@
                 <textarea id="{{comm.id}}" class="reply-textarea"></textarea>
               </div>
 
-              <div class="col-sm-12 reply-class" ng-repeat="reply in comm.replies">
+              <div class="col-sm-12 reply-class-structured" ng-repeat="reply in comm.replies">
                 <div class="debate-profile col-sm-2">
                   <img ng-show="user.socialPresence == false" src="./assets/neutral.png" class="profileImage" />
                   <img ng-show="user.socialPresence == true" src="data:image/png;base64,{{reply.profilePicture}}" class="profileImage" /><br />
                   <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{reply.username}}</div>
-                  <div class="header-name col-sm-12" style="padding-top:3px;">{{reply.timestamp| date : 'MMM d, yyyy HH:mm'}}</div>
+                  <div class="header-name col-sm-12" style="padding-top:3px;">{{reply.timestamp| date : 'MMM d HH:mm'}}</div>
                 </div>
 
                 <div class="col-sm-10">
@@ -232,24 +232,24 @@
 
                 <div class="col-sm-12" style="padding-right: 0px;">
                   <a href="" class="comm-reply" id="{{reply.id}}_reply" ng-click="showReply(reply.id)"><i class="fa fa-reply" aria-hidden="true"></i> &nbsp;Reply</a>
-                  <a href="" class="comm-submit" id="{{reply.id}}_submit" ng-click="sendReply(comm.id, reply.id, qFocused.questionText, qFocused.questionId)">Submit</a>
+                  <a href="" class="comm-submit" id="{{reply.id}}_submit" ng-click="sendStructuredReply(comm.id, reply.id, qFocused.questionText, qFocused.questionId, true)">Submit</a>
                   <textarea id="{{reply.id}}" class="reply-textarea"></textarea>
                 </div>
               </div>
             </div>
             <div class="col-sm-12 new-comment" ng-show="qFocused.comments">
-              <textarea ng-model="newComment" class="new-textarea" placeholder="Enter a new comment here.."></textarea>
-              <a href="" class="new-submit" id="new-submit" ng-click="submitNewComment(qFocused.questionText, qFocused.questionId)">Submit New Comment </a>
+              <textarea ng-model="newCommentYes" class="new-textarea-yes" placeholder="Enter a new comment to support this opinion here.."></textarea>
+              <a href="" class="new-submit" id="new-submit-yes" ng-click="submitNewStructuredComment(qFocused.questionText, qFocused.questionId, true)">Submit New Comment </a>
             </div>
           </div>
           <div class="col-sm-6" style="padding-right: 0px;">
-            <div class="no-span row">{{dummy.comments.progressN}}% says <i class="fa fa-thumbs-down" aria-hidden="true"></i></div>
-            <div class="col-sm-12 comment-small" ng-repeat="comm in dummy.comments.no">
+            <div class="no-span row">{{qFocused.comments.progressN}}% says <i class="fa fa-thumbs-down" aria-hidden="true"></i></div>
+            <div class="col-sm-12 comment-small" ng-repeat="comm in qFocused.comments.no">
               <div class="debate-profile col-sm-2">
                 <img ng-show="user.socialPresence == false" src="./assets/neutral.png" class="profileImage" />
                 <img ng-show="user.socialPresence == true" src="data:image/png;base64,{{comm.profilePicture}}" class="profileImage" /><br />
                 <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{comm.username}}</div>
-                <div class="header-name col-sm-12" style="padding-top:3px;">{{comm.timestamp| date : 'MMM d, HH:mm'}}</div>
+                <div class="header-name col-sm-12" style="padding-top:3px;">{{comm.timestamp| date : 'MMM d HH:mm'}}</div>
               </div>
 
               <div class="col-sm-10">
@@ -259,7 +259,7 @@
               <div class="col-sm-12" style="padding-bottom: 10px;">
 
                 <a href="" id="{{comm.id}}_reply" class="comm-reply" ng-click="showReply(comm.id)"><i class="fa fa-reply" aria-hidden="true"></i> &nbsp;Reply &nbsp;</a>
-                <a href="" id="{{comm.id}}_submit" class="comm-submit" ng-click="sendReply(comm.id, comm.id, qFocused.questionText, qFocused.questionId)">Submit</a>
+                <a href="" id="{{comm.id}}_submit" class="comm-submit" ng-click="sendStructuredReply(comm.id, comm.id, qFocused.questionText, qFocused.questionId, false)">Submit</a>
 
                 <a ng-show="user.socialPresence == true" href="" id="{{comm.id}}_downvote" class="comm-downvote" ng-class="{'disable-vote': comm.userId == user.userId, 'have-voted': comm.downVotes.includes(user.userId)}" ng-click="updateVoteForComment(comm.id, qFocused.questionText, qFocused.questionId, false)"><i
                     class="fa fa-thumbs-down" aria-hidden="true"></i> &nbsp;{{comm.downVotes.length}} &nbsp; &nbsp;</a>
@@ -269,12 +269,12 @@
                 <textarea id="{{comm.id}}" class="reply-textarea"></textarea>
               </div>
 
-              <div class="col-sm-12 reply-class" ng-repeat="reply in comm.replies">
+              <div class="col-sm-12 reply-class-structured" ng-repeat="reply in comm.replies">
                 <div class="debate-profile col-sm-2">
                   <img ng-show="user.socialPresence == false" src="./assets/neutral.png" class="profileImage" />
                   <img ng-show="user.socialPresence == true" src="data:image/png;base64,{{reply.profilePicture}}" class="profileImage" /><br />
                   <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{reply.username}}</div>
-                  <div class="header-name col-sm-12" style="padding-top:3px;">{{reply.timestamp| date : 'MMM d, yyyy HH:mm'}}</div>
+                  <div class="header-name col-sm-12" style="padding-top:3px;">{{reply.timestamp| date : 'MMM d HH:mm'}}</div>
                 </div>
 
                 <div class="col-sm-10">
@@ -283,14 +283,14 @@
 
                 <div class="col-sm-12" style="padding-right: 0px;">
                   <a href="" class="comm-reply" id="{{reply.id}}_reply" ng-click="showReply(reply.id)"><i class="fa fa-reply" aria-hidden="true"></i> &nbsp;Reply</a>
-                  <a href="" class="comm-submit" id="{{reply.id}}_submit" ng-click="sendReply(comm.id, reply.id, qFocused.questionText, qFocused.questionId)">Submit</a>
+                  <a href="" class="comm-submit" id="{{reply.id}}_submit" ng-click="sendStructuredReply(comm.id, reply.id, qFocused.questionText, qFocused.questionId, false)">Submit</a>
                   <textarea id="{{reply.id}}" class="reply-textarea"></textarea>
                 </div>
               </div>
             </div>
             <div class="col-sm-12 new-comment" ng-show="qFocused.comments">
-              <textarea ng-model="newComment" class="new-textarea" placeholder="Enter a new comment here.."></textarea>
-              <a href="" class="new-submit" id="new-submit" ng-click="submitNewComment(qFocused.questionText, qFocused.questionId)">Submit New Comment </a>
+              <textarea ng-model="newCommentNo" class="new-textarea-no" placeholder="Enter a new comment against this opinion here.."></textarea>
+              <a href="" class="new-submit" id="new-submit-no" ng-click="submitNewStructuredComment(qFocused.questionText, qFocused.questionId, false)">Submit New Comment </a>
             </div>
           </div>
         </div>

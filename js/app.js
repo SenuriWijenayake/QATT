@@ -366,81 +366,6 @@ app.controller('IntroController', function($scope, $http, $window, $interval) {
 
 app.controller('HomeController', function($scope, $http, $window) {
 
-  $scope.dummy = {
-  "questionText": "Should online degrees be valued equally to traditional degrees?",
-  "questionId": "3",
-  "socialPresence": false,
-  "structure": false,
-  "comments": {
-    "yes": [
-      {
-        "id": "1",
-        "userId": "123143",
-        "username": "Senuri",
-        "comment": "Comment One goes here - Yes",
-        "order": 1,
-        "profilePicture": "",
-        "downVotes": [],
-        "upVotes": [],
-        "replies": [],
-        "timestamp": "2017-01-10"
-      },
-      {
-        "id": "2",
-        "userId": "123143",
-        "username": "Senuri",
-        "comment": "Comment Two goes here - Yes",
-        "order": 2,
-        "profilePicture": "",
-        "downVotes": [],
-        "upVotes": [],
-        "replies": [],
-        "timestamp": "2017-01-10"
-      }
-    ],
-    "no": [
-      {
-        "id": "3",
-        "userId": "123143",
-        "username": "Senuri",
-        "comment": "Comment One goes here - No ",
-        "order": 1,
-        "profilePicture": "",
-        "downVotes": [],
-        "upVotes": [],
-        "replies": [],
-        "timestamp": "2017-01-10"
-      },
-      {
-        "id": "4",
-        "userId": "123143",
-        "username": "Senuri",
-        "comment": "Comment Two goes here - No",
-        "order": 2,
-        "profilePicture": "",
-        "downVotes": [],
-        "upVotes": [],
-        "replies": [],
-        "timestamp": "2017-01-10"
-      },
-      {
-        "id": "32",
-        "userId": "123143",
-        "username": "Senuri",
-        "comment": "Comment Three goes here - No ",
-        "order": 1,
-        "profilePicture": "",
-        "downVotes": [],
-        "upVotes": [],
-        "replies": [],
-        "timestamp": "2017-01-10"
-      }
-    ],
-    "progressY": 60,
-    "progressN": 40
-  }
-};
-
   $scope.questions = [];
   $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
 
@@ -610,7 +535,6 @@ app.controller('HomeController', function($scope, $http, $window) {
       data: data,
       type: JSON,
     }).then(function(response) {
-      console.log(response.data);
       $scope.qFocused = response.data;
     }, function(error) {
       console.log("Error occured while retrieving user comments on question.");
@@ -626,6 +550,18 @@ app.controller('HomeController', function($scope, $http, $window) {
   $(".new-textarea").keyup(function() {
     if ($.trim($(".new-textarea").val())) {
       $('#new-submit').css('display', 'inline');
+    }
+  });
+
+  $(".new-textarea-yes").keyup(function() {
+    if ($.trim($(".new-textarea-yes").val())) {
+      $('#new-submit-yes').css('display', 'inline');
+    }
+  });
+
+  $(".new-textarea-no").keyup(function() {
+    if ($.trim($(".new-textarea-no").val())) {
+      $('#new-submit-no').css('display', 'inline');
     }
   });
 
@@ -667,6 +603,112 @@ app.controller('HomeController', function($scope, $http, $window) {
     });
 
   };
+
+
+  $scope.submitNewStructuredComment = function(qText, qId, isAgree) {
+
+    var x;
+    if (isAgree){
+      x = true;
+    } else{
+      x = false;
+    }
+    var newComment = (x ? $scope.newCommentYes : $scope.newCommentNo);
+
+    $('.new-textarea-yes').attr('disabled', true);
+    $('.new-textarea-no').attr('disabled', true);
+    $('#new-submit-yes').attr('disabled', true);
+    $('#new-submit-no').attr('disabled', true);
+
+    //Prepare the payload to submit new comment
+    var data = {
+      socialPresence: $scope.user.socialPresence,
+      structure: $scope.user.structure,
+      questionId: qId,
+      userId: $scope.user.userId,
+      userName: $scope.user.name,
+      comment: newComment,
+      isReply: false,
+      questionText: qText,
+      isAgree: x
+    };
+
+    $http({
+      method: 'POST',
+      url: api + '/saveReply',
+      data: data,
+      type: JSON,
+    }).then(function(response) {
+      var q = {
+        questionNumber: qId,
+        text: qText
+      };
+
+      $('.new-textarea-yes').attr('disabled', false);
+      $('.new-textarea-no').attr('disabled', false);
+      $('#new-submit-yes').attr('disabled', false);
+      $('#new-submit-no').attr('disabled', false);
+      $('#new-submit-yes').css('display', 'none');
+      $('#new-submit-no').css('display', 'none');
+
+      $scope.newCommentYes = "";
+      $scope.newCommentNo = "";
+
+      $scope.secondClick(q);
+    }, function(error) {
+      console.log("Error occured while saving new comment.");
+    });
+  };
+
+
+  $scope.sendStructuredReply = function(commentId, replyId, qText, qId, isAgree) {
+    var x;
+    if (isAgree){
+      x = true;
+    } else{
+      x = false;
+    }
+
+    var comment = $('#' + replyId).val();
+    if ($.trim(comment)) {
+      //Prepare the reply
+
+      var data = {
+        socialPresence: $scope.user.socialPresence,
+        structure: $scope.user.structure,
+        questionId: qId,
+        userId: $scope.user.userId,
+        userName: $scope.user.name,
+        comment: comment,
+        isReply: true,
+        parentComment: commentId,
+        questionText: qText,
+        isAgree: x
+      };
+
+      $http({
+        method: 'POST',
+        url: api + '/saveReply',
+        data: data,
+        type: JSON,
+      }).then(function(response) {
+        var q = {
+          questionNumber: qId,
+          text: qText
+        };
+        $scope.secondClick(q);
+      }, function(error) {
+        console.log("Error occured while retrieving saving reply.");
+      });
+    } else {
+      var q = {
+        questionNumber: qId,
+        text: qText
+      };
+      $scope.secondClick(q);
+    }
+  };
+
 
   $scope.sendReply = function(commentId, replyId, qText, qId) {
 
@@ -753,7 +795,7 @@ app.controller('HomeController', function($scope, $http, $window) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Jul 22, 2020 19:22:00").getTime();
+  var countDownDate = new Date("Jul 25, 2020 19:22:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -1075,7 +1117,7 @@ app.controller('FinalController', function($scope, $http, $window) {
   };
 
   //Timer to the personality quiz
-  var countDownDate = new Date("Jul 22, 2020 19:30:00").getTime();
+  var countDownDate = new Date("Jul 25, 2020 19:30:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {

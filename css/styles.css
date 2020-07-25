@@ -229,6 +229,13 @@ a:hover{
   display: none;
 }
 
+.reply-class-structured{
+  border-top: 1px solid darkgrey;
+  padding-left: 35px;
+  padding-top: 15px;
+  padding-bottom: 10px;
+}
+
 .reply-class{
   border-top: 1px solid darkgrey;
   padding-left: 70px;
@@ -262,6 +269,18 @@ a:hover{
 .new-submit{
   float: right;
   display: none;
+}
+
+.new-textarea-yes{
+  width: 100%;
+  height: 80px;
+  padding: 5px;
+}
+
+.new-textarea-no{
+  width: 100%;
+  height: 80px;
+  padding: 5px;
 }
 
 .new-comment{
