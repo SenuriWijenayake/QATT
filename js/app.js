@@ -796,7 +796,7 @@ app.controller('HomeController', function($scope, $http, $window) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Jul 25, 2020 17:08:00").getTime();
+  var countDownDate = new Date("Jul 26, 2020 18:15:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -827,7 +827,7 @@ app.controller('HomeController', function($scope, $http, $window) {
         },
         type: JSON,
       }).then(function(response) {
-        if (response.data.length == 2) {
+        if (response.data.length >= 2) {
           $('#completed-submit').attr('disabled', false);
           $('#completed-submit').css('background-color', '#117A65');
           $('#completed-submit').attr('border', '1px solid #117A65');
@@ -1039,6 +1039,7 @@ app.controller('FinalController', function($scope, $http, $window) {
   };
 
   $scope.showCommentsDisabled = function(q) {
+
     $('.debating-area').css('display', 'block');
     $('.homecontainer').css('display', 'none');
 
@@ -1080,6 +1081,26 @@ app.controller('FinalController', function($scope, $http, $window) {
       data: data,
       type: JSON,
     }).then(function(response) {
+      if ($scope.user.structure){
+        var v = response.data.votes;
+        var yesVotes = [];
+        var noVotes = [];
+        var notAttempted = [];
+        for (var i = 0; i < v.length; i++) {
+          if (v[i].vote == "yes"){
+            yesVotes.push(v[i]);
+          } else if (v[i].vote == "no") {
+            noVotes.push(v[i]);
+          } else {
+            notAttempted.push(v[i]);
+          }
+        }
+        response.data.yesVotes = yesVotes;
+        response.data.noVotes = noVotes;
+        response.data.notAttempted = notAttempted;
+        response.data.progressY = Math.round(yesVotes.length / (yesVotes.length + noVotes.length) * 100);
+        response.data.progressN = Math.round(noVotes.length / (yesVotes.length + noVotes.length) * 100);
+      }
 
       $scope.focusedVotes = response.data;
       modal_vote.style.display = "block";
@@ -1108,6 +1129,28 @@ app.controller('FinalController', function($scope, $http, $window) {
       data: data,
       type: JSON,
     }).then(function(response) {
+      if ($scope.user.structure){
+        var v = response.data.votes;
+        var yesVotes = [];
+        var noVotes = [];
+        var notAttempted = [];
+        for (var i = 0; i < v.length; i++) {
+          if (v[i].vote == "yes"){
+            yesVotes.push(v[i]);
+          } else if (v[i].vote == "no") {
+            noVotes.push(v[i]);
+          } else {
+            notAttempted.push(v[i]);
+          }
+        }
+        response.data.yesVotes = yesVotes;
+        response.data.noVotes = noVotes;
+        response.data.notAttempted = notAttempted;
+        response.data.progressY = Math.round(yesVotes.length / (yesVotes.length + noVotes.length) * 100);
+        response.data.progressN = Math.round(noVotes.length / (yesVotes.length + noVotes.length) * 100);
+      }
+      console.log(response.data);
+
       $scope.focusedVotes = response.data;
       modal.style.display = "block";
       $('.modal-votes').css('display', 'inline');
@@ -1118,7 +1161,7 @@ app.controller('FinalController', function($scope, $http, $window) {
   };
 
   //Timer to the personality quiz
-  var countDownDate = new Date("Jul 25, 2020 19:30:00").getTime();
+  var countDownDate = new Date("Jul 26, 2020 18:35:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -1148,7 +1191,7 @@ app.controller('FinalController', function($scope, $http, $window) {
         },
         type: JSON,
       }).then(function(response) {
-        if (response.data.length == 2) {
+        if (response.data.length >= 2) {
           $('#onto-bigfive').attr('disabled', false);
           $('#onto-bigfive').css('background-color', '#117A65');
           $('#onto-bigfive').attr('border', '1px solid #117A65');

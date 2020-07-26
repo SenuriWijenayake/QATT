@@ -193,7 +193,7 @@
 
         <div class="col-sm-12" style="padding-left:0px; padding-right:0px;">
           <div class="col-sm-6" style="padding-left:0px;">
-            <div class="yes-span row">{{qFocused.comments.progressY}}% says <i class="fa fa-thumbs-up" aria-hidden="true"></i> </div>
+            <div class="yes-span row">{{qFocused.comments.progressY}}% say <i class="fa fa-thumbs-up" aria-hidden="true"></i> </div>
             <div class="col-sm-12 comment-small" ng-repeat="comm in qFocused.comments.yes">
               <div class="debate-profile col-sm-2">
                 <img ng-show="user.socialPresence == false" src="./assets/neutral.png" class="profileImage" />
@@ -242,9 +242,13 @@
               <textarea ng-model="newCommentYes" class="new-textarea-yes" placeholder="Enter a new comment to support this opinion here.."></textarea>
               <a href="" class="new-submit" id="new-submit-yes" ng-click="submitNewStructuredComment(qFocused.questionText, qFocused.questionId, true)">Submit New Comment </a>
             </div>
+
+            <div class="col-sm-12 await-comment" ng-show="qFocused.comments.yes.length == 0">
+              Awaiting comments...
+            </div>
           </div>
           <div class="col-sm-6" style="padding-right: 0px;">
-            <div class="no-span row">{{qFocused.comments.progressN}}% says <i class="fa fa-thumbs-down" aria-hidden="true"></i></div>
+            <div class="no-span row">{{qFocused.comments.progressN}}% say <i class="fa fa-thumbs-down" aria-hidden="true"></i></div>
             <div class="col-sm-12 comment-small" ng-repeat="comm in qFocused.comments.no">
               <div class="debate-profile col-sm-2">
                 <img ng-show="user.socialPresence == false" src="./assets/neutral.png" class="profileImage" />
@@ -292,6 +296,10 @@
             <div class="col-sm-12 new-comment" ng-show="qFocused.comments.no.length > 0">
               <textarea ng-model="newCommentNo" class="new-textarea-no" placeholder="Enter a new comment against this opinion here.."></textarea>
               <a href="" class="new-submit" id="new-submit-no" ng-click="submitNewStructuredComment(qFocused.questionText, qFocused.questionId, false)">Submit New Comment </a>
+            </div>
+
+            <div class="col-sm-12 await-comment" ng-show="qFocused.comments.no.length == 0">
+              Awaiting comments...
             </div>
           </div>
         </div>

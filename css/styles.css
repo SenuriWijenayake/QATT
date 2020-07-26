@@ -18,10 +18,18 @@
   padding:10px;
 }
 
+.intro-name-new{
+  font-size: 16px;
+  padding: 10px;
+  font-weight: bold;
+  width: 150px;
+}
+
 .intro-name{
   font-size: 16px;
   padding: 10px;
   font-weight: bold;
+  /* width: 150px; */
 }
 
 .intro-start{
@@ -266,6 +274,41 @@ a:hover{
   padding: 5px;
 }
 
+.await-comment{
+  margin-top: 15px;
+  padding: 20px 0px;
+  text-align: center;
+  font-size: 20px;
+  color: grey;
+  border: 1px solid lightgray;
+  border-radius: 7px;
+}
+
+.await-votes{
+  margin-top: 5px;
+  padding: 20px 0px;
+  text-align: center;
+  font-size: 20px;
+  color: grey;
+  border: 1px solid lightgray;
+  border-radius: 7px;
+}
+
+.yet-vote-text{
+  text-align: left;
+  padding-bottom: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.border-right{
+  border-right: 3px solid darkgray;
+}
+
+.border-left{
+  border-left: 3px solid darkgray;
+}
+
 .new-submit{
   float: right;
   display: none;
@@ -422,7 +465,7 @@ a:hover{
 }
 
 .completed-submit{
-  width: 47%;
+  width: 51%;
   float: right;
   height: 43px;
   background-color: grey;
