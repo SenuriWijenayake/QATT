@@ -58,8 +58,14 @@
 .adjust-progress{
   margin-top: 5%;
   height: 25px;
-  background: #cc0000;
   width:100%;
+  background:repeating-linear-gradient(
+  45deg,
+  #990000,
+  #990000 10px,
+  #bc0000 10px,
+  #bc0000 20px
+);
 }
 
 .progress-bar{
