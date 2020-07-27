@@ -203,14 +203,14 @@
       </div>
 
       <div class="comments-area" ng-show="user.structure == true">
-        <div class="progress adjust-progress">
+        <div class="progress adjust-progress" ng-show="qFocused.comments">
           <div class="progress-bar bg-success progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:{{qFocused.comments.progressY}}%">
           </div>
         </div>
 
         <div class="col-sm-12" style="padding-left:0px; padding-right:0px;">
           <div class="col-sm-6" style="padding-left:0px;">
-            <div class="yes-span row">{{qFocused.comments.progressY}}% say <i class="fa fa-thumbs-up" aria-hidden="true"></i> </div>
+            <div class="yes-span row" ng-show="qFocused.comments">{{qFocused.comments.progressY}}% say <i class="fa fa-thumbs-up" aria-hidden="true"></i> </div>
             <div class="col-sm-12 comment-small" ng-repeat="comm in qFocused.comments.yes">
               <div class="debate-profile col-sm-2">
                 <img ng-show="user.socialPresence == false" src="./assets/neutral.png" class="profileImage" />
@@ -244,7 +244,7 @@
           </div>
 
           <div class="col-sm-6" style="padding-right: 0px;">
-            <div class="no-span row">{{qFocused.comments.progressN}}% say <i class="fa fa-thumbs-down" aria-hidden="true"></i></div>
+            <div class="no-span row" ng-show="qFocused.comments">{{qFocused.comments.progressN}}% say <i class="fa fa-thumbs-down" aria-hidden="true"></i></div>
             <div class="col-sm-12 comment-small" ng-repeat="comm in qFocused.comments.no">
               <div class="debate-profile col-sm-2">
                 <img ng-show="user.socialPresence == false" src="./assets/neutral.png" class="profileImage" />
