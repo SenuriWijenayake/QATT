@@ -1,5 +1,5 @@
 var app = angular.module('app', []);
-var api = 'https://warm-oasis-20156.herokuapp.com/';
+var api = 'https://warm-oasis-20156.herokuapp.com';
 // var api = 'http://localhost:5000';
 
 app.controller('BigFiveController', function($scope, $http, $window) {
