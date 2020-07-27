@@ -248,7 +248,7 @@
             </div>
           </div>
           <div class="col-sm-6" style="padding-right: 0px;">
-            <div class="no-span row">{{qFocused.comments.progressN}}% say <i class="fa fa-thumbs-down" aria-hidden="true"></i></div>
+            <div class="no-span row" ng-show="qFocused.comments">{{qFocused.comments.progressN}}% say <i class="fa fa-thumbs-down" aria-hidden="true"></i></div>
             <div class="col-sm-12 comment-small" ng-repeat="comm in qFocused.comments.no">
               <div class="debate-profile col-sm-2">
                 <img ng-show="user.socialPresence == false" src="./assets/neutral.png" class="profileImage" />
