@@ -193,7 +193,7 @@
 
         <div class="col-sm-12" style="padding-left:0px; padding-right:0px;">
           <div class="col-sm-6" style="padding-left:0px;">
-            <div class="yes-span row">{{qFocused.comments.progressY}}% say <i class="fa fa-thumbs-up" aria-hidden="true"></i> </div>
+            <div class="yes-span row" ng-show="qFocused.comments">{{qFocused.comments.progressY}}% say <i class="fa fa-thumbs-up" aria-hidden="true"></i> </div>
             <div class="col-sm-12 comment-small" ng-repeat="comm in qFocused.comments.yes">
               <div class="debate-profile col-sm-2">
                 <img ng-show="user.socialPresence == false" src="./assets/neutral.png" class="profileImage" />
