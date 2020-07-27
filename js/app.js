@@ -672,6 +672,9 @@ app.controller('HomeController', function($scope, $http, $window) {
 
     var comment = $('#' + replyId).val();
     if ($.trim(comment)) {
+      //Disable the reply button
+      $('#' + replyId + "_submit").attr('disabled', 'true');
+
       //Prepare the reply
 
       var data = {
@@ -698,6 +701,7 @@ app.controller('HomeController', function($scope, $http, $window) {
           text: qText
         };
         $scope.secondClick(q);
+        $('#' + replyId + "_submit").attr('disabled', 'false');
       }, function(error) {
         console.log("Error occured while retrieving saving reply.");
       });
