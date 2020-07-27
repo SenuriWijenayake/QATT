@@ -11,6 +11,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	<script type="text/javascript" src="./js/app.js"></script>
+	  <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="./css/styles.css">
@@ -83,7 +84,7 @@
 					Given below are a number of characteristics that may or may not apply to you.
 					Indiciate to what extent you agree or disagree with each statement.
 					<br />Select a value for ALL the statements.</div>
-				<form id="my-form" action="https://warm-oasis-20156.herokuapp.com/bigFiveData" method="post">
+				<form id="my-form" action="http://localhost:5000/bigFiveData" method="post">
 					<input type="hidden" name="userId" id="userId" value="{{user.userId}}">
 					<table>
 						<tr>

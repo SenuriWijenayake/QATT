@@ -1,4 +1,16 @@
 /* Styles for the intro page */
+.overlay {
+    background-color:#EFEFEF;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    top: 0px;
+    left: 0px;
+    opacity: .5; /* in FireFox */
+    filter: alpha(opacity=50); /* in IE */
+}
+
 .introcontainer{
   padding: 30px 50px;
   text-align: center;

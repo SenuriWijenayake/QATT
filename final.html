@@ -12,6 +12,7 @@
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
   <script src="https://kit.fontawesome.com/95d795fabf.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 
   <script type="text/javascript" src="./js/app.js"></script>
 
@@ -144,7 +145,7 @@
 
       <!-- Button to take to post survey questionnaire -->
       <div class="col-sm-12" style="padding-top: 15px;">
-        <div class="col-sm-8" style="padding-right: 39px;">
+        <div class="col-sm-8" style="padding-right: 39px;" ng-show="questions.length > 0">
           <button id="onto-bigfive" class="onto-bigfive" ng-click="toBigFive()" disabled></button>
         </div>
         <div class="col-sm-4">

@@ -1,11 +1,11 @@
 var app = angular.module('app', []);
-var api = 'https://warm-oasis-20156.herokuapp.com';
-// var api = 'http://localhost:5000';
+// var api = 'https://warm-oasis-20156.herokuapp.com';
+var api = 'http://localhost:5000';
 
 app.controller('BigFiveController', function($scope, $http, $window) {
 
   $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
-
+  $.LoadingOverlay("show");
   //Get user status
   $http({
     method: 'POST',
@@ -24,8 +24,10 @@ app.controller('BigFiveController', function($scope, $http, $window) {
         $scope.questions = response.data;
         document.getElementById('userId').value = $scope.user.userId;
         $('.big-five-question-container').css("display", "block");
+        $.LoadingOverlay("hide");
       }, function(error) {
         console.log("Error occured when loading the big five questions");
+        $.LoadingOverlay("hide");
       });
 
     } else {
@@ -36,15 +38,20 @@ app.controller('BigFiveController', function($scope, $http, $window) {
       }).then(function(response) {
         $scope.uesQuestions = response.data;
         document.getElementById('userId').value = $scope.user.userId;
+        $.LoadingOverlay("hide");
       }, function(error) {
         console.log("Error occured when loading the UES questions");
+        $.LoadingOverlay("hide");
       });
     }
   }, function(error) {
     console.log("Error occured when checking user status");
+    $.LoadingOverlay("hide");
   });
 
   $scope.UES_Submit = function() {
+
+    $.LoadingOverlay("show");
     //Get the form data
     var UESData = $('#ues-form').serializeArray().reduce(function(obj, item) {
       obj[item.name] = item.value;
@@ -61,13 +68,13 @@ app.controller('BigFiveController', function($scope, $http, $window) {
         $scope.questions = response.data;
         document.getElementById('userId').value = $scope.user.userId;
         $('.big-five-question-container').css("display", "block");
+        $.LoadingOverlay("hide");
       }, function(error) {
         console.log("Error occured when loading the big five questions");
+        $.LoadingOverlay("hide");
       });
     }
   };
-
-
 });
 
 app.controller('IndexController', function($scope, $http, $window) {
@@ -368,7 +375,7 @@ app.controller('HomeController', function($scope, $http, $window) {
 
   $scope.questions = [];
   $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
-
+  $.LoadingOverlay("show");
   //HTTP call to get all questions
   $http({
     method: 'POST',
@@ -382,6 +389,7 @@ app.controller('HomeController', function($scope, $http, $window) {
     type: JSON,
   }).then(function(response) {
     $scope.questions = response.data;
+    $.LoadingOverlay("hide");
   }, function(error) {
     console.log("Error occured while retrieving questions");
   });
@@ -423,7 +431,7 @@ app.controller('HomeController', function($scope, $http, $window) {
     $scope.explainProvided = false;
     $scope.confProvided = false;
     modal.style.display = "block";
-  }
+  };
 
   // When the user clicks on <span> (x), close the modal
   span.onclick = function() {
@@ -476,7 +484,7 @@ app.controller('HomeController', function($scope, $http, $window) {
 
   $scope.submitAnswer = function(answer) {
     if ($scope.opinionProvided && $scope.confProvided && $scope.explainProvided) {
-
+      $.LoadingOverlay("show");
       //Disable the modal and show loader
       $("#home-submit").attr("disabled", true);
       $("input[type=radio]").attr('disabled', true);
@@ -508,16 +516,26 @@ app.controller('HomeController', function($scope, $http, $window) {
       }).then(function(response) {
         //Take to the page with user comments
         modal.style.display = "none";
-        $scope.secondClick($scope.modalData);
+        $scope.showCommentsOnly(response.data);
+        $.LoadingOverlay("hide");
+        // $scope.secondClick($scope.modalData);
       }, function(error) {
         console.log("Error occured while submitting initial answer");
+        $.LoadingOverlay("hide");
       });
 
     };
+  };
 
+  $scope.showCommentsOnly = function(data) {
+    $('.debating-area').css('display', 'block');
+    $('.homecontainer').css('display', 'none');
+    $scope.qFocused = data;
   };
 
   $scope.secondClick = function(q) {
+
+    $.LoadingOverlay("show");
     $('.debating-area').css('display', 'block');
     $('.homecontainer').css('display', 'none');
 
@@ -535,10 +553,11 @@ app.controller('HomeController', function($scope, $http, $window) {
       data: data,
       type: JSON,
     }).then(function(response) {
-      console.log(response.data);
       $scope.qFocused = response.data;
+      $.LoadingOverlay("hide");
     }, function(error) {
       console.log("Error occured while retrieving user comments on question.");
+      $.LoadingOverlay("hide");
     });
   };
 
@@ -568,6 +587,7 @@ app.controller('HomeController', function($scope, $http, $window) {
 
   $scope.submitNewComment = function(qText, qId) {
 
+    $.LoadingOverlay("show");
     $('.new-textarea').attr('disabled', true);
     $('#new-submit').attr('disabled', true);
 
@@ -589,29 +609,30 @@ app.controller('HomeController', function($scope, $http, $window) {
       data: data,
       type: JSON,
     }).then(function(response) {
-      var q = {
-        questionNumber: qId,
-        text: qText
-      };
+      // var q = {
+      //   questionNumber: qId,
+      //   text: qText
+      // };
       $('.new-textarea').attr('disabled', false);
       $('#new-submit').attr('disabled', false);
       $('#new-submit').css('display', 'none');
       $scope.newComment = "";
-
-      $scope.secondClick(q);
+      $scope.showCommentsOnly(response.data);
+      $.LoadingOverlay("hide");
+      // $scope.secondClick(q);
     }, function(error) {
       console.log("Error occured while saving new comment.");
+      $.LoadingOverlay("hide");
     });
 
   };
 
-
   $scope.submitNewStructuredComment = function(qText, qId, isAgree) {
-
+    $.LoadingOverlay("show");
     var x;
-    if (isAgree){
+    if (isAgree) {
       x = true;
-    } else{
+    } else {
       x = false;
     }
     var newComment = (x ? $scope.newCommentYes : $scope.newCommentNo);
@@ -640,11 +661,10 @@ app.controller('HomeController', function($scope, $http, $window) {
       data: data,
       type: JSON,
     }).then(function(response) {
-      var q = {
-        questionNumber: qId,
-        text: qText
-      };
-
+      // var q = {
+      //   questionNumber: qId,
+      //   text: qText
+      // };
       $('.new-textarea-yes').attr('disabled', false);
       $('.new-textarea-no').attr('disabled', false);
       $('#new-submit-yes').attr('disabled', false);
@@ -654,29 +674,29 @@ app.controller('HomeController', function($scope, $http, $window) {
 
       $scope.newCommentYes = "";
       $scope.newCommentNo = "";
-
-      $scope.secondClick(q);
+      $scope.showCommentsOnly(response.data);
+      $.LoadingOverlay("hide");
+      // $scope.secondClick(q);
     }, function(error) {
       console.log("Error occured while saving new comment.");
+      $.LoadingOverlay("hide");
     });
+
   };
 
-
   $scope.sendStructuredReply = function(commentId, replyId, qText, qId, isAgree) {
+
     var x;
-    if (isAgree){
+    if (isAgree) {
       x = true;
-    } else{
+    } else {
       x = false;
     }
 
     var comment = $('#' + replyId).val();
     if ($.trim(comment)) {
-      //Disable the reply button
-      $('#' + replyId + "_submit").attr('disabled', 'true');
-
+      $.LoadingOverlay("show");
       //Prepare the reply
-
       var data = {
         socialPresence: $scope.user.socialPresence,
         structure: $scope.user.structure,
@@ -696,31 +716,22 @@ app.controller('HomeController', function($scope, $http, $window) {
         data: data,
         type: JSON,
       }).then(function(response) {
-        var q = {
-          questionNumber: qId,
-          text: qText
-        };
-        $scope.secondClick(q);
-        $('#' + replyId + "_submit").attr('disabled', 'false');
+        $scope.showCommentsOnly(response.data);
+        $.LoadingOverlay("hide");
+        // $scope.secondClick(q);
       }, function(error) {
         console.log("Error occured while retrieving saving reply.");
       });
     } else {
-      var q = {
-        questionNumber: qId,
-        text: qText
-      };
-      $scope.secondClick(q);
+      alert("Can't submit blank comment.");
     }
   };
 
-
   $scope.sendReply = function(commentId, replyId, qText, qId) {
-
     var comment = $('#' + replyId).val();
     if ($.trim(comment)) {
       //Prepare the reply
-
+      $.LoadingOverlay("show");
       var data = {
         socialPresence: $scope.user.socialPresence,
         structure: $scope.user.structure,
@@ -739,25 +750,24 @@ app.controller('HomeController', function($scope, $http, $window) {
         data: data,
         type: JSON,
       }).then(function(response) {
-        var q = {
-          questionNumber: qId,
-          text: qText
-        };
-        $scope.secondClick(q);
+        // var q = {
+        //   questionNumber: qId,
+        //   text: qText
+        // };
+        // $scope.secondClick(q);
+        $scope.showCommentsOnly(response.data);
+        $.LoadingOverlay("hide");
       }, function(error) {
         console.log("Error occured while retrieving saving reply.");
       });
     } else {
-      var q = {
-        questionNumber: qId,
-        text: qText
-      };
-      $scope.secondClick(q);
+      alert("Can't submit a blank comment.");
     }
   };
 
   $scope.updateVoteForComment = function(commentId, qText, qId, vote) {
 
+    $.LoadingOverlay("show");
     var e;
     if (vote) {
       e = commentId + "_" + "upvote"
@@ -788,11 +798,13 @@ app.controller('HomeController', function($scope, $http, $window) {
       data: data,
       type: JSON,
     }).then(function(response) {
-      var q = {
-        questionNumber: qId,
-        text: qText
-      };
-      $scope.secondClick(q);
+      // var q = {
+      //   questionNumber: qId,
+      //   text: qText
+      // };
+      // $scope.secondClick(q);
+      $scope.showCommentsOnly(response.data);
+      $.LoadingOverlay("hide");
     }, function(error) {
       console.log("Error occured while updating vote count.");
     });
@@ -800,7 +812,7 @@ app.controller('HomeController', function($scope, $http, $window) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Jul 27, 2020 19:30:00").getTime();
+  var countDownDate = new Date("Jul 27, 2020 21:45:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -873,7 +885,7 @@ app.controller('HomeController', function($scope, $http, $window) {
 app.controller('FinalController', function($scope, $http, $window) {
   $scope.questions = [];
   $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
-
+  $.LoadingOverlay("show");
   //HTTP call to get all questions
   $http({
     method: 'POST',
@@ -887,8 +899,10 @@ app.controller('FinalController', function($scope, $http, $window) {
     type: JSON,
   }).then(function(response) {
     $scope.questions = response.data;
+    $.LoadingOverlay("hide");
   }, function(error) {
     console.log("Error occured while retrieving questionsAtVote");
+    $.LoadingOverlay("hide");
   });
 
   //Modal
@@ -995,6 +1009,7 @@ app.controller('FinalController', function($scope, $http, $window) {
 
   $scope.submitVote = function(answer) {
     if ($scope.opinionProvided && $scope.confProvided && $scope.explainProvided) {
+      $.LoadingOverlay("show");
       //Disable the modal and show loader
       $("#final-submit").attr("disabled", true);
       $("#vote-button-" + $scope.modalData.questionId).css("display", "none");
@@ -1033,6 +1048,7 @@ app.controller('FinalController', function($scope, $http, $window) {
           $scope.showVotes(data);
         } else if ($scope.user.socialPresence == false) {
           //No public asnwers
+          $.LoadingOverlay("hide");
           modal_vote.style.display = "none";
           $("#voted-button-" + $scope.modalData.questionId).css("display", "inline");
         }
@@ -1043,7 +1059,7 @@ app.controller('FinalController', function($scope, $http, $window) {
   };
 
   $scope.showCommentsDisabled = function(q) {
-
+    $.LoadingOverlay("show");
     $('.debating-area').css('display', 'block');
     $('.homecontainer').css('display', 'none');
 
@@ -1065,13 +1081,16 @@ app.controller('FinalController', function($scope, $http, $window) {
       if ($scope.user.socialPresence == false && q.voted == true) {
         $(".vote-button").css("display", "none");
         $(".voted-button").css("display", "inline");
-      }
+      };
+      $.LoadingOverlay("hide");
     }, function(error) {
       console.log("Error occured while retrieving user comments on question.");
+      $.LoadingOverlay("hide");
     });
   };
 
   $scope.showVotes = function(d) {
+
     var data = {
       questionId: d.questionNumber,
       questionText: d.text,
@@ -1085,13 +1104,13 @@ app.controller('FinalController', function($scope, $http, $window) {
       data: data,
       type: JSON,
     }).then(function(response) {
-      if ($scope.user.structure){
+      if ($scope.user.structure) {
         var v = response.data.votes;
         var yesVotes = [];
         var noVotes = [];
         var notAttempted = [];
         for (var i = 0; i < v.length; i++) {
-          if (v[i].vote == "yes"){
+          if (v[i].vote == "yes") {
             yesVotes.push(v[i]);
           } else if (v[i].vote == "no") {
             noVotes.push(v[i]);
@@ -1107,16 +1126,19 @@ app.controller('FinalController', function($scope, $http, $window) {
       }
 
       $scope.focusedVotes = response.data;
+      $.LoadingOverlay("hide");
       modal_vote.style.display = "block";
       $('.modal-first').css('display', 'none');
       $('.modal-votes').css('display', 'inline');
 
     }, function(error) {
       console.log("Error occured while retrieving votes");
+      $.LoadingOverlay("hide");
     });
   };
 
   $scope.showVotesAtHome = function(d) {
+    $.LoadingOverlay("show");
     $('.debating-area').css('display', 'none');
     $('.homecontainer').css('display', 'block');
 
@@ -1133,13 +1155,13 @@ app.controller('FinalController', function($scope, $http, $window) {
       data: data,
       type: JSON,
     }).then(function(response) {
-      if ($scope.user.structure){
+      if ($scope.user.structure) {
         var v = response.data.votes;
         var yesVotes = [];
         var noVotes = [];
         var notAttempted = [];
         for (var i = 0; i < v.length; i++) {
-          if (v[i].vote == "yes"){
+          if (v[i].vote == "yes") {
             yesVotes.push(v[i]);
           } else if (v[i].vote == "no") {
             noVotes.push(v[i]);
@@ -1153,19 +1175,20 @@ app.controller('FinalController', function($scope, $http, $window) {
         response.data.progressY = Math.round(yesVotes.length / (yesVotes.length + noVotes.length) * 100);
         response.data.progressN = Math.round(noVotes.length / (yesVotes.length + noVotes.length) * 100);
       }
-      console.log(response.data);
 
       $scope.focusedVotes = response.data;
+      $.LoadingOverlay("hide");
       modal.style.display = "block";
       $('.modal-votes').css('display', 'inline');
 
     }, function(error) {
       console.log("Error occured while retrieving votes");
+      $.LoadingOverlay("hide");
     });
   };
 
   //Timer to the personality quiz
-  var countDownDate = new Date("Jul 27, 2020 19:55:00").getTime();
+  var countDownDate = new Date("Jul 27, 2020 22:00:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -1209,6 +1232,8 @@ app.controller('FinalController', function($scope, $http, $window) {
   }, 1000);
 
   $scope.toBigFive = function() {
+
+    $.LoadingOverlay("show");
     $('#completed-vote-loader').css('display', 'inline');
     $('#onto-bigfive').attr('disabled', true);
     $('#onto-bigfive').css('background-color', 'grey');
@@ -1227,6 +1252,7 @@ app.controller('FinalController', function($scope, $http, $window) {
     }).then(function(response) {
       $('#completed-vote-loader').css('display', 'none');
       $window.location.href = './big-five.html';
+      $.LoadingOverlay("hide");
     }, function(error) {
       console.log("Error occured while updating user status");
     });
