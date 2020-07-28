@@ -1,6 +1,6 @@
 var app = angular.module('app', []);
-var api = 'https://warm-oasis-20156.herokuapp.com';
-// var api = 'http://localhost:5000';
+// var api = 'https://warm-oasis-20156.herokuapp.com';
+var api = 'http://localhost:5000';
 
 app.controller('BigFiveController', function($scope, $http, $window) {
 
@@ -82,7 +82,7 @@ app.controller('IndexController', function($scope, $http, $window) {
   //Change here to change the experimental condition
   $scope.user = {};
   $scope.user.structure = true;
-  $scope.user.socialPresence = true;
+  $scope.user.socialPresence = false;
 
   $scope.emailValid = false;
   $scope.usernameValid = false;
