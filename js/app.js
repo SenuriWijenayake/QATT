@@ -812,7 +812,7 @@ app.controller('HomeController', function($scope, $http, $window) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Jul 28, 2020 16:30:00").getTime();
+  var countDownDate = new Date("Jul 28, 2020 16:25:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
