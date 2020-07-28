@@ -82,7 +82,7 @@ app.controller('IndexController', function($scope, $http, $window) {
   //Change here to change the experimental condition
   $scope.user = {};
   $scope.user.structure = true;
-  $scope.user.socialPresence = false;
+  $scope.user.socialPresence = true;
 
   $scope.emailValid = false;
   $scope.usernameValid = false;
@@ -812,7 +812,7 @@ app.controller('HomeController', function($scope, $http, $window) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Jul 28, 2020 16:25:00").getTime();
+  var countDownDate = new Date("Jul 28, 2020 17:05:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -1188,7 +1188,7 @@ app.controller('FinalController', function($scope, $http, $window) {
   };
 
   //Timer to the personality quiz
-  var countDownDate = new Date("Jul 28, 2020 16:35:00").getTime();
+  var countDownDate = new Date("Jul 28, 2020 17:10:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
