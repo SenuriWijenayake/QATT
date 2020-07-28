@@ -51,7 +51,6 @@ app.controller('BigFiveController', function($scope, $http, $window) {
 
   $scope.UES_Submit = function() {
 
-    $.LoadingOverlay("show");
     //Get the form data
     var UESData = $('#ues-form').serializeArray().reduce(function(obj, item) {
       obj[item.name] = item.value;
@@ -59,6 +58,7 @@ app.controller('BigFiveController', function($scope, $http, $window) {
     }, {});
 
     if (Object.getOwnPropertyNames(UESData).length == 13) {
+      $.LoadingOverlay("show");
       $('.UES-container').css("display", "none");
       $http({
         method: 'POST',
