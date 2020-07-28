@@ -1,6 +1,6 @@
 var app = angular.module('app', []);
-// var api = 'https://warm-oasis-20156.herokuapp.com';
-var api = 'http://localhost:5000';
+var api = 'https://warm-oasis-20156.herokuapp.com';
+// var api = 'http://localhost:5000';
 
 app.controller('BigFiveController', function($scope, $http, $window) {
 
@@ -81,8 +81,8 @@ app.controller('IndexController', function($scope, $http, $window) {
 
   //Change here to change the experimental condition
   $scope.user = {};
-  $scope.user.structure = true;
-  $scope.user.socialPresence = true;
+  $scope.user.structure = false;
+  $scope.user.socialPresence = false;
 
   $scope.emailValid = false;
   $scope.usernameValid = false;
@@ -812,7 +812,7 @@ app.controller('HomeController', function($scope, $http, $window) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Jul 27, 2020 21:45:00").getTime();
+  var countDownDate = new Date("Jul 28, 2020 15:50:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -1188,7 +1188,7 @@ app.controller('FinalController', function($scope, $http, $window) {
   };
 
   //Timer to the personality quiz
-  var countDownDate = new Date("Jul 27, 2020 22:00:00").getTime();
+  var countDownDate = new Date("Jul 28, 2020 16:10:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
