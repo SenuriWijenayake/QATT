@@ -1,6 +1,6 @@
 var app = angular.module('app', []);
-var api = 'https://warm-oasis-20156.herokuapp.com';
-// var api = 'http://localhost:5000';
+// var api = 'https://warm-oasis-20156.herokuapp.com';
+var api = 'http://localhost:5000';
 
 app.controller('BigFiveController', function($scope, $http, $window) {
 
@@ -81,7 +81,7 @@ app.controller('IndexController', function($scope, $http, $window) {
 
   //Change here to change the experimental condition
   $scope.user = {};
-  $scope.user.structure = true;
+  $scope.user.structure = false;
   $scope.user.socialPresence = false;
 
   $scope.emailValid = false;
@@ -241,7 +241,7 @@ app.controller('IndexController', function($scope, $http, $window) {
 
   $scope.submitDetails = function(user) {
 
-    if ((user.socialPresence == false ? $scope.usernameValid : true) && (user.socialPresence == true ? $scope.profilePicture : true) && user.name && user.email && $scope.emailValid && user.password && user.gender && user.age && user.education && user.field && (user.gender == 'specified' ? user.genderSpecified : true) && (user.age >= 18)) {
+    if ((user.socialPresence == false ? $scope.usernameValid : true) && (user.socialPresence == true ? $scope.profilePicture : true) && user.name && user.email && $scope.emailValid && user.password && user.gender && user.age && user.ethnicity && user.education && user.field && (user.gender == 'specified' ? user.genderSpecified : true) && (user.age >= 18)) {
 
       $("#index-next").attr('disabled', true);
       $("#passwordCheck").attr('disabled', true);
@@ -273,7 +273,8 @@ app.controller('IndexController', function($scope, $http, $window) {
           education: $scope.user.education,
           field: $scope.user.field,
           structure: $scope.user.structure,
-          socialPresence: $scope.user.socialPresence
+          socialPresence: $scope.user.socialPresence,
+          ethnicity: $scope.user.ethnicity
         },
         transformRequest: function(data, headersGetter) {
           var formData = new FormData();
@@ -812,7 +813,7 @@ app.controller('HomeController', function($scope, $http, $window) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Jul 28, 2020 17:05:00").getTime();
+  var countDownDate = new Date("Jul 29, 2020 17:00:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -1188,7 +1189,7 @@ app.controller('FinalController', function($scope, $http, $window) {
   };
 
   //Timer to the personality quiz
-  var countDownDate = new Date("Jul 28, 2020 17:10:00").getTime();
+  var countDownDate = new Date("Jul 29, 2020 17:15:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
