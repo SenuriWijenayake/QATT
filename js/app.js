@@ -82,7 +82,7 @@ app.controller('IndexController', function($scope, $http, $window) {
   //Change here to change the experimental condition
   $scope.user = {};
   $scope.user.structure = false;
-  $scope.user.socialPresence = false;
+  $scope.user.socialPresence = true;
 
   $scope.emailValid = false;
   $scope.usernameValid = false;
@@ -194,7 +194,6 @@ app.controller('IndexController', function($scope, $http, $window) {
       $("#index-signup").css('background-color', 'grey');
       $(".input-text").attr('disabled', true);
 
-      console.log(user);
       new Promise(function(resolve, reject) {
         $http({
           method: 'POST',
@@ -372,7 +371,7 @@ app.controller('IntroController', function($scope, $http, $window, $interval) {
 
 });
 
-app.controller('HomeController', function($scope, $http, $window) {
+app.controller('HomeController', function($scope, $http, $window, $timeout) {
 
   $scope.questions = [];
   $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
@@ -880,6 +879,49 @@ app.controller('HomeController', function($scope, $http, $window) {
       console.log("Error occured while updating user status");
     });
   };
+
+  //Socket Connection
+  // var socket = io.connect('http://localhost:5000');
+  // var startTime = +new Date();
+  // var clickTime = +new Date();
+  //
+  // socket.emit('new_connection', {
+  //   'userId': $scope.user.userId
+  // });
+  //
+  // setInterval(function() {
+  //   var nowDate = +new Date();
+  //   if (nowDate - clickTime >= 60000) {
+  //     socket.emit('removeSocket', {
+  //       'userId': $scope.user.userId
+  //     });
+  //     //Update user session
+  //     $http({
+  //       method: 'POST',
+  //       url: api + '/updateUserSession',
+  //       data: {
+  //         userId: $scope.user.userId,
+  //         startTime : startTime,
+  //         endTime : nowDate,
+  //         sessionTime: (nowDate - startTime)
+  //       },
+  //       type: JSON,
+  //     }).then(function(response) {
+  //       socket.disconnect();
+  //       $window.location.href = './index.html';
+  //     }, function(error) {
+  //       console.log("Error occured while updating user session");
+  //     });
+  //   }
+  // }, 30000);
+  //
+  // $(document)
+  //   .on('click', ResetTimeOutTimer)
+  //   .on('mousemove', ResetTimeOutTimer);
+  //
+  // function ResetTimeOutTimer() {
+  //   clickTime = +new Date();
+  // };
 
 });
 
