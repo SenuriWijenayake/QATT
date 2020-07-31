@@ -31,7 +31,7 @@
           <img ng-show="user.socialPresence == false" src="./assets/neutral.png" class="profileImage" />
           <img ng-show="user.socialPresence == true" src="data:image/png;base64,{{user.profilePicture}}" class="profileImage" /><br />
           <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{user.name}}</div>
-          <a href="./index.html" class="header-name col-sm-12">Logout</a>
+          <a href="" class="header-name col-sm-12" ng-click="logout()">Logout</a>
         </div>
       </div>
 
@@ -54,7 +54,7 @@
             <div class="qText">{{q.text}}</div>
             <div class="row">
               <span ng-if="q.voted" class="attempted-class"><i class="fa fa-check-circle" aria-hidden="true"></i> &nbsp; Voted</span>
-              <span ng-if="user.socialPresence == true" class="commCount-class"><i class="fas fa-poll fa-lg" aria-hidden="true"></i>&nbsp;{{q.voteCount}}</span>
+              <span class="commCount-class"><i class="fas fa-poll fa-lg" aria-hidden="true"></i>&nbsp;{{q.voteCount}}</span>
             </div>
           </a>
         </div>
@@ -162,7 +162,7 @@
           <img ng-show="user.socialPresence == false" src="./assets/neutral.png" class="profileImage" />
           <img ng-show="user.socialPresence == true" src="data:image/png;base64,{{user.profilePicture}}" class="profileImage" /><br />
           <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{user.name}}</div>
-          <a href="./index.html" class="header-name col-sm-12">Logout</a>
+          <a href="" class="header-name col-sm-12" ng-click="logout()">Logout</a>
         </div>
         <div class="col-sm-12" style="text-align: center;padding: 20px;">
           <button id="vote-button-{{qFocused.questionId}}" class="vote-button" ng-click="modalToVote(qFocused)">Submit Final Vote</button>

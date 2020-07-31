@@ -81,7 +81,7 @@ app.controller('IndexController', function($scope, $http, $window) {
 
   //Change here to change the experimental condition
   $scope.user = {};
-  $scope.user.structure = false;
+  $scope.user.structure = true;
   $scope.user.socialPresence = true;
 
   $scope.emailValid = false;
@@ -195,6 +195,7 @@ app.controller('IndexController', function($scope, $http, $window) {
       $(".input-text").attr('disabled', true);
 
       new Promise(function(resolve, reject) {
+        user.startTime = +new Date();
         $http({
           method: 'POST',
           url: api + '/login',
@@ -375,6 +376,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
 
   $scope.questions = [];
   $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
+
   $.LoadingOverlay("show");
   //HTTP call to get all questions
   $http({
@@ -534,7 +536,6 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
   };
 
   $scope.secondClick = function(q) {
-
     $.LoadingOverlay("show");
     $('.debating-area').css('display', 'block');
     $('.homecontainer').css('display', 'none');
@@ -812,7 +813,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Jul 29, 2020 17:00:00").getTime();
+  var countDownDate = new Date("Jul 31, 2020 20:24:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -848,7 +849,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
           $('#completed-submit').css('background-color', '#117A65');
           $('#completed-submit').attr('border', '1px solid #117A65');
         } else {
-          alert("You are yet to complete answering " + (18 - response.data.length) + " questions. Please answer all questions and return to Home page to proceed.")
+          alert("You are yet to complete answering " + (10 - response.data.length) + " questions. Please answer all questions and return to Home page to proceed.")
         }
       }, function(error) {
         console.log("Error occured while retrieving questions answered by user.");
@@ -880,52 +881,72 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
     });
   };
 
-  //Socket Connection
+  // Socket Connection
   // var socket = io.connect('http://localhost:5000');
   // var startTime = +new Date();
-  // var clickTime = +new Date();
+
   //
+  // console.log(socket);
+  // $window.sessionStorage.setItem('socket', JSON.stringify(socket));
   // socket.emit('new_connection', {
   //   'userId': $scope.user.userId
   // });
-  //
-  // setInterval(function() {
-  //   var nowDate = +new Date();
-  //   if (nowDate - clickTime >= 60000) {
-  //     socket.emit('removeSocket', {
-  //       'userId': $scope.user.userId
-  //     });
-  //     //Update user session
-  //     $http({
-  //       method: 'POST',
-  //       url: api + '/updateUserSession',
-  //       data: {
-  //         userId: $scope.user.userId,
-  //         startTime : startTime,
-  //         endTime : nowDate,
-  //         sessionTime: (nowDate - startTime)
-  //       },
-  //       type: JSON,
-  //     }).then(function(response) {
-  //       socket.disconnect();
-  //       $window.location.href = './index.html';
-  //     }, function(error) {
-  //       console.log("Error occured while updating user session");
-  //     });
-  //   }
-  // }, 30000);
-  //
-  // $(document)
-  //   .on('click', ResetTimeOutTimer)
-  //   .on('mousemove', ResetTimeOutTimer);
-  //
-  // function ResetTimeOutTimer() {
-  //   clickTime = +new Date();
-  // };
+
+  //Code to record session endTimes
+  var clickTime = +new Date();
+  setInterval(function() {
+    var nowDate = +new Date();
+    if (nowDate - clickTime >= 600000) {
+      //Update user session
+      $http({
+        method: 'POST',
+        url: api + '/updateUserSession',
+        data: {
+          sessionId : $scope.user.sessionId,
+          endTime : nowDate,
+          isStart : false
+        },
+        type: JSON,
+      }).then(function(response) {
+        $window.location.href = './index.html';
+        $window.sessionStorage.removeItem('user');
+      }, function(error) {
+        console.log("Error occured while updating user session");
+      });
+    }
+  }, 300000);
+
+  $(document)
+    .on('click', ResetTimeOutTimer)
+    .on('mousemove', ResetTimeOutTimer);
+
+  function ResetTimeOutTimer() {
+    clickTime = +new Date();
+  };
+
+  $scope.logout = function (){
+    var nowDate = +new Date();
+    //Update user session
+    $http({
+      method: 'POST',
+      url: api + '/updateUserSession',
+      data: {
+        sessionId : $scope.user.sessionId,
+        endTime : nowDate,
+        isStart : false
+      },
+      type: JSON,
+    }).then(function(response) {
+      $window.location.href = './index.html';
+      $window.sessionStorage.removeItem('user');
+    }, function(error) {
+      console.log("Error occured while login out");
+    });
+  };
 
 });
 
-app.controller('FinalController', function($scope, $http, $window) {
+app.controller('FinalController', function($scope, $http, $window, $timeout) {
   $scope.questions = [];
   $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
   $.LoadingOverlay("show");
@@ -1231,7 +1252,7 @@ app.controller('FinalController', function($scope, $http, $window) {
   };
 
   //Timer to the personality quiz
-  var countDownDate = new Date("Jul 29, 2020 17:15:00").getTime();
+  var countDownDate = new Date("Jul 31, 2020 14:25:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -1266,7 +1287,7 @@ app.controller('FinalController', function($scope, $http, $window) {
           $('#onto-bigfive').css('background-color', '#117A65');
           $('#onto-bigfive').attr('border', '1px solid #117A65');
         } else {
-          alert("You are yet to complete voting for " + (18 - response.data.length) + " questions. Please vote for all questions and return to Vote page to proceed.")
+          alert("You are yet to complete voting for " + (10 - response.data.length) + " questions. Please vote for all questions and return to Vote page to proceed.")
         }
       }, function(error) {
         console.log("Error occured while retrieving votes provided by user.");
@@ -1298,6 +1319,58 @@ app.controller('FinalController', function($scope, $http, $window) {
       $.LoadingOverlay("hide");
     }, function(error) {
       console.log("Error occured while updating user status");
+    });
+  };
+
+  //Code to record session endTimes
+  var clickTime = +new Date();
+  setInterval(function() {
+    var nowDate = +new Date();
+    if (nowDate - clickTime >= 600000) {
+      //Update user session
+      $http({
+        method: 'POST',
+        url: api + '/updateUserSession',
+        data: {
+          sessionId : $scope.user.sessionId,
+          endTime : nowDate,
+          isStart : false
+        },
+        type: JSON,
+      }).then(function(response) {
+        $window.location.href = './index.html';
+        $window.sessionStorage.removeItem('user');
+      }, function(error) {
+        console.log("Error occured while updating user session");
+      });
+    }
+  }, 300000);
+
+  $(document)
+    .on('click', ResetTimeOutTimer)
+    .on('mousemove', ResetTimeOutTimer);
+
+  function ResetTimeOutTimer() {
+    clickTime = +new Date();
+  };
+
+  $scope.logout = function (){
+    var nowDate = +new Date();
+    //Update user session
+    $http({
+      method: 'POST',
+      url: api + '/updateUserSession',
+      data: {
+        sessionId : $scope.user.sessionId,
+        endTime : nowDate,
+        isStart : false
+      },
+      type: JSON,
+    }).then(function(response) {
+      $window.location.href = './index.html';
+      $window.sessionStorage.removeItem('user');
+    }, function(error) {
+      console.log("Error occured while login out");
     });
   };
 

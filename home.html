@@ -31,7 +31,7 @@
           <img ng-show="user.socialPresence == false" src="./assets/neutral.png" class="profileImage" />
           <img ng-show="user.socialPresence == true" src="data:image/png;base64,{{user.profilePicture}}" class="profileImage" /><br />
           <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{user.name}}</div>
-          <a href="./index.html" class="header-name col-sm-12">Logout</a>
+          <a href="" class="header-name col-sm-12" ng-click="logout()">Logout</a>
         </div>
       </div>
 
@@ -39,12 +39,12 @@
       <div class="intro-smaller-heading"> Instructions:</div>
       <div class="home-instructions">
         <ol>
-          <li>You may start discussing these topics with your fellow group members in <b>ANY order you prefer.</b></li>
+          <li>You may start discussing these topics with your group members in <b>ANY order you prefer.</b></li>
           <li>You will be first asked to provide your initial opinion on the topic <b>WITHOUT viewing others’ comments</b>. Click on the topic, to add your opinion. </li>
-          <li>Upon submitting your initial opinion on the topic, you will see comments others have posted on the same topic. <b>You are free to post more comments, reply to others opinions as you will.</b> </li>
-          <li>Make sure to visit the site <b>at least once a day</b> for the duration of the study, and answer <b>ALL</b> questions to be eligible for the reward.</li>
-          <li>You must <b>answer ALL questions</b> within <b>6 days</b> to complete this experiement. The time left for the experiement is displayed at the bottom of this page.</li>
-          <li>When the time allocated for the study runs out, please click on the button <b>"Take me to the Final Vote page.."</b> to provide your final votes on the topics debated.</li>
+          <li>Upon submitting your initial opinion on the topic, you will see comments others have posted on the same topic.</li>
+          <li>Make sure to visit the site <b>at least once a day</b>, and answer <b>ALL</b> questions to be eligible for the reward.</li>
+          <li>You must <b>answer ALL questions</b> within <b>5 days</b> to complete this experiement. The time left for the experiment is displayed at the bottom of this page.</li>
+          <li>When the time allocated for the study runs out, please click on the button <b>"Take me to the Final Vote page"</b> to provide your final votes on the topics debated.</li>
         </ol>
       </div>
       <br />
@@ -57,7 +57,7 @@
             <div class="qText">{{q.text}}</div>
             <div class="row">
               <span ng-if="q.attempted" class="attempted-class"><i class="fa fa-check-circle" aria-hidden="true"></i> &nbsp; Commented</span>
-              <span ng-if="user.socialPresence == true" class="commCount-class"><i class="fas fa-comments fa-lg" aria-hidden="true"></i>&nbsp;{{q.commCount}}</span>
+              <span class="commCount-class"><i class="fas fa-comments fa-lg" aria-hidden="true"></i>&nbsp;{{q.commCount}}</span>
             </div>
           </a>
 
@@ -128,7 +128,7 @@
           <img ng-show="user.socialPresence == false" src="./assets/neutral.png" class="profileImage" />
           <img ng-show="user.socialPresence == true" src="data:image/png;base64,{{user.profilePicture}}" class="profileImage" /><br />
           <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{user.name}}</div>
-          <a href="./index.html" class="header-name col-sm-12">Logout</a>
+          <a href="" class="header-name col-sm-12" ng-click="logout()">Logout</a>
         </div>
       </div>
 
@@ -138,6 +138,9 @@
           <li>Feel free to <b>reply, upvote and downvote</b> comments from others. Comments will be ordered based on the number of upvotes received. </li>
           <li>You can upvote or downvote <b>main</b> comments only (NOT replies). So, make sure to <b>post new opinions to support/criticise this statement as NEW comments</b> allowing others to respond to them.</li>
         </ul>
+        <div class="intro-smaller-heading" style="padding: 10px 0px;" ng-show="user.socialPresence == true">
+          <p>The distribution of your group's <u>initial opinions</u> on this topic:</p>
+        </div>
 
         <ul ng-show="user.socialPresence == false">
           <li>You can <b>reply to comments from others</b> to argue with stated opinions.</li>
