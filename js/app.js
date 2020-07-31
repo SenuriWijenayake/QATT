@@ -813,7 +813,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Jul 31, 2020 20:24:00").getTime();
+  var countDownDate = new Date("Jul 31, 2020 21:40:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -902,9 +902,9 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
         method: 'POST',
         url: api + '/updateUserSession',
         data: {
-          sessionId : $scope.user.sessionId,
-          endTime : nowDate,
-          isStart : false
+          sessionId: $scope.user.sessionId,
+          endTime: nowDate,
+          isStart: false
         },
         type: JSON,
       }).then(function(response) {
@@ -924,16 +924,16 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
     clickTime = +new Date();
   };
 
-  $scope.logout = function (){
+  $scope.logout = function() {
     var nowDate = +new Date();
     //Update user session
     $http({
       method: 'POST',
       url: api + '/updateUserSession',
       data: {
-        sessionId : $scope.user.sessionId,
-        endTime : nowDate,
-        isStart : false
+        sessionId: $scope.user.sessionId,
+        endTime: nowDate,
+        isStart: false
       },
       type: JSON,
     }).then(function(response) {
@@ -1252,7 +1252,7 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
   };
 
   //Timer to the personality quiz
-  var countDownDate = new Date("Jul 31, 2020 14:25:00").getTime();
+  var countDownDate = new Date("Jul 31, 2020 21:40:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -1332,9 +1332,9 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
         method: 'POST',
         url: api + '/updateUserSession',
         data: {
-          sessionId : $scope.user.sessionId,
-          endTime : nowDate,
-          isStart : false
+          sessionId: $scope.user.sessionId,
+          endTime: nowDate,
+          isStart: false
         },
         type: JSON,
       }).then(function(response) {
@@ -1354,16 +1354,16 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
     clickTime = +new Date();
   };
 
-  $scope.logout = function (){
+  $scope.logout = function() {
     var nowDate = +new Date();
     //Update user session
     $http({
       method: 'POST',
       url: api + '/updateUserSession',
       data: {
-        sessionId : $scope.user.sessionId,
-        endTime : nowDate,
-        isStart : false
+        sessionId: $scope.user.sessionId,
+        endTime: nowDate,
+        isStart: false
       },
       type: JSON,
     }).then(function(response) {
