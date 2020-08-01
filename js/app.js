@@ -813,7 +813,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Jul 31, 2020 21:40:00").getTime();
+  var countDownDate = new Date("Aug 01, 2020 17:15:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -844,7 +844,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
         },
         type: JSON,
       }).then(function(response) {
-        if (response.data.length >= 2) {
+        if (response.data.length == 10) {
           $('#completed-submit').attr('disabled', false);
           $('#completed-submit').css('background-color', '#117A65');
           $('#completed-submit').attr('border', '1px solid #117A65');
@@ -1252,7 +1252,7 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
   };
 
   //Timer to the personality quiz
-  var countDownDate = new Date("Jul 31, 2020 21:40:00").getTime();
+  var countDownDate = new Date("Aug 01, 2020 17:25:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -1282,7 +1282,7 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
         },
         type: JSON,
       }).then(function(response) {
-        if (response.data.length >= 2) {
+        if (response.data.length == 10) {
           $('#onto-bigfive').attr('disabled', false);
           $('#onto-bigfive').css('background-color', '#117A65');
           $('#onto-bigfive').attr('border', '1px solid #117A65');
@@ -1303,22 +1303,36 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
     $('#onto-bigfive').css('background-color', 'grey');
     $('#onto-bigfive').attr('border', '1px solid grey');
 
-    //Mark user status
+    //Ending the user session
     $http({
       method: 'POST',
-      url: api + '/updateuser',
+      url: api + '/updateUserSession',
       data: {
-        userId: $scope.user.userId,
-        type: "completedVotes",
-        value: true
+        sessionId: $scope.user.sessionId,
+        endTime: +new Date(),
+        isStart: false
       },
       type: JSON,
     }).then(function(response) {
-      $('#completed-vote-loader').css('display', 'none');
-      $window.location.href = './big-five.html';
-      $.LoadingOverlay("hide");
+      //Mark user status
+      $http({
+        method: 'POST',
+        url: api + '/updateuser',
+        data: {
+          userId: $scope.user.userId,
+          type: "completedVotes",
+          value: true
+        },
+        type: JSON,
+      }).then(function(response) {
+        $('#completed-vote-loader').css('display', 'none');
+        $window.location.href = './big-five.html';
+        $.LoadingOverlay("hide");
+      }, function(error) {
+        console.log("Error occured while updating user status");
+      });
     }, function(error) {
-      console.log("Error occured while updating user status");
+      console.log("Error occured while updating user session");
     });
   };
 
