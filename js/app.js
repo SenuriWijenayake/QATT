@@ -81,8 +81,8 @@ app.controller('IndexController', function($scope, $http, $window) {
 
   //Change here to change the experimental condition
   $scope.user = {};
-  $scope.user.structure = true;
-  $scope.user.socialPresence = true;
+  $scope.user.structure = false;
+  $scope.user.socialPresence = false;
 
   $scope.emailValid = false;
   $scope.usernameValid = false;
