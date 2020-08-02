@@ -813,7 +813,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Aug 01, 2020 17:15:00").getTime();
+  var countDownDate = new Date("Aug 09, 2020 00:00:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -1252,7 +1252,7 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
   };
 
   //Timer to the personality quiz
-  var countDownDate = new Date("Aug 01, 2020 17:25:00").getTime();
+  var countDownDate = new Date("Aug 11, 2020 00:00:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
