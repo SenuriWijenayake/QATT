@@ -1,6 +1,6 @@
 var app = angular.module('app', []);
-var api = 'https://arcane-eyrie-37532.herokuapp.com';
-// var api = 'http://localhost:5000';
+// var api = 'https://arcane-eyrie-37532.herokuapp.com';
+var api = 'http://localhost:5000';
 
 app.controller('BigFiveController', function($scope, $http, $window) {
 
@@ -311,7 +311,7 @@ app.controller('IntroController', function($scope, $http, $window, $interval) {
   $scope.getGroupUsers = function() {
     if (angular.isDefined(stop)) return;
     stop = $interval(function() {
-      if ($scope.group.length >= 11) {
+      if ($scope.group.length >= 10) {
         //Stop checking and enable button
         $scope.stopChecking();
         $("#intro-start").attr("disabled", false);
