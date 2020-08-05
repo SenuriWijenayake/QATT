@@ -1,6 +1,6 @@
 var app = angular.module('app', []);
-// var api = 'https://arcane-eyrie-37532.herokuapp.com';
-var api = 'http://localhost:5000';
+var api = 'https://shrouded-atoll-81762.herokuapp.com';
+// var api = 'http://localhost:5000';
 
 app.controller('BigFiveController', function($scope, $http, $window) {
 
@@ -567,7 +567,8 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
       socialPresence: $scope.user.socialPresence,
       structure: $scope.user.structure,
       questionId: q.questionNumber,
-      questionText: q.text
+      questionText: q.text,
+      userId : $scope.user.userId
     };
 
     //Call to get the relevant user comments
@@ -1159,7 +1160,8 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
       socialPresence: $scope.user.socialPresence,
       structure: $scope.user.structure,
       questionId: q.questionNumber,
-      questionText: q.text
+      questionText: q.text,
+      userId : $scope.user.userId
     };
 
     //Call to get the relevant user comments
