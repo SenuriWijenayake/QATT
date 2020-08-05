@@ -346,27 +346,50 @@ app.controller('IntroController', function($scope, $http, $window, $interval) {
   $scope.getGroupUsers();
 
   $scope.start = function() {
+
     $("#intro-start").attr("disabled", true);
     $("#intro-start").css("background-color", "grey");
     $("#intro-start").css("border", "1px solid grey");
     $("#intro-loader").css("display", "block");
 
-    //Update that the user has started the discussion
+    //Start a new session
+    var startTime = +new Date();
     $http({
       method: 'POST',
-      url: api + '/updateuser',
+      url: api + '/updateUserSession',
       data: {
         userId: $scope.user.userId,
-        type: "firstVisit",
-        value: false
+        startTime: startTime,
+        isStart: true
       },
       type: JSON,
     }).then(function(response) {
-      $("#intro-loader").css("display", "none");
-      $window.location.href = './home.html';
+      //Set up the user object
+      $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
+      $scope.user.sessionId = response.data;
+      $scope.user.startTime = startTime;
 
+      $window.sessionStorage.removeItem('user');
+      $window.sessionStorage.setItem('user', JSON.stringify($scope.user));
+      $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
+      //Update that the user has started the discussion
+      $http({
+        method: 'POST',
+        url: api + '/updateuser',
+        data: {
+          userId: $scope.user.userId,
+          type: "firstVisit",
+          value: false
+        },
+        type: JSON,
+      }).then(function(response) {
+        $("#intro-loader").css("display", "none");
+        $window.location.href = './home.html';
+      }, function(error) {
+        console.log("Error occured while updating user status");
+      });
     }, function(error) {
-      console.log("Error occured while updating user status");
+      console.log("Error occured while creating session");
     });
   };
 
@@ -813,7 +836,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Aug 04, 2020 13:00:00").getTime();
+  var countDownDate = new Date("Aug 05, 2020 18:00:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -1252,7 +1275,7 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
   };
 
   //Timer to the personality quiz
-  var countDownDate = new Date("Aug 14, 2020 17:00:00").getTime();
+  var countDownDate = new Date("Aug 5, 2020 17:00:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
