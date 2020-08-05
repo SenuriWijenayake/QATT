@@ -577,6 +577,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
       data: data,
       type: JSON,
     }).then(function(response) {
+      console.log(response.data);
       $scope.qFocused = response.data;
       $.LoadingOverlay("hide");
     }, function(error) {
@@ -836,7 +837,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Aug 05, 2020 18:00:00").getTime();
+  var countDownDate = new Date("Aug 05, 2020 19:30:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -948,6 +949,8 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
   };
 
   $scope.logout = function() {
+
+    $.LoadingOverlay("show");
     var nowDate = +new Date();
     //Update user session
     $http({
@@ -962,8 +965,10 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
     }).then(function(response) {
       $window.location.href = './index.html';
       $window.sessionStorage.removeItem('user');
+      $.LoadingOverlay("hide");
     }, function(error) {
       console.log("Error occured while login out");
+      $.LoadingOverlay("hide");
     });
   };
 
@@ -1275,7 +1280,7 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
   };
 
   //Timer to the personality quiz
-  var countDownDate = new Date("Aug 5, 2020 17:00:00").getTime();
+  var countDownDate = new Date("Aug 5, 2020 20:00:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -1392,6 +1397,8 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
   };
 
   $scope.logout = function() {
+
+    $.LoadingOverlay("show");
     var nowDate = +new Date();
     //Update user session
     $http({
@@ -1406,8 +1413,10 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
     }).then(function(response) {
       $window.location.href = './index.html';
       $window.sessionStorage.removeItem('user');
+      $.LoadingOverlay("hide");
     }, function(error) {
       console.log("Error occured while login out");
+      $.LoadingOverlay("hide");
     });
   };
 
