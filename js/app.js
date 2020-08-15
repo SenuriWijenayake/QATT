@@ -772,7 +772,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
         comment: comment,
         isReply: true,
         parentComment: commentId,
-        parentName : parentName,
+        // parentName : parentName,
         questionText: qText
       };
 
@@ -844,7 +844,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Aug 15, 2020 19:48:00").getTime();
+  var countDownDate = new Date("Aug 15, 2020 22:48:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -992,6 +992,28 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
         }
       }
     }, 1000);
+  });
+
+  $scope.notifications = [
+    {
+      "order": 1,
+      "text": "Senuri Wijenayake upvoted on your answer to 'Should voting be mandatory'",
+      "timestamp": "Aug 15, 3 pm"
+    },
+    {
+      "order": 2,
+      "text": "Senuri Wijenayake replied on your answer to 'Should voting be mandatory'",
+      "timestamp": "Aug 15, 3 pm"
+    },
+    {
+      "order": 3,
+      "text": "Senuri Wijenayake downvoted on your answer to 'Should voting be mandatory'",
+      "timestamp": "Aug 15, 3 pm"
+    }
+  ];
+
+  $(".dropdown").hover(function() {
+    $('.badge').css("display", "none");
   });
 
 });
