@@ -51,17 +51,17 @@
 
       <div class="intro-smaller-heading"> Online now:</div>
       <div class="online-section">
-        <div class="online-profile col-sm-1" ng-repeat="u in online" ng-show="online.length > 0">
+        <div class="online-profile col-sm-1" ng-repeat="u in online" ng-if="online.length > 0">
           <img ng-show="user.socialPresence == true" src="data:image/png;base64,{{u.profilePicture}}" class="profileImage" /><br />
           <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{u.name}}</div>
         </div>
-        <div class="not-online-text" ng-show="online.length == 0">
+        <div class="not-online-text" ng-if="online.length == 0">
           Others are offline at the moment...
         </div>
       </div>
 
 
-      <div class="row col-sm-12 question-area" style="margin-top:30px;">
+      <div class="row col-sm-12 question-area" style="margin-top:20px;">
         <div class="intro-smaller-heading">Debating topics:</div>
 
         <div ng-repeat="q in questions" class="qcontainer col-sm-4">
@@ -176,8 +176,8 @@
 
           <div class="col-sm-12" style="padding-bottom: 10px;">
 
-            <a href="" id="{{comm.id}}_reply" class="comm-reply" ng-click="showReply(comm.id)"><i class="fa fa-reply" aria-hidden="true"></i> &nbsp;Reply &nbsp;</a>
-            <a href="" id="{{comm.id}}_submit" class="comm-submit" ng-click="sendReply(comm.id, comm.id, qFocused.questionText, qFocused.questionId)">Submit</a>
+            <a href="" id="{{comm.id}}_reply" class="comm-reply" ng-click="showReply(comm.id, comm.username)"><i class="fa fa-reply" aria-hidden="true"></i> &nbsp;Reply &nbsp;</a>
+            <a href="" id="{{comm.id}}_submit" class="comm-submit" ng-click="sendReply(comm.id, comm.id, qFocused.questionText, qFocused.questionId, comm.username)">Submit</a>
 
             <a ng-show="user.socialPresence == true" href="" id="{{comm.id}}_downvote" class="comm-downvote" ng-class="{'disable-vote': comm.userId == user.userId, 'have-voted': comm.downVotes.includes(user.userId)}" ng-click="updateVoteForComment(comm.id, qFocused.questionText, qFocused.questionId, false)"><i
                 class="fa fa-thumbs-down" aria-hidden="true"></i> &nbsp;{{comm.downVotes.length}} &nbsp; &nbsp;</a>
@@ -200,8 +200,8 @@
             </div>
 
             <div class="col-sm-12" style="padding-right: 0px;">
-              <a href="" class="comm-reply" id="{{reply.id}}_reply" ng-click="showReply(reply.id)"><i class="fa fa-reply" aria-hidden="true"></i> &nbsp;Reply</a>
-              <a href="" class="comm-submit" id="{{reply.id}}_submit" ng-click="sendReply(comm.id, reply.id, qFocused.questionText, qFocused.questionId)">Submit</a>
+              <a href="" class="comm-reply" id="{{reply.id}}_reply" ng-click="showReply(reply.id, reply.username)"><i class="fa fa-reply" aria-hidden="true"></i> &nbsp;Reply</a>
+              <a href="" class="comm-submit" id="{{reply.id}}_submit" ng-click="sendReply(comm.id, reply.id, qFocused.questionText, qFocused.questionId, reply.username)">Submit</a>
               <textarea id="{{reply.id}}" class="reply-textarea"></textarea>
             </div>
           </div>
@@ -237,7 +237,7 @@
 
               <div class="col-sm-12" style="padding-bottom: 10px;">
 
-                <a href="" id="{{comm.id}}_reply" class="comm-reply" ng-click="showReply(comm.id)"><i class="fa fa-reply" aria-hidden="true"></i> &nbsp;Reply &nbsp;</a>
+                <a href="" id="{{comm.id}}_reply" class="comm-reply" ng-click="showReply(comm.id, comm.username)"><i class="fa fa-reply" aria-hidden="true"></i> &nbsp;Reply &nbsp;</a>
                 <a href="" id="{{comm.id}}_submit" class="comm-submit" ng-click="sendStructuredReply(comm.id, comm.id, qFocused.questionText, qFocused.questionId, true)">Submit</a>
 
                 <a ng-show="user.socialPresence == true" href="" id="{{comm.id}}_downvote" class="comm-downvote" ng-class="{'disable-vote': comm.userId == user.userId, 'have-voted': comm.downVotes.includes(user.userId)}" ng-click="updateVoteForComment(comm.id, qFocused.questionText, qFocused.questionId, false)"><i
@@ -261,7 +261,7 @@
                 </div>
 
                 <div class="col-sm-12" style="padding-right: 0px;">
-                  <a href="" class="comm-reply" id="{{reply.id}}_reply" ng-click="showReply(reply.id)"><i class="fa fa-reply" aria-hidden="true"></i> &nbsp;Reply</a>
+                  <a href="" class="comm-reply" id="{{reply.id}}_reply" ng-click="showReply(reply.id, reply.username)"><i class="fa fa-reply" aria-hidden="true"></i> &nbsp;Reply</a>
                   <a href="" class="comm-submit" id="{{reply.id}}_submit" ng-click="sendStructuredReply(comm.id, reply.id, qFocused.questionText, qFocused.questionId, true)">Submit</a>
                   <textarea id="{{reply.id}}" class="reply-textarea"></textarea>
                 </div>
@@ -292,7 +292,7 @@
 
               <div class="col-sm-12" style="padding-bottom: 10px;">
 
-                <a href="" id="{{comm.id}}_reply" class="comm-reply" ng-click="showReply(comm.id)"><i class="fa fa-reply" aria-hidden="true"></i> &nbsp;Reply &nbsp;</a>
+                <a href="" id="{{comm.id}}_reply" class="comm-reply" ng-click="showReply(comm.id, comm.username)"><i class="fa fa-reply" aria-hidden="true"></i> &nbsp;Reply &nbsp;</a>
                 <a href="" id="{{comm.id}}_submit" class="comm-submit" ng-click="sendStructuredReply(comm.id, comm.id, qFocused.questionText, qFocused.questionId, false)">Submit</a>
 
                 <a ng-show="user.socialPresence == true" href="" id="{{comm.id}}_downvote" class="comm-downvote" ng-class="{'disable-vote': comm.userId == user.userId, 'have-voted': comm.downVotes.includes(user.userId)}" ng-click="updateVoteForComment(comm.id, qFocused.questionText, qFocused.questionId, false)"><i
@@ -316,7 +316,7 @@
                 </div>
 
                 <div class="col-sm-12" style="padding-right: 0px;">
-                  <a href="" class="comm-reply" id="{{reply.id}}_reply" ng-click="showReply(reply.id)"><i class="fa fa-reply" aria-hidden="true"></i> &nbsp;Reply</a>
+                  <a href="" class="comm-reply" id="{{reply.id}}_reply" ng-click="showReply(reply.id, reply.username)"><i class="fa fa-reply" aria-hidden="true"></i> &nbsp;Reply</a>
                   <a href="" class="comm-submit" id="{{reply.id}}_submit" ng-click="sendStructuredReply(comm.id, reply.id, qFocused.questionText, qFocused.questionId, false)">Submit</a>
                   <textarea id="{{reply.id}}" class="reply-textarea"></textarea>
                 </div>

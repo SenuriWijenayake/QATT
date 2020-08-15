@@ -59,7 +59,7 @@
         </div>
       </div>
 
-      <div class="row col-sm-12 question-area" style="margin-top:30px;">
+      <div class="row col-sm-12 question-area" style="margin-top:20px;">
         <div class="intro-smaller-heading">Topics to vote:</div>
         <div ng-repeat="q in questions" class="qcontainer col-sm-4">
           <a href="" class="col-sm-12 qBox" ng-click="(q.voted == false) ? showCommentsDisabled(q) : (user.socialPresence == true ? showVotesAtHome(q) : showCommentsDisabled(q)) ">

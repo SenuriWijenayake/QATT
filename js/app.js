@@ -399,8 +399,8 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
 
   // Socket Connection
   socket = io.connect('http://localhost:5000');
-
   $scope.online = [];
+
   $scope.questions = [];
   $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
 
@@ -591,8 +591,9 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
     });
   };
 
-  $scope.showReply = function(id) {
+  $scope.showReply = function(id, username) {
     $('#' + id).css('display', 'inline');
+    $('#' + id).append("@" + username + " ");
     $('#' + id + '_reply').css('display', 'none');
     $('#' + id + '_submit').css('display', 'inline');
   };
@@ -757,7 +758,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
     }
   };
 
-  $scope.sendReply = function(commentId, replyId, qText, qId) {
+  $scope.sendReply = function(commentId, replyId, qText, qId, parentName) {
     var comment = $('#' + replyId).val();
     if ($.trim(comment)) {
       //Prepare the reply
@@ -771,6 +772,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
         comment: comment,
         isReply: true,
         parentComment: commentId,
+        parentName : parentName,
         questionText: qText
       };
 
@@ -999,7 +1001,7 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
   // Socket Connection
   socket = io.connect('http://localhost:5000');
   $scope.online = [];
-  
+
   $scope.questions = [];
   $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
   $.LoadingOverlay("show");
@@ -1306,7 +1308,7 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
   };
 
   //Timer to the personality quiz
-  var countDownDate = new Date("Aug 08, 2020 19:50:00").getTime();
+  var countDownDate = new Date("Aug 15, 2020 20:50:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
