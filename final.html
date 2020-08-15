@@ -10,10 +10,10 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
   <script src="https://kit.fontawesome.com/95d795fabf.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
 
   <script type="text/javascript" src="./js/app.js"></script>
 
@@ -48,7 +48,18 @@
         </ol>
       </div>
 
-      <div class="row col-sm-12 question-area">
+      <div class="intro-smaller-heading"> Online now:</div>
+      <div class="online-section">
+        <div class="online-profile col-sm-1" ng-repeat="u in online" ng-show="online.length > 0">
+          <img ng-show="user.socialPresence == true" src="data:image/png;base64,{{u.profilePicture}}" class="profileImage" /><br />
+          <div class="header-name col-sm-12" style="padding-top:5px; font-weight:bold;">{{u.name}}</div>
+        </div>
+        <div class="not-online-text" ng-show="online.length == 0">
+          Others are offline at the moment...
+        </div>
+      </div>
+
+      <div class="row col-sm-12 question-area" style="margin-top:30px;">
         <div class="intro-smaller-heading">Topics to vote:</div>
         <div ng-repeat="q in questions" class="qcontainer col-sm-4">
           <a href="" class="col-sm-12 qBox" ng-click="(q.voted == false) ? showCommentsDisabled(q) : (user.socialPresence == true ? showVotesAtHome(q) : showCommentsDisabled(q)) ">

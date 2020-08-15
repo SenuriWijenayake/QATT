@@ -995,6 +995,11 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
 });
 
 app.controller('FinalController', function($scope, $http, $window, $timeout) {
+
+  // Socket Connection
+  socket = io.connect('http://localhost:5000');
+  $scope.online = [];
+  
   $scope.questions = [];
   $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
   $.LoadingOverlay("show");
@@ -1432,13 +1437,40 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
       },
       type: JSON,
     }).then(function(response) {
-      $window.location.href = './index.html';
-      $window.sessionStorage.removeItem('user');
-      $.LoadingOverlay("hide");
+
+      //Disconnet from socket
+      socket.emit('removeSocket', {
+        userId: $scope.user.userId
+      });
+      socket.disconnect();
+
+      $timeout(function() {
+        $window.location.href = './index.html';
+        $window.sessionStorage.removeItem('user');
+        $.LoadingOverlay("hide");
+      }, 1500);
+
     }, function(error) {
       console.log("Error occured while login out");
       $.LoadingOverlay("hide");
     });
   };
+
+  socket.emit('new_connection', {
+    'userId': $scope.user.userId,
+    'name': $scope.user.name,
+    'profilePicture': $scope.user.profilePicture
+  });
+
+  socket.on('new_connection', (data) => {
+    $timeout(function() {
+      $scope.online = [];
+      for (var i = 0; i < data.online.length; i++) {
+        if (data.online[i].userId != $scope.user.userId) {
+          $scope.online.push(data.online[i]);
+        }
+      }
+    }, 1000);
+  });
 
 });
