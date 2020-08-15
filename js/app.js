@@ -397,6 +397,10 @@ app.controller('IntroController', function($scope, $http, $window, $interval) {
 
 app.controller('HomeController', function($scope, $http, $window, $timeout) {
 
+  // Socket Connection
+  socket = io.connect('http://localhost:5000');
+
+  $scope.online = [];
   $scope.questions = [];
   $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
 
@@ -568,7 +572,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
       structure: $scope.user.structure,
       questionId: q.questionNumber,
       questionText: q.text,
-      userId : $scope.user.userId
+      userId: $scope.user.userId
     };
 
     //Call to get the relevant user comments
@@ -838,7 +842,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Aug 16, 2020 00:00:00").getTime();
+  var countDownDate = new Date("Aug 15, 2020 19:48:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -869,7 +873,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
         },
         type: JSON,
       }).then(function(response) {
-        if (response.data.length == 10) {
+        if (response.data.length > 2) {
           $('#completed-submit').attr('disabled', false);
           $('#completed-submit').css('background-color', '#117A65');
           $('#completed-submit').attr('border', '1px solid #117A65');
@@ -905,17 +909,6 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
       console.log("Error occured while updating user status");
     });
   };
-
-  // Socket Connection
-  // var socket = io.connect('http://localhost:5000');
-  // var startTime = +new Date();
-
-  //
-  // console.log(socket);
-  // $window.sessionStorage.setItem('socket', JSON.stringify(socket));
-  // socket.emit('new_connection', {
-  //   'userId': $scope.user.userId
-  // });
 
   //Code to record session endTimes
   var clickTime = +new Date();
@@ -964,14 +957,40 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
       },
       type: JSON,
     }).then(function(response) {
-      $window.location.href = './index.html';
-      $window.sessionStorage.removeItem('user');
-      $.LoadingOverlay("hide");
+      //Disconnet from socket
+      socket.emit('removeSocket', {
+        userId: $scope.user.userId
+      });
+      socket.disconnect();
+
+      $timeout(function() {
+        $window.location.href = './index.html';
+        $window.sessionStorage.removeItem('user');
+        $.LoadingOverlay("hide");
+      }, 1500);
+
     }, function(error) {
       console.log("Error occured while login out");
       $.LoadingOverlay("hide");
     });
   };
+
+  socket.emit('new_connection', {
+    'userId': $scope.user.userId,
+    'name': $scope.user.name,
+    'profilePicture': $scope.user.profilePicture
+  });
+
+  socket.on('new_connection', (data) => {
+    $timeout(function() {
+      $scope.online = [];
+      for (var i = 0; i < data.online.length; i++) {
+        if (data.online[i].userId != $scope.user.userId) {
+          $scope.online.push(data.online[i]);
+        }
+      }
+    }, 1000);
+  });
 
 });
 
@@ -1161,7 +1180,7 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
       structure: $scope.user.structure,
       questionId: q.questionNumber,
       questionText: q.text,
-      userId : $scope.user.userId
+      userId: $scope.user.userId
     };
 
     //Call to get the relevant user comments
@@ -1282,7 +1301,7 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
   };
 
   //Timer to the personality quiz
-  var countDownDate = new Date("Aug 18, 2020 00:00:00").getTime();
+  var countDownDate = new Date("Aug 08, 2020 19:50:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -1312,7 +1331,7 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
         },
         type: JSON,
       }).then(function(response) {
-        if (response.data.length == 10) {
+        if (response.data.length >= 2) {
           $('#onto-bigfive').attr('disabled', false);
           $('#onto-bigfive').css('background-color', '#117A65');
           $('#onto-bigfive').attr('border', '1px solid #117A65');

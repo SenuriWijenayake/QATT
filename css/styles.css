@@ -184,6 +184,17 @@
   padding-left: 70px;
 }
 
+.online-profile{
+  text-align: center;
+  padding-right: 0px;
+}
+
+.not-online-text{
+  text-align: left;
+  font-size: 15px;
+  color: grey;
+}
+
 .header-name{
   font-size: 12px;
 }
