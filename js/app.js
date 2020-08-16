@@ -400,6 +400,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
   // Socket Connection
   socket = io.connect('http://localhost:5000');
   $scope.online = [];
+  $scope.notifications = [];
 
   $scope.questions = [];
   $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
@@ -534,7 +535,8 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
         socialPresence: $scope.user.socialPresence,
         structure: $scope.user.structure,
         userName: $scope.user.name,
-        isReply: false
+        isReply: false,
+        timestamp : +new Date()
       };
 
       $http({
@@ -631,7 +633,8 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
       userName: $scope.user.name,
       comment: $scope.newComment,
       isReply: false,
-      questionText: qText
+      questionText: qText,
+      timestamp : +new Date()
     };
 
     $http({
@@ -683,7 +686,8 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
       comment: newComment,
       isReply: false,
       questionText: qText,
-      isAgree: x
+      isAgree: x,
+      timestamp: +new Date()
     };
 
     $http({
@@ -738,7 +742,8 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
         isReply: true,
         parentComment: commentId,
         questionText: qText,
-        isAgree: x
+        isAgree: x,
+        timestamp: +new Date()
       };
 
       $http({
@@ -758,7 +763,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
     }
   };
 
-  $scope.sendReply = function(commentId, replyId, qText, qId, parentName) {
+  $scope.sendReply = function(commentId, replyId, qText, qId) {
     var comment = $('#' + replyId).val();
     if ($.trim(comment)) {
       //Prepare the reply
@@ -772,8 +777,8 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
         comment: comment,
         isReply: true,
         parentComment: commentId,
-        // parentName : parentName,
-        questionText: qText
+        questionText: qText,
+        timestamp: +new Date()
       };
 
       $http({
@@ -844,7 +849,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Aug 15, 2020 22:48:00").getTime();
+  var countDownDate = new Date("Aug 16, 2020 22:48:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -994,27 +999,29 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
     }, 1000);
   });
 
-  $scope.notifications = [
-    {
-      "order": 1,
-      "text": "Senuri Wijenayake upvoted on your answer to 'Should voting be mandatory'",
-      "timestamp": "Aug 15, 3 pm"
-    },
-    {
-      "order": 2,
-      "text": "Senuri Wijenayake replied on your answer to 'Should voting be mandatory'",
-      "timestamp": "Aug 15, 3 pm"
-    },
-    {
-      "order": 3,
-      "text": "Senuri Wijenayake downvoted on your answer to 'Should voting be mandatory'",
-      "timestamp": "Aug 15, 3 pm"
-    }
-  ];
-
   $(".dropdown").hover(function() {
     $('.badge').css("display", "none");
   });
+
+  //Get notifications every 10 minutes
+  // setInterval(function() {
+  //   $http({
+  //     method: 'POST',
+  //     url: api + '/getNotifcations',
+  //     data: {
+  //       sessionId: $scope.user.sessionId,
+  //       endTime: nowDate,
+  //       isStart: false
+  //     },
+  //     type: JSON,
+  //   }).then(function(response) {
+  //     $window.location.href = './index.html';
+  //     $window.sessionStorage.removeItem('user');
+  //   }, function(error) {
+  //     console.log("Error occured while updating user session");
+  //   });
+  //
+  // }, 600000);
 
 });
 
@@ -1330,7 +1337,7 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
   };
 
   //Timer to the personality quiz
-  var countDownDate = new Date("Aug 15, 2020 20:50:00").getTime();
+  var countDownDate = new Date("Aug 16, 2020 20:50:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
