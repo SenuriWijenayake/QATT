@@ -1635,6 +1635,8 @@ box-shadow: rgba(255,255,255, 0.75) 1.5em 0 0 0, rgba(255,255,255, 0.75) 1.1em 1
   min-width: 375px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
+  /* max-height: 200px;
+  overflow: auto; */
 }
 
 /* Show the dropdown menu on hover */

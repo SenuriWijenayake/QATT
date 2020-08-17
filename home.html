@@ -31,10 +31,10 @@
         <div class="dropdown col-sm-1">
           <a href="#" class="notification">
             <span><i class="fas fa-bell fa-2x"></i></span>
-            <span class="badge">{{notifications.length}}</span>
+            <span class="badge" ng-show="new > 0">{{new}}</span>
           </a>
           <div class="dropdown-content">
-            <label class="notification-text" ng-repeat="n in notifications | orderBy : order">{{n.text}}</label>
+            <label class="notification-text" ng-repeat="n in notifications">{{n.content}}</label>
           </div>
         </div>
 
