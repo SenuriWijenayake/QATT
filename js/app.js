@@ -849,7 +849,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Aug 18, 2020 13:40:00").getTime();
+  var countDownDate = new Date("Aug 18, 2020 15:10:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -1010,10 +1010,10 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
   function sortNortifications (data) {
     var exists = [];
     for (var i = 0; i < $scope.notifications.length; i++) {
-      exists.push($scope.notifications[i]._id);
+      exists.push($scope.notifications[i].id);
     }
     for (var i = 0; i < data.length; i++) {
-      if (!exists.includes(data[i]._id)){
+      if (!exists.includes(data[i].id)){
         $scope.notifications.push(data[i]);
         $window.sessionStorage.setItem('notifications', JSON.stringify($scope.notifications));
       }
@@ -1405,7 +1405,7 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
   };
 
   //Timer to the personality quiz
-  var countDownDate = new Date("Aug 18, 2020 14:00:00").getTime();
+  var countDownDate = new Date("Aug 18, 2020 16:50:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -1582,10 +1582,10 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
   function sortNortifications (data) {
     var exists = [];
     for (var i = 0; i < $scope.notifications.length; i++) {
-      exists.push($scope.notifications[i]._id);
+      exists.push($scope.notifications[i].id);
     }
     for (var i = 0; i < data.length; i++) {
-      if (!exists.includes(data[i]._id)){
+      if (!exists.includes(data[i].id)){
         $scope.notifications.push(data[i]);
         $window.sessionStorage.setItem('notifications', JSON.stringify($scope.notifications));
       }

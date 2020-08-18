@@ -34,11 +34,14 @@
             <span class="badge" ng-show="new > 0">{{new}}</span>
           </a>
           <div class="dropdown-content">
-            <label class="notification-text" ng-repeat="n in notifications | orderBy : '-timestamp'" ng-class="{'new-notify': $index < new}">
-              {{n.content}}
-              <span class="notify-time">{{n.timestamp | date : 'MMM d, yyyy HH:mm:ss'}}</span>
-            </label>
-
+            <div ng-repeat="n in notifications track by n.id | orderBy : '-timestamp'">
+              <div class="notification-text col-sm-12" ng-class="{'new-notify': $index < new}">
+                {{n.content}}
+              </div>
+              <div class="notify-time col-sm-12" ng-class="{'new-notify': $index < new}">
+                {{n.timestamp | date : 'MMM d, yyyy HH:mm:ss'}}
+              </div>
+            </div>
           </div>
         </div>
 
