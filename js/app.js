@@ -1,6 +1,5 @@
 var app = angular.module('app', []);
-// var api = 'https://shrouded-atoll-81762.herokuapp.com';
-var api = 'http://localhost:5000';
+var api = 'https://murmuring-mountain-50121.herokuapp.com';
 
 app.controller('BigFiveController', function($scope, $http, $window) {
 
@@ -398,7 +397,7 @@ app.controller('IntroController', function($scope, $http, $window, $interval) {
 app.controller('HomeController', function($scope, $http, $window, $timeout) {
 
   // Socket Connection
-  socket = io.connect('http://localhost:5000');
+  socket = io.connect('https://murmuring-mountain-50121.herokuapp.com');
   $scope.online = [];
   $scope.questions = [];
   $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
@@ -1095,7 +1094,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
 app.controller('FinalController', function($scope, $http, $window, $timeout) {
 
   // Socket Connection
-  socket = io.connect('http://localhost:5000');
+  socket = io.connect('https://murmuring-mountain-50121.herokuapp.com');
   $scope.online = [];
 
   $scope.questions = [];
