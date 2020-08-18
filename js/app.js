@@ -849,7 +849,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Aug 18, 2020 15:10:00").getTime();
+  var countDownDate = new Date("Aug 18, 2020 17:30:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -880,7 +880,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
         },
         type: JSON,
       }).then(function(response) {
-        if (response.data.length >= 2) {
+        if (response.data.length == 10) {
           $('#completed-submit').attr('disabled', false);
           $('#completed-submit').css('background-color', '#117A65');
           $('#completed-submit').attr('border', '1px solid #117A65');
@@ -1081,7 +1081,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
       $window.sessionStorage.setItem('lastRequest', +new Date());
       if (response.data.length > 0){
         $scope.new = parseInt($scope.new) + response.data.length;
-        $window.sessionStorage.setItem('new', response.data.length);
+        $window.sessionStorage.setItem('new', $scope.new);
         sortNortifications(response.data);
         $('.badge').css("display", "inline");
       }
@@ -1405,7 +1405,7 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
   };
 
   //Timer to the personality quiz
-  var countDownDate = new Date("Aug 18, 2020 16:50:00").getTime();
+  var countDownDate = new Date("Aug 18, 2020 17:50:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -1435,7 +1435,7 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
         },
         type: JSON,
       }).then(function(response) {
-        if (response.data.length >= 2) {
+        if (response.data.length == 10) {
           $('#onto-bigfive').attr('disabled', false);
           $('#onto-bigfive').css('background-color', '#117A65');
           $('#onto-bigfive').attr('border', '1px solid #117A65');
@@ -1653,7 +1653,7 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
       $window.sessionStorage.setItem('lastRequest', +new Date());
       if (response.data.length > 0){
         $scope.new = parseInt($scope.new) + response.data.length;
-        $window.sessionStorage.setItem('new', response.data.length);
+        $window.sessionStorage.setItem('new', $scope.new);
         sortNortifications(response.data);
         $('.badge').css("display", "inline");
       }
@@ -1661,5 +1661,4 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
       console.log("Error occured while getting notifications");
     });
   }, 30000);
-
 });
