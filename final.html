@@ -32,10 +32,13 @@
         <div class="dropdown col-sm-1">
           <a href="#" class="notification">
             <span><i class="fas fa-bell fa-2x"></i></span>
-            <span class="badge">{{notifications.length}}</span>
+            <span class="badge" ng-show="new > 0">{{new}}</span>
           </a>
           <div class="dropdown-content">
-            <label class="notification-text" ng-repeat="n in notifications | orderBy : order">{{n.content}}</label>
+            <label class="notification-text" ng-repeat="n in notifications | orderBy : '-timestamp'" ng-class="{'new-notify': $index < new}">
+              {{n.content}}
+              <span class="notify-time">{{n.timestamp | date : 'MMM d, yyyy HH:mm:ss'}}</span>
+            </label>
           </div>
         </div>
 

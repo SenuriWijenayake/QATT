@@ -849,7 +849,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
   };
 
   //Timer to complete answers
-  var countDownDate = new Date("Aug 17, 2020 14:23:00").getTime();
+  var countDownDate = new Date("Aug 18, 2020 13:13:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -1097,7 +1097,6 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
   // Socket Connection
   socket = io.connect('http://localhost:5000');
   $scope.online = [];
-  $scope.notifications = [];
 
   $scope.questions = [];
   $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
@@ -1406,7 +1405,7 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
   };
 
   //Timer to the personality quiz
-  var countDownDate = new Date("Aug 17, 2020 20:50:00").getTime();
+  var countDownDate = new Date("Aug 18, 2020 20:50:00").getTime();
 
   // Update the count down every 1 second
   var x = setInterval(function() {
@@ -1575,8 +1574,92 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
     }, 1000);
   });
 
+  //Notification code
+  $scope.notifications = getNotifications();
+  $scope.new = getNew();
+  $scope.lastRequest = getLastRequest();
+
+  function sortNortifications (data) {
+    var exists = [];
+    for (var i = 0; i < $scope.notifications.length; i++) {
+      exists.push($scope.notifications[i]._id);
+    }
+    for (var i = 0; i < data.length; i++) {
+      if (!exists.includes(data[i]._id)){
+        $scope.notifications.push(data[i]);
+        $window.sessionStorage.setItem('notifications', JSON.stringify($scope.notifications));
+      }
+    }
+  };
+
+  function getNotifications (){
+    //notifications is set
+    if ($window.sessionStorage.getItem('notifications') != null){
+      return (JSON.parse($window.sessionStorage.getItem('notifications')));
+    } else {
+      console.log("Inside null");
+      return [];
+    }
+  };
+
+  function getNew (){
+    if ($window.sessionStorage.getItem('new') != null){
+      return (parseInt($window.sessionStorage.getItem('new')));
+    } else {
+      $window.sessionStorage.setItem('new', 0);
+      return 0;
+    }
+  };
+
+  function getLastRequest(){
+    if ($window.sessionStorage.getItem('lastRequest') != null){
+      return ($window.sessionStorage.getItem('lastRequest'))
+    } else {
+      var last = +new Date();
+      $window.sessionStorage.setItem('lastRequest', last);
+      return (last);
+    }
+  };
+
   $(".dropdown").hover(function() {
-    $('.badge').css("display", "none");
+    $timeout(function() {
+      $window.sessionStorage.setItem('new', 0);
+      $scope.new = 0;
+      $('.badge').css("display", "none");
+    }, 2000);
   });
+
+  //Get notifications every 30 seconds
+  setInterval(function() {
+    var since;
+    if ($window.sessionStorage.getItem('firstTime') == null){
+      since = null;
+      $window.sessionStorage.setItem('firstTime', "true");
+    } else {
+      since = getLastRequest();
+    }
+
+    $http({
+      method: 'POST',
+      url: api + '/notifications',
+      data: {
+        "userId": $scope.user.userId,
+        "since": since,
+        "sessionId" : $scope.user.sessionId
+      },
+      type: JSON,
+    }).then(function(response) {
+      //Only returns anything new
+      $window.sessionStorage.setItem('lastRequest', +new Date());
+      if (response.data.length > 0){
+        $scope.new = parseInt($scope.new) + response.data.length;
+        $window.sessionStorage.setItem('new', response.data.length);
+        sortNortifications(response.data);
+        $('.badge').css("display", "inline");
+      }
+    }, function(error) {
+      console.log("Error occured while getting notifications");
+    });
+  }, 30000);
 
 });
