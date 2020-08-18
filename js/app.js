@@ -310,7 +310,7 @@ app.controller('IntroController', function($scope, $http, $window, $interval) {
   $scope.getGroupUsers = function() {
     if (angular.isDefined(stop)) return;
     stop = $interval(function() {
-      if ($scope.group.length >= 9) {
+      if ($scope.group.length >= 5) {
         //Stop checking and enable button
         $scope.stopChecking();
         $("#intro-start").attr("disabled", false);
