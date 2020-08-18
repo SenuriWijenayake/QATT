@@ -921,6 +921,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
   setInterval(function() {
     var nowDate = +new Date();
     if (nowDate - clickTime >= 600000) {
+      $.LoadingOverlay("show");
       //Update user session
       $http({
         method: 'POST',
@@ -932,11 +933,18 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
         },
         type: JSON,
       }).then(function(response) {
+        //Disconnet from socket
+        socket.emit('removeSocket', {
+          userId: $scope.user.userId
+        });
+        socket.disconnect();
         $window.location.href = './index.html';
         $window.sessionStorage.clear();
+        $.LoadingOverlay("hide");
         // $window.sessionStorage.removeItem('user');
       }, function(error) {
         console.log("Error occured while updating user session");
+        $.LoadingOverlay("hide");
       });
     }
   }, 300000);
@@ -1493,6 +1501,7 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
   setInterval(function() {
     var nowDate = +new Date();
     if (nowDate - clickTime >= 600000) {
+      $.LoadingOverlay("show");
       //Update user session
       $http({
         method: 'POST',
@@ -1504,11 +1513,17 @@ app.controller('FinalController', function($scope, $http, $window, $timeout) {
         },
         type: JSON,
       }).then(function(response) {
+        //Disconnet from socket
+        socket.emit('removeSocket', {
+          userId: $scope.user.userId
+        });
+        socket.disconnect();
         $window.location.href = './index.html';
-        // $window.sessionStorage.removeItem('user');
         $window.sessionStorage.clear();
+        $.LoadingOverlay("hide");
       }, function(error) {
         console.log("Error occured while updating user session");
+        $.LoadingOverlay("hide");
       });
     }
   }, 300000);
