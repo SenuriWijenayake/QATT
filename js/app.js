@@ -1001,6 +1001,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
     }, 1000);
   });
 
+
   //Notification code
   $scope.notifications = getNotifications();
   $scope.new = getNew();
@@ -1031,7 +1032,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
 
   function getNew (){
     if ($window.sessionStorage.getItem('new') != null){
-      return ($window.sessionStorage.getItem('new'))
+      return (parseInt($window.sessionStorage.getItem('new')));
     } else {
       $window.sessionStorage.setItem('new', 0);
       return 0;
@@ -1049,11 +1050,12 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
   };
 
   $(".dropdown").hover(function() {
-    $window.sessionStorage.setItem('new', 0);
-    $scope.new = 0;
-    $('.badge').css("display", "none");
+    $timeout(function() {
+      $window.sessionStorage.setItem('new', 0);
+      $scope.new = 0;
+      $('.badge').css("display", "none");
+    }, 2000);
   });
-
 
   //Get notifications every 30 seconds
   setInterval(function() {
