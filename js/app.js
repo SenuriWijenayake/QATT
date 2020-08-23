@@ -1,5 +1,6 @@
 var app = angular.module('app', []);
-var api = 'https://murmuring-mountain-50121.herokuapp.com';
+// var api = 'https://murmuring-mountain-50121.herokuapp.com';
+var api = 'http://localhost:5000';
 
 app.controller('BigFiveController', function($scope, $http, $window) {
 
@@ -80,7 +81,7 @@ app.controller('IndexController', function($scope, $http, $window) {
 
   //Change here to change the experimental condition
   $scope.user = {};
-  $scope.user.structure = false;
+  $scope.user.structure = true;
   $scope.user.socialPresence = true;
 
   $scope.emailValid = false;
@@ -397,7 +398,7 @@ app.controller('IntroController', function($scope, $http, $window, $interval) {
 app.controller('HomeController', function($scope, $http, $window, $timeout) {
 
   // Socket Connection
-  socket = io.connect('https://murmuring-mountain-50121.herokuapp.com');
+  socket = io.connect('http://localhost:5000');
   $scope.online = [];
   $scope.questions = [];
   $scope.user = JSON.parse($window.sessionStorage.getItem('user'));
@@ -1102,7 +1103,7 @@ app.controller('HomeController', function($scope, $http, $window, $timeout) {
 app.controller('FinalController', function($scope, $http, $window, $timeout) {
 
   // Socket Connection
-  socket = io.connect('https://murmuring-mountain-50121.herokuapp.com');
+  socket = io.connect('http://localhost:5000');
   $scope.online = [];
 
   $scope.questions = [];
